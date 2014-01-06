@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.test.RobolectricRoboTestRunner;
 
@@ -19,31 +19,31 @@ public class RoboGuiceTest {
     
     @Before
     public void setup() {
-        RoboGuice.injectors.clear();
+        DroidGuice.injectors.clear();
     }
     
     @Test
     public void destroyInjectorShouldRemoveContext() {
         final Activity activity = new RoboActivity();
-        RoboGuice.getInjector(activity);
+        DroidGuice.getInjector(activity);
         
-        assertThat(RoboGuice.injectors.size(), equalTo(1));
+        assertThat(DroidGuice.injectors.size(), equalTo(1));
         
-        RoboGuice.destroyInjector(activity);
-        assertThat(RoboGuice.injectors.size(), equalTo(1));
+        DroidGuice.destroyInjector(activity);
+        assertThat(DroidGuice.injectors.size(), equalTo(1));
 
-        RoboGuice.destroyInjector(Robolectric.application);
-        assertThat(RoboGuice.injectors.size(), equalTo(0));
+        DroidGuice.destroyInjector(Robolectric.application);
+        assertThat(DroidGuice.injectors.size(), equalTo(0));
     }
 
     @Test
     public void resetShouldRemoveContext() {
         final Activity activity = new RoboActivity();
-        RoboGuice.getInjector(activity);
+        DroidGuice.getInjector(activity);
         
-        assertThat(RoboGuice.injectors.size(), equalTo(1));
+        assertThat(DroidGuice.injectors.size(), equalTo(1));
         
-        RoboGuice.util.reset();
-        assertThat(RoboGuice.injectors.size(), equalTo(0));
+        DroidGuice.util.reset();
+        assertThat(DroidGuice.injectors.size(), equalTo(0));
     }
 }

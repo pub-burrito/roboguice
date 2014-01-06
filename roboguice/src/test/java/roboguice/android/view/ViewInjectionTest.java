@@ -4,7 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.inject.InjectView;
 import roboguice.android.test.RobolectricRoboTestRunner;
@@ -154,7 +154,7 @@ public class ViewInjectionTest {
                 ref.setId(101);
                 addView(ref);
 
-                RoboGuice.getInjector(getContext()).injectMembers(this);
+                DroidGuice.getInjector(getContext()).injectMembers(this);
             }
 
         }
@@ -189,7 +189,7 @@ public class ViewInjectionTest {
                 ref.setTag("101");
                 addView(ref);
 
-                RoboGuice.getInjector(getContext()).injectMembers(this);
+                DroidGuice.getInjector(getContext()).injectMembers(this);
             }
 
         }

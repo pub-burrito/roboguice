@@ -1,6 +1,6 @@
 package roboguice.android.content;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 
 import android.content.ContentProvider;
 
@@ -14,7 +14,7 @@ public abstract class RoboContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        RoboGuice.getInjector(getContext()).injectMembers(this);
+        DroidGuice.getInjector(getContext()).injectMembers(this);
         return true;
     }
 }

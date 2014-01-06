@@ -1,6 +1,6 @@
 package roboguice.android.receiver;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -21,7 +21,7 @@ public abstract class RoboBroadcastReceiver extends BroadcastReceiver {
      */
     @Override
     public final void onReceive(Context context, Intent intent) {
-        final Injector injector = RoboGuice.getBaseApplicationInjector((Application) context.getApplicationContext());
+        final Injector injector = DroidGuice.getBaseApplicationInjector((Application) context.getApplicationContext());
 
         injector.injectMembers(this);
         handleReceive(context, intent);

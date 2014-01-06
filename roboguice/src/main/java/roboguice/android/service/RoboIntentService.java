@@ -1,6 +1,6 @@
 package roboguice.android.service;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.event.EventManager;
 import roboguice.android.service.event.OnConfigurationChangedEvent;
 import roboguice.android.service.event.OnCreateEvent;
@@ -54,7 +54,7 @@ public abstract class RoboIntentService extends IntentService implements RoboCon
 
     @Override
     public void onCreate() {
-        final Injector injector = RoboGuice.getInjector(this);
+        final Injector injector = DroidGuice.getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembers(this);
         super.onCreate();
@@ -75,7 +75,7 @@ public abstract class RoboIntentService extends IntentService implements RoboCon
                 eventManager.fire(new OnDestroyEvent() );
         } finally {
             try {
-                RoboGuice.destroyInjector(this);
+                DroidGuice.destroyInjector(this);
             } finally {
                 super.onDestroy();
             }

@@ -42,7 +42,7 @@ import com.google.inject.name.Names;
 
 /**
  * A Module that provides bindings and configuration to use Guice on Android.
- * Used by {@link roboguice.android.RoboGuice}.
+ * Used by {@link roboguice.android.DroidGuice}.
  *
  * If you wish to add your own bindings, DO NOT subclass this class.  Instead, create a new
  * module that extends AbstractModule with your own bindings, then do something like the following:
@@ -50,9 +50,9 @@ import com.google.inject.name.Names;
  * RoboGuice.setAppliationInjector( app, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(app)).with(new MyModule() );
  *
  * @see com.google.inject.util.Modules#override(com.google.inject.Module...)
- * @see roboguice.android.RoboGuice#setBaseApplicationInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
- * @see roboguice.android.RoboGuice#newDefaultRoboModule(android.app.Application)
- * @see roboguice.android.RoboGuice#DEFAULT_STAGE
+ * @see roboguice.android.DroidGuice#setBaseApplicationInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
+ * @see roboguice.android.DroidGuice#newDefaultRoboModule(android.app.Application)
+ * @see roboguice.android.DroidGuice#DEFAULT_STAGE
  *
  * @author Mike Burton
  */

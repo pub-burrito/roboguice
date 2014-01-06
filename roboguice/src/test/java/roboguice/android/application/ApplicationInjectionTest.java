@@ -4,7 +4,7 @@ import com.xtremelabs.robolectric.Robolectric;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.test.RobolectricRoboTestRunner;
 
 import android.app.Application;
@@ -49,7 +49,7 @@ public class ApplicationInjectionTest {
         @Override
         public void onCreate() {
             super.onCreate();
-            RoboGuice.getInjector(this).injectMembers(this);
+            DroidGuice.getInjector(this).injectMembers(this);
         }
     }
 
@@ -59,7 +59,7 @@ public class ApplicationInjectionTest {
         @Override
         public void onCreate() {
             super.onCreate();
-            RoboGuice.getInjector(this).injectMembers(this);
+            DroidGuice.getInjector(this).injectMembers(this);
         }
     }
 

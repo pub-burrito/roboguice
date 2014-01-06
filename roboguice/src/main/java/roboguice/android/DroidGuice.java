@@ -31,8 +31,8 @@ import java.util.WeakHashMap;
  * 
  * BUG hashmap should also key off of stage and modules list
  */
-@SuppressWarnings({"ALL"})
-public class RoboGuice {
+
+public class DroidGuice {
     public static Stage DEFAULT_STAGE = Stage.PRODUCTION;
 
     protected static WeakHashMap<Application,Injector> injectors = new WeakHashMap<Application,Injector>();
@@ -40,7 +40,7 @@ public class RoboGuice {
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
     protected static int modulesResourceId = 0;
     
-    private RoboGuice() {
+    private DroidGuice() {
     }
 
     /**
@@ -51,7 +51,7 @@ public class RoboGuice {
         if( rtrn!=null )
             return rtrn;
 
-        synchronized (RoboGuice.class) {
+        synchronized (DroidGuice.class) {
             rtrn = injectors.get(application);
             if( rtrn!=null )
                 return rtrn;
@@ -68,11 +68,11 @@ public class RoboGuice {
      * RoboGuice.setAppliationInjector( app, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(app)).with(new MyModule() );
      *
      * @see com.google.inject.util.Modules#override(com.google.inject.Module...)
-     * @see roboguice.android.RoboGuice#setBaseApplicationInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
-     * @see roboguice.android.RoboGuice#newDefaultRoboModule(android.app.Application)
-     * @see roboguice.android.RoboGuice#DEFAULT_STAGE
+     * @see roboguice.android.DroidGuice#setBaseApplicationInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
+     * @see roboguice.android.DroidGuice#newDefaultRoboModule(android.app.Application)
+     * @see roboguice.android.DroidGuice#DEFAULT_STAGE
      *
-     * If using this method with test cases, be sure to call {@link roboguice.android.RoboGuice.util#reset()} in your test teardown methods
+     * If using this method with test cases, be sure to call {@link roboguice.android.DroidGuice.util#reset()} in your test teardown methods
      * to avoid polluting our other tests with your custom injector.  Don't do this in your real application though.
      *
      */
@@ -90,7 +90,7 @@ public class RoboGuice {
             });
         }
 
-        synchronized (RoboGuice.class) {
+        synchronized (DroidGuice.class) {
             final Injector rtrn = Guice.createInjector(stage, modules);
             injectors.put(application,rtrn);
             return rtrn;
@@ -102,7 +102,7 @@ public class RoboGuice {
      * This is a static value.
      */
     public static void setModulesResourceId(int modulesResourceId) {
-        RoboGuice.modulesResourceId = modulesResourceId;
+        DroidGuice.modulesResourceId = modulesResourceId;
     }
 
     /**
@@ -110,7 +110,7 @@ public class RoboGuice {
      */
     public static Injector setBaseApplicationInjector(Application application, Stage stage) {
 
-        synchronized (RoboGuice.class) {
+        synchronized (DroidGuice.class) {
             int id = modulesResourceId;
             if (id == 0)
                 id = application.getResources().getIdentifier("roboguice_modules", "array", application.getPackageName());
@@ -171,7 +171,7 @@ public class RoboGuice {
     protected static ResourceListener getResourceListener( Application application ) {
         ResourceListener resourceListener = resourceListeners.get(application);
         if( resourceListener==null ) {
-            synchronized (RoboGuice.class) {
+            synchronized (DroidGuice.class) {
                 if( resourceListener==null ) {
                     resourceListener = new ResourceListener(application);
                     resourceListeners.put(application,resourceListener);
@@ -184,7 +184,7 @@ public class RoboGuice {
     protected static ViewListener getViewListener( final Application application ) {
         ViewListener viewListener = viewListeners.get(application);
         if( viewListener==null ) {
-            synchronized (RoboGuice.class) {
+            synchronized (DroidGuice.class) {
                 if( viewListener==null ) {
                     viewListener = new ViewListener();
                     viewListeners.put(application,viewListener);

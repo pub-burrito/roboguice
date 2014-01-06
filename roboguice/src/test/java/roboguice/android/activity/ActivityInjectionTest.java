@@ -4,7 +4,7 @@ import com.xtremelabs.robolectric.Robolectric;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.activity.ActivityInjectionTest.ModuleA.A;
 import roboguice.android.activity.ActivityInjectionTest.ModuleB.B;
@@ -43,7 +43,7 @@ public class ActivityInjectionTest {
 
     @Before
     public void setup() {
-        RoboGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, RoboGuice.newDefaultRoboModule(Robolectric.application), new ModuleA());
+        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleA());
         activity = new DummyActivity();
         activity.setIntent( new Intent(Robolectric.application,DummyActivity.class).putExtra("foobar","goober") );
         activity.onCreate(null);
@@ -87,21 +87,21 @@ public class ActivityInjectionTest {
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectViews() {
-        RoboGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, RoboGuice.newDefaultRoboModule(Robolectric.application), new ModuleB());
+        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleB());
         final B b = new B();
         b.onCreate(null);
     }
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectExtras() {
-        RoboGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, RoboGuice.newDefaultRoboModule(Robolectric.application), new ModuleD());
+        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleD());
         final D d = new D();
         d.onCreate(null);
     }
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectPreferenceViews() {
-        RoboGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, RoboGuice.newDefaultRoboModule(Robolectric.application), new ModuleC());
+        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleC());
         final C c = new C();
         c.onCreate(null);
     }
@@ -122,7 +122,7 @@ public class ActivityInjectionTest {
 
         final BlockingQueue<Context> queue = new ArrayBlockingQueue<Context>(1);
         new Thread()  {
-            final Context context = RoboGuice.getInjector(ref.get()).getInstance(Context.class);
+            final Context context = DroidGuice.getInjector(ref.get()).getInstance(Context.class);
 
             @Override
             public void run() {
@@ -153,7 +153,7 @@ public class ActivityInjectionTest {
         f.onCreate(null);
 
         final FutureTask<Context> future = new FutureTask<Context>(new Callable<Context>() {
-            final ContextScopedProvider<Context> contextProvider = RoboGuice.getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Context>>(){}));
+            final ContextScopedProvider<Context> contextProvider = DroidGuice.getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Context>>(){}));
             
             @Override
             public Context call() throws Exception {

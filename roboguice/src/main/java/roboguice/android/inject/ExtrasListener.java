@@ -15,7 +15,7 @@
  */
 package roboguice.android.inject;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 
 import android.app.Activity;
 import android.content.Context;
@@ -96,7 +96,7 @@ public class ExtrasListener implements TypeListener {
 
             value = extras.get(id);
 
-            value = convert(field, value, RoboGuice.getBaseApplicationInjector(activity.getApplication()));
+            value = convert(field, value, DroidGuice.getBaseApplicationInjector(activity.getApplication()));
 
             /*
              * Please notice : null checking is done AFTER conversion. Having

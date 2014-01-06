@@ -1,6 +1,6 @@
 package roboguice.android.fragment;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -10,12 +10,12 @@ public abstract class RoboListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RoboGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
+        DroidGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RoboGuice.getInjector(getActivity()).injectViewMembers(this);
+        DroidGuice.getInjector(getActivity()).injectViewMembers(this);
     }
 }

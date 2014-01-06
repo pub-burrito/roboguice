@@ -5,7 +5,7 @@ import com.xtremelabs.robolectric.tester.android.content.TestSharedPreferences;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.inject.SharedPreferencesName;
 import roboguice.android.test.RobolectricRoboTestRunner;
@@ -42,7 +42,7 @@ public class SharedPreferencesProviderTest {
 
     @Test
     public void shouldInjectNamedSharedPrefs() throws Exception {
-        RoboGuice.setBaseApplicationInjector(Robolectric.application,RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(Robolectric.application), new ModuleA() );
+        DroidGuice.setBaseApplicationInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleA() );
         try {
             
             final A a = new A();
@@ -55,7 +55,7 @@ public class SharedPreferencesProviderTest {
             
             
         } finally {
-            RoboGuice.util.reset();
+            DroidGuice.util.reset();
         }
     }
     
@@ -84,7 +84,7 @@ public class SharedPreferencesProviderTest {
 
     @Test
     public void shouldNotFallbackOnOldDefaultIfNamedFileSpecified() throws Exception {
-        RoboGuice.setBaseApplicationInjector(Robolectric.application,RoboGuice.DEFAULT_STAGE, RoboGuice.newDefaultRoboModule(Robolectric.application), new ModuleA() );
+        DroidGuice.setBaseApplicationInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleA() );
 
         final File oldDefault = new File("shared_prefs/default.xml");
         final File oldDir = new File("shared_prefs");
@@ -102,7 +102,7 @@ public class SharedPreferencesProviderTest {
             assertEquals("FOOBAR", f.get(a.prefs) );
 
         } finally {
-            RoboGuice.util.reset();
+            DroidGuice.util.reset();
             oldDefault.delete();
             oldDir.delete();
         }

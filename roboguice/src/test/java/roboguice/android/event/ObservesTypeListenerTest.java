@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.event.EventManager;
 import roboguice.android.event.Observes;
 import roboguice.android.test.RobolectricRoboTestRunner;
@@ -36,7 +36,7 @@ public class ObservesTypeListenerTest {
     @Before
     public void setup() throws NoSuchMethodException {
         app = Robolectric.application;
-        injector = RoboGuice.getInjector(app);
+        injector = DroidGuice.getInjector(app);
 
         eventManager = injector.getInstance(EventManager.class);
 

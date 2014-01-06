@@ -15,7 +15,7 @@
  */
 package roboguice.android.activity;
 
-import roboguice.android.RoboGuice;
+import roboguice.android.DroidGuice;
 import roboguice.android.activity.event.*;
 import roboguice.android.event.EventManager;
 import roboguice.android.inject.ContentViewListener;
@@ -60,7 +60,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     /** {@inheritDoc } */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = RoboGuice.getInjector(this);
+        final RoboInjector injector = DroidGuice.getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         preferenceListener = injector.getInstance(PreferenceListener.class);
         injector.injectMembersWithoutViews(this);
@@ -72,7 +72,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
         super.setPreferenceScreen(preferenceScreen);
 
-        final ContextScope scope = RoboGuice.getInjector(this).getInstance(ContextScope.class);
+        final ContextScope scope = DroidGuice.getInjector(this).getInstance(ContextScope.class);
         synchronized (ContextScope.class) {
             scope.enter(this);
             try {
@@ -128,7 +128,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                RoboGuice.destroyInjector(this);
+                DroidGuice.destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -145,7 +145,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        RoboGuice.getInjector(this).injectViewMembers(this);
+        DroidGuice.getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 
