@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.util.List;
 
 @Implements(FragmentActivity.class)
 public class ShadowFragmentActivity extends ShadowActivity {
@@ -221,6 +222,12 @@ public class ShadowFragmentActivity extends ShadowActivity {
 
             @Override
             public void dump(String s, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strings) {
+            }
+
+            @Override
+            public List<Fragment> getFragments() {
+                // TODO Auto-generated method stub
+                return null;
             }
         };
     }
