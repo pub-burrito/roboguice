@@ -1,7 +1,7 @@
 package roboguice.android.util.logging;
 
 import roboguice.android.util.Ln;
-import roboguice.base.util.logging.Config;
+import roboguice.base.util.logging.BaseConfig;
 
 import com.google.inject.Inject;
 
@@ -9,11 +9,7 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
-public class AndroidBaseConfig implements Config {
-    
-    protected int minimumLogLevel = Log.VERBOSE;
-    protected String packageName = "";
-    protected String scope = "";
+public class AndroidBaseConfig extends BaseConfig {
 
     public AndroidBaseConfig() {
     }
@@ -31,17 +27,5 @@ public class AndroidBaseConfig implements Config {
         } catch( Exception e ) {
             Log.e(packageName, "Error configuring logger", e);
         }
-    }
-
-    public int getLoggingLevel() {
-        return minimumLogLevel;
-    }
-
-    public void setLoggingLevel(int level) {
-        minimumLogLevel = level;
-    }
-    
-    public String scope() {
-        return scope;
     }
 }
