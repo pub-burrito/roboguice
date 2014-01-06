@@ -1,4 +1,4 @@
-package roboguice.android.util.logging;
+package roboguice.base.util.logging;
 
 public interface Config {
     public int getLoggingLevel();

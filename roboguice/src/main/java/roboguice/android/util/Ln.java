@@ -5,8 +5,8 @@ import java.io.StringWriter;
 import java.net.UnknownHostException;
 
 import roboguice.android.util.logging.BaseConfig;
-import roboguice.android.util.logging.Config;
 import roboguice.android.util.logging.Print;
+import roboguice.base.util.logging.Config;
 import roboguice.base.util.logging.LogLevel;
 
 import com.google.inject.Inject;
