@@ -62,10 +62,6 @@
 
 	<repositories>
 		<repository>
-			<id>third.party.closed.source.repo</id>
-			<url>file://${basedir}/../maven_repo_3rd_party</url>
-		</repository>
-		<repository>
 			<id>cloud.archiva.internal</id>
 			<url>http://archiva.cliff.cloudburrito.com:8080/archiva/repository/internal/</url>
 		</repository>
