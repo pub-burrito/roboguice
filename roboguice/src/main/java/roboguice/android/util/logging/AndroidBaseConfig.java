@@ -2,6 +2,7 @@ package roboguice.android.util.logging;
 
 import roboguice.base.util.logging.BaseConfig;
 import roboguice.base.util.logging.Ln;
+import roboguice.base.util.logging.LogLevel;
 
 import com.google.inject.Inject;
 
@@ -19,7 +20,7 @@ public class AndroidBaseConfig extends BaseConfig {
         try {
             packageName = context.getPackageName();
             final int flags = context.getPackageManager().getApplicationInfo(packageName, 0).flags;
-            minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? Log.VERBOSE : Log.INFO;
+            minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? LogLevel.VERBOSE.logLevel() : LogLevel.INFO.logLevel();
             scope = packageName.toUpperCase();
 
             Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel) );
@@ -28,4 +29,5 @@ public class AndroidBaseConfig extends BaseConfig {
             Log.e(packageName, "Error configuring logger", e);
         }
     }
+    
 }

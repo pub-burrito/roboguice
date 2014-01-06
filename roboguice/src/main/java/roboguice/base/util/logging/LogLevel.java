@@ -2,12 +2,12 @@ package roboguice.base.util.logging;
 
 public enum LogLevel {
 
-    VERBOSE ( 2 ),
-    DEBUG   ( 3 ),
-    INFO    ( 4 ),
-    WARN    ( 5 ),
-    ERROR   ( 6 ),
-    ASSERT  ( 7 )
+    VERBOSE ( 0 ),
+    DEBUG   ( 1 ),
+    INFO    ( 2 ),
+    WARN    ( 3 ),
+    ERROR   ( 4 ),
+    ASSERT  ( 5 )
     ;
     
     private int logLevel;
