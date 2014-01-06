@@ -6,8 +6,8 @@ import roboguice.android.event.ObservesTypeListener;
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
 import roboguice.android.inject.*;
 import roboguice.android.service.RoboService;
-import roboguice.android.util.Ln;
 import roboguice.android.util.Strings;
+import roboguice.base.util.logging.Ln;
 
 import android.app.*;
 import android.content.ContentResolver;

@@ -2,7 +2,7 @@ package roboguice.android.event.eventListener;
 
 import roboguice.android.event.EventListener;
 import roboguice.android.event.eventListener.javaassist.RuntimeSupport;
-import roboguice.android.util.Ln;
+import roboguice.base.util.logging.Ln;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

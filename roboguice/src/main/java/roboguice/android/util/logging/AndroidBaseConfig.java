@@ -1,7 +1,7 @@
 package roboguice.android.util.logging;
 
-import roboguice.android.util.Ln;
 import roboguice.base.util.logging.BaseConfig;
+import roboguice.base.util.logging.Ln;
 
 import com.google.inject.Inject;
 

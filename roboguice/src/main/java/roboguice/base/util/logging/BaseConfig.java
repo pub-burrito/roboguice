@@ -1,6 +1,5 @@
 package roboguice.base.util.logging;
 
-import roboguice.android.util.Ln;
 
 import android.util.Log;
 

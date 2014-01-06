@@ -1,13 +1,10 @@
-package roboguice.android.util;
+package roboguice.base.util.logging;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
 
-import roboguice.base.util.logging.BaseConfig;
-import roboguice.base.util.logging.Config;
-import roboguice.base.util.logging.LogLevel;
-import roboguice.base.util.logging.Print;
+import roboguice.android.util.Strings;
 
 import com.google.inject.Inject;
 
