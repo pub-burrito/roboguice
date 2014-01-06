@@ -1,36 +1,14 @@
 package roboguice.android.util.logging;
 
-import com.google.inject.Inject;
-
-import roboguice.base.util.logging.LogLevel;
+import roboguice.base.util.logging.Print;
 
 import android.util.Log;
 
 /** Default implementation logs to android.util.Log */
-public class Print {
+public class AndroidPrint extends Print {
     
-    /**
-     * config is initially set to BaseConfig() with sensible defaults, then replaced
-     * by BaseConfig(ContextSingleton) during guice static injection pass.
-     */
-    @Inject protected static AndroidBaseConfig config = new AndroidBaseConfig();
-    
+    @Override
     public int println(int priority, String msg ) {
         return Log.println(priority,getScope(5), processMessage(msg));
-    }
-
-    protected String processMessage(String msg) {
-        if( config.getLoggingLevel() <= LogLevel.DEBUG.logLevel() )
-            msg = String.format("%s %s", Thread.currentThread().getName(), msg);
-        return msg;
-    }
-
-    protected static String getScope(int skipDepth) {
-        if( config.getLoggingLevel() <= LogLevel.DEBUG.logLevel() ) {
-            final StackTraceElement trace = Thread.currentThread().getStackTrace()[skipDepth];
-            return config.scope() + "/" + trace.getFileName() + ":" + trace.getLineNumber();
-        }
-
-        return config.scope();
     }
 }

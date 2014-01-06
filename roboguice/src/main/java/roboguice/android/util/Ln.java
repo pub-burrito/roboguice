@@ -4,10 +4,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
 
-import roboguice.android.util.logging.AndroidBaseConfig;
-import roboguice.android.util.logging.Print;
+import roboguice.base.util.logging.BaseConfig;
 import roboguice.base.util.logging.Config;
 import roboguice.base.util.logging.LogLevel;
+import roboguice.base.util.logging.Print;
 
 import com.google.inject.Inject;
 
@@ -62,7 +62,7 @@ public class Ln  {
      * config is initially set to BaseConfig() with sensible defaults, then replaced
      * by BaseConfig(ContextSingleton) during guice static injection pass.
      */
-    @Inject protected static AndroidBaseConfig config = new AndroidBaseConfig();
+    @Inject protected static BaseConfig config = new BaseConfig();
 
     /**
      * print is initially set to Print(), then replaced by guice during
