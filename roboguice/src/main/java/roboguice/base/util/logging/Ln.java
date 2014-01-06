@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
 
-import roboguice.android.util.Strings;
+import roboguice.base.util.Strings;
 
 import com.google.inject.Inject;
 

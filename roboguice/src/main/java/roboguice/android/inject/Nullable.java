@@ -1,6 +1,6 @@
 package roboguice.android.inject;
 
-import roboguice.android.util.Strings;
+import roboguice.base.util.Strings;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

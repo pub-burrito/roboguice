@@ -1,4 +1,4 @@
-package roboguice.android.util;
+package roboguice.base.util;
 
 import java.io.*;
 import java.security.InvalidParameterException;

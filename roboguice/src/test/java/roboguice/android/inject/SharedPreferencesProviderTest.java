@@ -9,7 +9,7 @@ import roboguice.android.RoboGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.inject.SharedPreferencesName;
 import roboguice.android.test.RobolectricRoboTestRunner;
-import roboguice.android.util.Strings;
+import roboguice.base.util.Strings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

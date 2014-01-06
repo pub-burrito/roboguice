@@ -4,7 +4,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import roboguice.android.util.Strings;
+import roboguice.base.util.Strings;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
