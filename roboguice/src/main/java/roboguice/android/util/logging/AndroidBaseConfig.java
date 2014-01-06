@@ -9,17 +9,17 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
-public class BaseConfig implements Config {
+public class AndroidBaseConfig implements Config {
     
     protected int minimumLogLevel = Log.VERBOSE;
     protected String packageName = "";
     protected String scope = "";
 
-    public BaseConfig() {
+    public AndroidBaseConfig() {
     }
 
     @Inject
-    public BaseConfig(Application context) {
+    public AndroidBaseConfig(Application context) {
         try {
             packageName = context.getPackageName();
             final int flags = context.getPackageManager().getApplicationInfo(packageName, 0).flags;

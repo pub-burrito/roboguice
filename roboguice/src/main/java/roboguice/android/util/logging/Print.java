@@ -13,7 +13,7 @@ public class Print {
      * config is initially set to BaseConfig() with sensible defaults, then replaced
      * by BaseConfig(ContextSingleton) during guice static injection pass.
      */
-    @Inject protected static BaseConfig config = new BaseConfig();
+    @Inject protected static AndroidBaseConfig config = new AndroidBaseConfig();
     
     public int println(int priority, String msg ) {
         return Log.println(priority,getScope(5), processMessage(msg));
