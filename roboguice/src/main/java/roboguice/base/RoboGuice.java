@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 import roboguice.android.config.DefaultRoboModule;
-import roboguice.android.inject.AndroidResourceListener;
 import roboguice.base.event.EventManager;
 import roboguice.base.inject.ResourceListener;
 
@@ -27,12 +26,13 @@ import com.google.inject.spi.StaticInjectionRequest;
  * @param <S> Object which a main {@link Injector} is scoped to
  * @param <O> Object which multiple {@link Injector}s are scoped bye
  * @param <R> Specific {@link DefaultRoboModule} impl
+ * @param <L> Specific {@link ResourceListener} impl
  */
-public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
+public abstract class RoboGuice<S, O, R extends DefaultRoboModule, L extends ResourceListener>{
     public static Stage DEFAULT_STAGE = Stage.PRODUCTION;
     
     protected WeakHashMap<S,Injector> injectors = new WeakHashMap<S,Injector>();
-    protected WeakHashMap<S,AndroidResourceListener> resourceListeners = new WeakHashMap<S, AndroidResourceListener>();
+    protected WeakHashMap<S,L> resourceListeners = new WeakHashMap<S,L>();
     
     public WeakHashMap<S, Injector> injectors()
     {
@@ -130,5 +130,5 @@ public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
     
     public abstract DefaultRoboModule newDefaultRoboModule( S app );
     
-    protected abstract ResourceListener getResourceListener( S scopedObject );
+    protected abstract L getResourceListener( S scopedObject );
 }

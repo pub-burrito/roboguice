@@ -30,7 +30,7 @@ import android.content.Context;
  * BUG hashmap should also key off of stage and modules list
  */
 
-public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModule> {
+public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModule, AndroidResourceListener> {
     
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
     protected static int modulesResourceId = 0;
