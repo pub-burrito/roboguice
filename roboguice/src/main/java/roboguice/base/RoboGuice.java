@@ -1,7 +1,11 @@
 package roboguice.base;
 
+import java.util.List;
 import java.util.WeakHashMap;
 
+import roboguice.android.DroidGuice;
+import roboguice.android.config.DefaultRoboModule;
+import roboguice.android.event.EventManager;
 import roboguice.android.inject.ResourceListener;
 
 import com.google.inject.Guice;
@@ -20,15 +24,17 @@ import com.google.inject.spi.StaticInjectionRequest;
  * -->
  * TODO Description
  * 
- * @param <T> Injection scope
+ * @param <S> Object which a main {@link Injector} is scoped to
+ * @param <O> Object which multiple {@link Injector}s are scoped bye
+ * @param <R> Specific {@link DefaultRoboModule} impl
  */
-public class RoboGuice<T>{
+public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
     public static Stage DEFAULT_STAGE = Stage.PRODUCTION;
     
-    protected WeakHashMap<T,Injector> injectors = new WeakHashMap<T,Injector>();
-    protected WeakHashMap<T,ResourceListener> resourceListeners = new WeakHashMap<T, ResourceListener>();
+    protected WeakHashMap<S,Injector> injectors = new WeakHashMap<S,Injector>();
+    protected WeakHashMap<S,ResourceListener> resourceListeners = new WeakHashMap<S, ResourceListener>();
     
-    public WeakHashMap<T, Injector> injectors()
+    public WeakHashMap<S, Injector> injectors()
     {
         return injectors;
     }
@@ -36,7 +42,7 @@ public class RoboGuice<T>{
     /**
      * Return the cached Injector instance for this application, or create a new one if necessary.
      */
-    public Injector getScopedInjector(T scopedObject ) {
+    public Injector getScopedInjector(S scopedObject ) {
         Injector rtrn = injectors.get(scopedObject);
         if( rtrn!=null )
             return rtrn;
@@ -66,7 +72,7 @@ public class RoboGuice<T>{
      * to avoid polluting our other tests with your custom injector.  Don't do this in your real application though.
      *
      */
-    public Injector setScopedInjector(final T scopedObject, Stage stage, Module... modules) {
+    public Injector setScopedInjector(final S scopedObject, Stage stage, Module... modules) {
 
         // Do a little rewriting on the modules first to
         // add static resource injection
@@ -87,7 +93,44 @@ public class RoboGuice<T>{
         }
     }
     
-    protected ResourceListener getResourceListener( T scopedObject ) {
+    /**
+     * Return the cached Injector instance for this application, or create a new one if necessary.
+     */
+    public Injector setScopedInjector(S application, Stage stage) {
+
+        synchronized (DroidGuice.class) {
+            
+            List<Module> modules = baseModules(application);
+            final Injector rtrn = setScopedInjector(application, stage, modules.toArray(new Module[modules.size()]));
+            injectors.put(application,rtrn);
+            return rtrn;
+        }
+    }
+    
+    /**
+     * A shortcut for RoboGuice.getInjector(context).injectMembers(o);
+     */
+    public <Z> Z injectMembers( O context, Z s ) {
+        getInjector(context).injectMembers(s);
+        return s;
+    }
+    
+    protected abstract List<Module> baseModules( S application );
+    
+    public void destroyInjector(O context) {
+        final Injector injector = getInjector(context);
+        injector.getInstance(EventManager.class).destroy();
+        injectors.remove(context);
+    }
+    
+    public Injector getInjector( O context )
+    {
+        return Guice.createInjector(DEFAULT_STAGE);
+    }
+    
+    public abstract DefaultRoboModule newDefaultRoboModule( S app );
+    
+    protected ResourceListener getResourceListener( S scopedObject ) {
         ResourceListener resourceListener = resourceListeners.get(scopedObject);
         if( resourceListener==null ) {
             synchronized (RoboGuice.class) {

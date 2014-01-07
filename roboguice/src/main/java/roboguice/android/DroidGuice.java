@@ -1,19 +1,17 @@
 package roboguice.android;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.WeakHashMap;
 
 import roboguice.android.config.DefaultRoboModule;
-import roboguice.android.event.EventManager;
 import roboguice.android.inject.ContextScope;
 import roboguice.android.inject.ContextScopedRoboInjector;
 import roboguice.android.inject.RoboInjector;
 import roboguice.android.inject.ViewListener;
 import roboguice.base.RoboGuice;
 
-import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Stage;
 
 import android.app.Application;
 import android.content.Context;
@@ -31,7 +29,7 @@ import android.content.Context;
  * BUG hashmap should also key off of stage and modules list
  */
 
-public class DroidGuice extends RoboGuice<Application> {
+public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModule> {
     
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
     protected static int modulesResourceId = 0;
@@ -59,59 +57,45 @@ public class DroidGuice extends RoboGuice<Application> {
         DroidGuice.modulesResourceId = modulesResourceId;
     }
 
-    /**
-     * Return the cached Injector instance for this application, or create a new one if necessary.
-     */
-    public Injector setBaseApplicationInjector(Application application, Stage stage) {
+    @Override
+    protected List<Module> baseModules(Application application) {
+        
+        int id = modulesResourceId;
+        if (id == 0)
+            id = application.getResources().getIdentifier("roboguice_modules", "array", application.getPackageName());
 
-        synchronized (DroidGuice.class) {
-            int id = modulesResourceId;
-            if (id == 0)
-                id = application.getResources().getIdentifier("roboguice_modules", "array", application.getPackageName());
+        final String[] moduleNames = id>0 ? application.getResources().getStringArray(id) : new String[]{};
+        final ArrayList<Module> modules = new ArrayList<Module>();
+        final DefaultRoboModule defaultRoboModule = newDefaultRoboModule(application);
 
-            final String[] moduleNames = id>0 ? application.getResources().getStringArray(id) : new String[]{};
-            final ArrayList<Module> modules = new ArrayList<Module>();
-            final DefaultRoboModule defaultRoboModule = newDefaultRoboModule(application);
+        modules.add(defaultRoboModule);
 
-            modules.add(defaultRoboModule);
+        try {
+            for (String name : moduleNames) {
+                final Class<? extends Module> clazz = Class.forName(name).asSubclass(Module.class);
 
-            try {
-                for (String name : moduleNames) {
-                    final Class<? extends Module> clazz = Class.forName(name).asSubclass(Module.class);
-
-                    try {
-                        modules.add(clazz.getDeclaredConstructor(Context.class).newInstance(application));
-                    } catch( NoSuchMethodException ignored ) {
-                        modules.add( clazz.newInstance() );
-                    }
-
+                try {
+                    modules.add(clazz.getDeclaredConstructor(Context.class).newInstance(application));
+                } catch( NoSuchMethodException ignored ) {
+                    modules.add( clazz.newInstance() );
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+
             }
-
-            final Injector rtrn = setScopedInjector(application, stage, modules.toArray(new Module[modules.size()]));
-            injectors.put(application,rtrn);
-            return rtrn;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
+        
+        return modules;
     }
 
-
-    public RoboInjector getInjector(Context context) {
+    @Override
+    public RoboInjector getInjector( Context context ) {
         final Application application = (Application)context.getApplicationContext();
         return new ContextScopedRoboInjector(context, getScopedInjector(application), getViewListener(application));
     }
 
-    /**
-     * A shortcut for RoboGuice.getInjector(context).injectMembers(o);
-     */
-    public <T> T injectMembers( Context context, T t ) {
-        getInjector(context).injectMembers(t);
-        return t;
-    }
-
-    public DefaultRoboModule newDefaultRoboModule(final Application application) {
+    @Override
+    public DefaultRoboModule newDefaultRoboModule( Application application ) {
         return new DefaultRoboModule(application, new ContextScope(application), getViewListener(application), getResourceListener(application));
     }
 
