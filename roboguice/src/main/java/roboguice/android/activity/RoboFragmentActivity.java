@@ -17,10 +17,10 @@ package roboguice.android.activity;
 
 import roboguice.android.DroidGuice;
 import roboguice.android.activity.event.*;
-import roboguice.android.event.EventManager;
 import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.RoboInjector;
 import roboguice.android.util.RoboContext;
+import roboguice.base.event.EventManager;
 
 import android.content.Intent;
 import android.content.res.Configuration;

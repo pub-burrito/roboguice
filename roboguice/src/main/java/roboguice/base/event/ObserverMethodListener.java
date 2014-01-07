@@ -1,7 +1,6 @@
-package roboguice.android.event.eventListener;
+package roboguice.base.event;
 
-import roboguice.android.event.EventListener;
-import roboguice.android.event.eventListener.javaassist.RuntimeSupport;
+import roboguice.base.event.eventListener.javaassist.RuntimeSupport;
 import roboguice.base.util.logging.Ln;
 
 import java.lang.reflect.InvocationTargetException;

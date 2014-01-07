@@ -1,6 +1,6 @@
 package roboguice.android.event.eventListener;
 
-import roboguice.android.event.EventListener;
+import roboguice.base.event.EventListener;
 
 /**
  * Runnable implementation of the event listener on event call.

@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.inject.ContextScope;
-import roboguice.android.inject.ContextSingleton;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.inject.ContextSingleton;
 
 import android.app.Activity;
 import android.os.Bundle;

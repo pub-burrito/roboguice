@@ -2,6 +2,7 @@ package roboguice.android.inject;
 
 import roboguice.android.activity.event.OnCreateEvent;
 import roboguice.android.event.Observes;
+import roboguice.base.inject.ContextSingleton;
 
 import android.app.Activity;
 import android.content.Context;

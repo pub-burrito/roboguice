@@ -15,6 +15,8 @@
  */
 package roboguice.android.inject;
 
+import roboguice.base.inject.ContextSingleton;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

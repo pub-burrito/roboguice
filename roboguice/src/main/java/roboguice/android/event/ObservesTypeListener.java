@@ -1,7 +1,8 @@
 package roboguice.android.event;
 
-import roboguice.android.event.eventListener.ObserverMethodListener;
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
+import roboguice.base.event.EventManager;
+import roboguice.base.event.ObserverMethodListener;
 
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;

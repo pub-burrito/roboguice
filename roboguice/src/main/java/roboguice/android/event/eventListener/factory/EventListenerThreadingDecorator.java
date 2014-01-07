@@ -1,9 +1,9 @@
 package roboguice.android.event.eventListener.factory;
 
-import roboguice.android.event.EventListener;
 import roboguice.android.event.EventThread;
 import roboguice.android.event.eventListener.AsynchronousEventListenerDecorator;
 import roboguice.android.event.eventListener.UIThreadEventListenerDecorator;
+import roboguice.base.event.EventListener;
 
 import android.os.Handler;
 

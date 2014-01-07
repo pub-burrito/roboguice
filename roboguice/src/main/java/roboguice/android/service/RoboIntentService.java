@@ -1,12 +1,12 @@
 package roboguice.android.service;
 
 import roboguice.android.DroidGuice;
-import roboguice.android.event.EventManager;
 import roboguice.android.service.event.OnConfigurationChangedEvent;
 import roboguice.android.service.event.OnCreateEvent;
 import roboguice.android.service.event.OnDestroyEvent;
 import roboguice.android.service.event.OnStartEvent;
 import roboguice.android.util.RoboContext;
+import roboguice.base.event.EventManager;
 
 import android.app.IntentService;
 import android.content.Intent;

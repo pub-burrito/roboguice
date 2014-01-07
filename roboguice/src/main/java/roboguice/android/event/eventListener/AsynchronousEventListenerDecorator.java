@@ -1,6 +1,6 @@
 package roboguice.android.event.eventListener;
 
-import roboguice.android.event.EventListener;
+import roboguice.base.event.EventListener;
 
 import android.os.Handler;
 

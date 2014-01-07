@@ -1,15 +1,15 @@
-package roboguice.android.event;
-
-import roboguice.android.event.eventListener.ObserverMethodListener;
-import roboguice.android.inject.ContextSingleton;
-
-import android.content.Context;
-
-import com.google.inject.Inject;
+package roboguice.base.event;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import roboguice.base.inject.ContextSingleton;
 
 /**
  * Manager class handling the following:
@@ -27,7 +27,6 @@ import java.util.Map.Entry;
  */
 @ContextSingleton
 public class EventManager {
-    @Inject protected Context context;
 
     protected Map<Class<?>, Set<EventListener<?>>> registrations = new HashMap<Class<?>, Set<EventListener<?>>>(); // synchronized set
 

@@ -1,11 +1,12 @@
 package roboguice.android.config;
 
 import roboguice.android.activity.RoboActivity;
-import roboguice.android.event.EventManager;
 import roboguice.android.event.ObservesTypeListener;
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
 import roboguice.android.inject.*;
 import roboguice.android.service.RoboService;
+import roboguice.base.event.EventManager;
+import roboguice.base.inject.ContextSingleton;
 import roboguice.base.util.Strings;
 import roboguice.base.util.logging.Ln;
 

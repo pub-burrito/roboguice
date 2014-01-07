@@ -1,5 +1,7 @@
 package roboguice.android.inject;
 
+import roboguice.base.inject.ContextSingleton;
+
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;

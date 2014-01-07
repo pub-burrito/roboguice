@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import roboguice.android.DroidGuice;
-import roboguice.android.event.EventManager;
 import roboguice.android.event.Observes;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.event.EventManager;
 
 import android.app.Activity;
 import android.app.Application;

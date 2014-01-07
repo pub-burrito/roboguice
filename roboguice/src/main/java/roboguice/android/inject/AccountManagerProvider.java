@@ -1,5 +1,7 @@
 package roboguice.android.inject;
 
+import roboguice.base.inject.ContextSingleton;
+
 import android.accounts.AccountManager;
 import android.content.Context;
 import com.google.inject.Inject;

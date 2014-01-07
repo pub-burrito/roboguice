@@ -13,7 +13,7 @@
  * License.
  */
 
-package roboguice.android.event.eventListener.javaassist;
+package roboguice.base.event.eventListener.javaassist;
 
 import java.lang.reflect.Method;
 

@@ -3,7 +3,7 @@ package roboguice.android.event;
 import org.junit.Before;
 import org.junit.Test;
 
-import roboguice.android.event.eventListener.ObserverMethodListener;
+import roboguice.base.event.ObserverMethodListener;
 
 import java.lang.reflect.Method;
 

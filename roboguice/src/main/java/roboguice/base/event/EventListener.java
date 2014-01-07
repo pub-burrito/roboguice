@@ -1,4 +1,4 @@
-package roboguice.android.event;
+package roboguice.base.event;
 
 
 /**

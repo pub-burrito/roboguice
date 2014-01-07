@@ -3,9 +3,9 @@ package roboguice.android.event.eventListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import roboguice.android.event.EventListener;
 import roboguice.android.event.EventOne;
 import roboguice.android.event.eventListener.EventListenerRunnable;
+import roboguice.base.event.EventListener;
 
 import static org.easymock.EasyMock.*;
 

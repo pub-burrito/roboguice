@@ -3,10 +3,9 @@ package roboguice.base;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import roboguice.android.DroidGuice;
 import roboguice.android.config.DefaultRoboModule;
-import roboguice.android.event.EventManager;
 import roboguice.android.inject.ResourceListener;
+import roboguice.base.event.EventManager;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -98,7 +97,7 @@ public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
      */
     public Injector setScopedInjector(S application, Stage stage) {
 
-        synchronized (DroidGuice.class) {
+        synchronized (RoboGuice.class) {
             
             List<Module> modules = baseModules(application);
             final Injector rtrn = setScopedInjector(application, stage, modules.toArray(new Module[modules.size()]));
