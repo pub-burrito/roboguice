@@ -16,6 +16,7 @@
 package roboguice.android.inject;
 
 import roboguice.android.DroidGuice;
+import roboguice.base.inject.Nullable;
 
 import android.app.Activity;
 import android.content.Context;

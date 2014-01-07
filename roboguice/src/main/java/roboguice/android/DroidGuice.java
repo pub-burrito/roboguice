@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 import roboguice.android.config.DefaultRoboModule;
+import roboguice.android.inject.AndroidResourceListener;
 import roboguice.android.inject.ContextScope;
 import roboguice.android.inject.ContextScopedRoboInjector;
 import roboguice.android.inject.RoboInjector;
@@ -93,6 +94,20 @@ public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModul
         final Application application = (Application)context.getApplicationContext();
         return new ContextScopedRoboInjector(context, getScopedInjector(application), getViewListener(application));
     }
+    
+    @Override
+    protected AndroidResourceListener getResourceListener(Application application) {
+        AndroidResourceListener resourceListener = resourceListeners.get(application);
+        if( resourceListener==null ) {
+            synchronized (RoboGuice.class) {
+                if( resourceListener==null ) {
+                    resourceListener = new AndroidResourceListener( application );
+                    resourceListeners.put(application,resourceListener);
+                }
+            }
+        }
+        return resourceListener;
+    }
 
     @Override
     public DefaultRoboModule newDefaultRoboModule( Application application ) {
@@ -125,4 +140,5 @@ public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModul
             viewListeners.clear();
         }
     }
+
 }

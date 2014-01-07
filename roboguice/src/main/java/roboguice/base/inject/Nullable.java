@@ -1,4 +1,4 @@
-package roboguice.android.inject;
+package roboguice.base.inject;
 
 import roboguice.base.util.Strings;
 

@@ -26,6 +26,9 @@ import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
 import javax.inject.Singleton;
+
+import roboguice.base.inject.Nullable;
+
 import java.lang.annotation.Annotation;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

@@ -12,6 +12,7 @@ import roboguice.android.activity.ActivityInjectionTest.ModuleC.C;
 import roboguice.android.activity.ActivityInjectionTest.ModuleD.D;
 import roboguice.android.inject.*;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.inject.InjectResource;
 
 import android.R;
 import android.app.Activity;

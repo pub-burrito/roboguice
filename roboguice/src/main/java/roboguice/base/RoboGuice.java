@@ -6,6 +6,7 @@ import java.util.WeakHashMap;
 import roboguice.android.config.DefaultRoboModule;
 import roboguice.android.inject.AndroidResourceListener;
 import roboguice.base.event.EventManager;
+import roboguice.base.inject.ResourceListener;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -129,17 +130,5 @@ public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
     
     public abstract DefaultRoboModule newDefaultRoboModule( S app );
     
-    protected AndroidResourceListener getResourceListener( S scopedObject ) {
-        AndroidResourceListener resourceListener = resourceListeners.get(scopedObject);
-        if( resourceListener==null ) {
-            synchronized (RoboGuice.class) {
-                if( resourceListener==null ) {
-                    //FIXME ResourceListener
-//                    resourceListener = new ResourceListener( application );
-                    resourceListeners.put(scopedObject,resourceListener);
-                }
-            }
-        }
-        return resourceListener;
-    }
+    protected abstract ResourceListener getResourceListener( S scopedObject );
 }

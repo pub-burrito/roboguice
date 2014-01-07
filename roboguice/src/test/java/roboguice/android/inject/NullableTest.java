@@ -17,12 +17,12 @@ public class NullableTest {
 
     @Test
     public void shouldRejectNullFields() throws Exception {
-        assertThat(roboguice.android.inject.Nullable.isNullable(DummyClass.class.getDeclaredField("notNullable")), is(false));
+        assertThat(roboguice.base.inject.Nullable.isNullable(DummyClass.class.getDeclaredField("notNullable")), is(false));
     }
 
     @Test
     public void shouldAcceptNonNullFields() throws Exception {
-        assertThat(roboguice.android.inject.Nullable.isNullable(DummyClass.class.getDeclaredField("nullable")), is(true));
+        assertThat(roboguice.base.inject.Nullable.isNullable(DummyClass.class.getDeclaredField("nullable")), is(true));
     }
 
 

@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import roboguice.android.activity.RoboActivity;
-import roboguice.android.inject.InjectResource;
+import roboguice.base.inject.InjectResource;
 
 import android.os.Bundle;
 

@@ -15,6 +15,13 @@
  */
 package roboguice.android.inject;
 
+import java.lang.reflect.Field;
+
+import roboguice.base.inject.InjectResource;
+import roboguice.base.inject.ResourceListener;
+
+import com.google.inject.TypeLiteral;
+
 import android.app.Application;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -23,118 +30,76 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.google.inject.MembersInjector;
-import com.google.inject.TypeLiteral;
-import com.google.inject.spi.TypeEncounter;
-import com.google.inject.spi.TypeListener;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
 
 /**
  * Resource listener.
  * @author Mike Burton
  */
-public class AndroidResourceListener implements TypeListener {
+public class AndroidResourceListener extends ResourceListener {
     protected Application application;
 
     public AndroidResourceListener(Application application) {
+        super();
         this.application = application;
     }
 
-    public <I> void hear(TypeLiteral<I> typeLiteral, TypeEncounter<I> typeEncounter) {
-        
-        for( Class<?> c = typeLiteral.getRawType(); c!=Object.class; c = c.getSuperclass() )
-            for (Field field : c.getDeclaredFields())
-                if ( field.isAnnotationPresent(InjectResource.class) && !Modifier.isStatic(field.getModifiers()) )
-                    typeEncounter.register(new AndroidResourceMembersInjector<I>(field, application, field.getAnnotation(InjectResource.class)));
-
+    @Override
+    protected <I> ResourceMemberInjector<I> newResourceMember(TypeLiteral<I> typeLiteral, Field field ) {
+        return new AndroidResourceMembersInjector<I>(field, application, field.getAnnotation(InjectResource.class));
     }
 
-    @SuppressWarnings("unchecked")
-    public void requestStaticInjection(Class<?>... types) {
-        
-        for (Class<?> c : types)
-            for( ; c!=Object.class; c=c.getSuperclass() )
-                for (Field field : c.getDeclaredFields())
-                    if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(InjectResource.class))
-                        new AndroidResourceMembersInjector(field, application, field.getAnnotation(InjectResource.class)).injectMembers(null);
-
-
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected ResourceMemberInjector newResourceMember( Field field ) {
+        return new AndroidResourceMembersInjector(field, application, field.getAnnotation(InjectResource.class));
     }
 
-
-
-
-
-
-
-
-    
-    protected static class AndroidResourceMembersInjector<T> implements MembersInjector<T> {
+    protected static class AndroidResourceMembersInjector<T> extends ResourceMemberInjector<T> {
 
         protected Field field;
         protected Application application;
         protected InjectResource annotation;
 
         public AndroidResourceMembersInjector(Field field, Application application, InjectResource annotation) {
-            this.field = field;
+            super( field, annotation );
             this.application = application;
-            this.annotation = annotation;
         }
 
-        public void injectMembers(T instance) {
+        @Override
+        protected Object getValue() {
+            
+            final Resources resources = application.getResources();
+            final int id = getId(resources,annotation);
+            final Class<?> t = field.getType();
 
-            Object value = null;
-
-            try {
-
-                final Resources resources = application.getResources();
-                final int id = getId(resources,annotation);
-                final Class<?> t = field.getType();
-
-                if (String.class.isAssignableFrom(t)) {
-                    value = resources.getString(id);
-                } else if (boolean.class.isAssignableFrom(t) || Boolean.class.isAssignableFrom(t)) {
-                    value = resources.getBoolean(id);
-                } else if (ColorStateList.class.isAssignableFrom(t)  ) {
-                    value = resources.getColorStateList(id);
-                } else if (int.class.isAssignableFrom(t) || Integer.class.isAssignableFrom(t)) {
-                    value = resources.getInteger(id);
-                } else if (Drawable.class.isAssignableFrom(t)) {
-                    value = resources.getDrawable(id);
-                } else if (String[].class.isAssignableFrom(t)) {
-                    value = resources.getStringArray(id);
-                } else if (int[].class.isAssignableFrom(t) || Integer[].class.isAssignableFrom(t)) {
-                    value = resources.getIntArray(id);
-                } else if (Animation.class.isAssignableFrom(t)) {
-                    value = AnimationUtils.loadAnimation(application, id);
-                } else if (Movie.class.isAssignableFrom(t)  ) {
-                    value = resources.getMovie(id);
-                }
-                
-                if (value == null && Nullable.notNullable(field) ) {
-                    throw new NullPointerException(String.format("Can't inject null value into %s.%s when field is not @Nullable", field.getDeclaringClass(), field
-                            .getName()));
-                }
-
-                field.setAccessible(true);
-                field.set(instance, value);
-
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-
-            } catch (IllegalArgumentException f) {
-                throw new IllegalArgumentException(String.format("Can't assign %s value %s to %s field %s", value != null ? value.getClass() : "(null)", value,
-                        field.getType(), field.getName()));
+            if (String.class.isAssignableFrom(t)) {
+                return resources.getString(id);
+            } else if (boolean.class.isAssignableFrom(t) || Boolean.class.isAssignableFrom(t)) {
+                return resources.getBoolean(id);
+            } else if (ColorStateList.class.isAssignableFrom(t)  ) {
+                return resources.getColorStateList(id);
+            } else if (int.class.isAssignableFrom(t) || Integer.class.isAssignableFrom(t)) {
+                return resources.getInteger(id);
+            } else if (Drawable.class.isAssignableFrom(t)) {
+                return resources.getDrawable(id);
+            } else if (String[].class.isAssignableFrom(t)) {
+                return resources.getStringArray(id);
+            } else if (int[].class.isAssignableFrom(t) || Integer[].class.isAssignableFrom(t)) {
+                return resources.getIntArray(id);
+            } else if (Animation.class.isAssignableFrom(t)) {
+                return AnimationUtils.loadAnimation(application, id);
+            } else if (Movie.class.isAssignableFrom(t)  ) {
+                return resources.getMovie(id);
             }
+            
+            return null;
         }
-
+        
         protected int getId(Resources resources, InjectResource annotation) {
             int id = annotation.value();
             return id>=0 ? id : resources.getIdentifier(annotation.name(),null,null);
         }
     }
+
 }
 

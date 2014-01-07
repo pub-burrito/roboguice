@@ -30,6 +30,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
+import roboguice.base.inject.Nullable;
+
 /**
  * 
  * @author Mike Burton
