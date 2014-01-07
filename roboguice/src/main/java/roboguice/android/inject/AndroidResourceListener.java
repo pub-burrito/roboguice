@@ -36,10 +36,10 @@ import java.lang.reflect.Modifier;
  * Resource listener.
  * @author Mike Burton
  */
-public class ResourceListener implements TypeListener {
+public class AndroidResourceListener implements TypeListener {
     protected Application application;
 
-    public ResourceListener(Application application) {
+    public AndroidResourceListener(Application application) {
         this.application = application;
     }
 
@@ -48,7 +48,7 @@ public class ResourceListener implements TypeListener {
         for( Class<?> c = typeLiteral.getRawType(); c!=Object.class; c = c.getSuperclass() )
             for (Field field : c.getDeclaredFields())
                 if ( field.isAnnotationPresent(InjectResource.class) && !Modifier.isStatic(field.getModifiers()) )
-                    typeEncounter.register(new ResourceMembersInjector<I>(field, application, field.getAnnotation(InjectResource.class)));
+                    typeEncounter.register(new AndroidResourceMembersInjector<I>(field, application, field.getAnnotation(InjectResource.class)));
 
     }
 
@@ -59,7 +59,7 @@ public class ResourceListener implements TypeListener {
             for( ; c!=Object.class; c=c.getSuperclass() )
                 for (Field field : c.getDeclaredFields())
                     if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(InjectResource.class))
-                        new ResourceMembersInjector(field, application, field.getAnnotation(InjectResource.class)).injectMembers(null);
+                        new AndroidResourceMembersInjector(field, application, field.getAnnotation(InjectResource.class)).injectMembers(null);
 
 
     }
@@ -72,13 +72,13 @@ public class ResourceListener implements TypeListener {
 
 
     
-    protected static class ResourceMembersInjector<T> implements MembersInjector<T> {
+    protected static class AndroidResourceMembersInjector<T> implements MembersInjector<T> {
 
         protected Field field;
         protected Application application;
         protected InjectResource annotation;
 
-        public ResourceMembersInjector(Field field, Application application, InjectResource annotation) {
+        public AndroidResourceMembersInjector(Field field, Application application, InjectResource annotation) {
             this.field = field;
             this.application = application;
             this.annotation = annotation;

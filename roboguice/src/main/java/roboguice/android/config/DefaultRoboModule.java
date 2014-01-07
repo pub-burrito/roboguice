@@ -80,11 +80,11 @@ public class DefaultRoboModule extends AbstractModule {
 
     protected Application application;
     protected ContextScope contextScope;
-    protected ResourceListener resourceListener;
+    protected AndroidResourceListener resourceListener;
     protected ViewListener viewListener;
 
 
-    public DefaultRoboModule(final Application application, ContextScope contextScope, ViewListener viewListener, ResourceListener resourceListener) {
+    public DefaultRoboModule(final Application application, ContextScope contextScope, ViewListener viewListener, AndroidResourceListener resourceListener) {
 
 
         this.application = application;

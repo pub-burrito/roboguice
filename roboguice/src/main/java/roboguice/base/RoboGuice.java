@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 import roboguice.android.config.DefaultRoboModule;
-import roboguice.android.inject.ResourceListener;
+import roboguice.android.inject.AndroidResourceListener;
 import roboguice.base.event.EventManager;
 
 import com.google.inject.Guice;
@@ -31,7 +31,7 @@ public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
     public static Stage DEFAULT_STAGE = Stage.PRODUCTION;
     
     protected WeakHashMap<S,Injector> injectors = new WeakHashMap<S,Injector>();
-    protected WeakHashMap<S,ResourceListener> resourceListeners = new WeakHashMap<S, ResourceListener>();
+    protected WeakHashMap<S,AndroidResourceListener> resourceListeners = new WeakHashMap<S, AndroidResourceListener>();
     
     public WeakHashMap<S, Injector> injectors()
     {
@@ -129,8 +129,8 @@ public abstract class RoboGuice<S, O, R extends DefaultRoboModule>{
     
     public abstract DefaultRoboModule newDefaultRoboModule( S app );
     
-    protected ResourceListener getResourceListener( S scopedObject ) {
-        ResourceListener resourceListener = resourceListeners.get(scopedObject);
+    protected AndroidResourceListener getResourceListener( S scopedObject ) {
+        AndroidResourceListener resourceListener = resourceListeners.get(scopedObject);
         if( resourceListener==null ) {
             synchronized (RoboGuice.class) {
                 if( resourceListener==null ) {
