@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import roboguice.android.config.DefaultRoboModule;
+import roboguice.android.config.AndroidDefaultRoboModule;
 import roboguice.android.inject.AndroidResourceListener;
 import roboguice.android.inject.ContextScope;
 import roboguice.android.inject.ContextScopedRoboInjector;
@@ -30,7 +30,7 @@ import android.content.Context;
  * BUG hashmap should also key off of stage and modules list
  */
 
-public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModule, AndroidResourceListener> {
+public class DroidGuice extends RoboGuice<Application, Context, AndroidDefaultRoboModule, AndroidResourceListener> {
     
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
     protected static int modulesResourceId = 0;
@@ -67,7 +67,7 @@ public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModul
 
         final String[] moduleNames = id>0 ? application.getResources().getStringArray(id) : new String[]{};
         final ArrayList<Module> modules = new ArrayList<Module>();
-        final DefaultRoboModule defaultRoboModule = newDefaultRoboModule(application);
+        final AndroidDefaultRoboModule defaultRoboModule = newDefaultRoboModule(application);
 
         modules.add(defaultRoboModule);
 
@@ -110,8 +110,8 @@ public class DroidGuice extends RoboGuice<Application, Context, DefaultRoboModul
     }
 
     @Override
-    public DefaultRoboModule newDefaultRoboModule( Application application ) {
-        return new DefaultRoboModule(application, new ContextScope(application), getViewListener(application), getResourceListener(application));
+    public AndroidDefaultRoboModule newDefaultRoboModule( Application application ) {
+        return new AndroidDefaultRoboModule(application, new ContextScope(application), getViewListener(application), getResourceListener(application));
     }
 
     protected ViewListener getViewListener( final Application application ) {

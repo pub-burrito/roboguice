@@ -57,7 +57,7 @@ import com.google.inject.name.Names;
  *
  * @author Mike Burton
  */
-public class DefaultRoboModule extends AbstractModule {
+public class AndroidDefaultRoboModule extends AbstractModule {
     protected static final Class fragmentManagerClass;
     protected static final Class accountManagerClass;
 
@@ -84,7 +84,7 @@ public class DefaultRoboModule extends AbstractModule {
     protected ViewListener viewListener;
 
 
-    public DefaultRoboModule(final Application application, ContextScope contextScope, ViewListener viewListener, AndroidResourceListener resourceListener) {
+    public AndroidDefaultRoboModule(final Application application, ContextScope contextScope, ViewListener viewListener, AndroidResourceListener resourceListener) {
 
 
         this.application = application;
