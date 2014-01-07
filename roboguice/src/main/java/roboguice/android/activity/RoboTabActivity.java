@@ -50,7 +50,7 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = DroidGuice.getInjector(this);
+        final RoboInjector injector = DroidGuice.instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembersWithoutViews(this);
         super.onCreate(savedInstanceState);
@@ -102,7 +102,7 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                DroidGuice.destroyInjector(this);
+                DroidGuice.instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -119,7 +119,7 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        DroidGuice.getInjector(this).injectViewMembers(this);
+        DroidGuice.instance().getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 

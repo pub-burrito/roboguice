@@ -43,7 +43,7 @@ public class ActivityInjectionTest {
 
     @Before
     public void setup() {
-        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleA());
+        DroidGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA());
         activity = new DummyActivity();
         activity.setIntent( new Intent(Robolectric.application,DummyActivity.class).putExtra("foobar","goober") );
         activity.onCreate(null);
@@ -87,21 +87,21 @@ public class ActivityInjectionTest {
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectViews() {
-        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleB());
+        DroidGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleB());
         final B b = new B();
         b.onCreate(null);
     }
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectExtras() {
-        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleD());
+        DroidGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleD());
         final D d = new D();
         d.onCreate(null);
     }
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectPreferenceViews() {
-        DroidGuice.setBaseApplicationInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleC());
+        DroidGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleC());
         final C c = new C();
         c.onCreate(null);
     }
@@ -122,7 +122,7 @@ public class ActivityInjectionTest {
 
         final BlockingQueue<Context> queue = new ArrayBlockingQueue<Context>(1);
         new Thread()  {
-            final Context context = DroidGuice.getInjector(ref.get()).getInstance(Context.class);
+            final Context context = DroidGuice.instance().getInjector(ref.get()).getInstance(Context.class);
 
             @Override
             public void run() {
@@ -153,7 +153,7 @@ public class ActivityInjectionTest {
         f.onCreate(null);
 
         final FutureTask<Context> future = new FutureTask<Context>(new Callable<Context>() {
-            final ContextScopedProvider<Context> contextProvider = DroidGuice.getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Context>>(){}));
+            final ContextScopedProvider<Context> contextProvider = DroidGuice.instance().getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Context>>(){}));
             
             @Override
             public Context call() throws Exception {

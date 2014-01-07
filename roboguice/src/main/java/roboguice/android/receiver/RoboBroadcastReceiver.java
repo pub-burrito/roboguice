@@ -21,7 +21,7 @@ public abstract class RoboBroadcastReceiver extends BroadcastReceiver {
      */
     @Override
     public final void onReceive(Context context, Intent intent) {
-        final Injector injector = DroidGuice.getBaseApplicationInjector((Application) context.getApplicationContext());
+        final Injector injector = DroidGuice.instance().getScopedInjector((Application) context.getApplicationContext());
 
         injector.injectMembers(this);
         handleReceive(context, intent);

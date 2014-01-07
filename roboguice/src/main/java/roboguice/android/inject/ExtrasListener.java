@@ -96,7 +96,7 @@ public class ExtrasListener implements TypeListener {
 
             value = extras.get(id);
 
-            value = convert(field, value, DroidGuice.getBaseApplicationInjector(activity.getApplication()));
+            value = convert(field, value, DroidGuice.instance().getScopedInjector(activity.getApplication()));
 
             /*
              * Please notice : null checking is done AFTER conversion. Having

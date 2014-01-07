@@ -42,7 +42,7 @@ public class RoboFragmentActivity extends FragmentActivity implements RoboContex
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = DroidGuice.getInjector(this);
+        final RoboInjector injector = DroidGuice.instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembersWithoutViews(this);
         super.onCreate(savedInstanceState);
@@ -94,7 +94,7 @@ public class RoboFragmentActivity extends FragmentActivity implements RoboContex
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                DroidGuice.destroyInjector(this);
+                DroidGuice.instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -111,7 +111,7 @@ public class RoboFragmentActivity extends FragmentActivity implements RoboContex
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        DroidGuice.getInjector(this).injectViewMembers(this);
+        DroidGuice.instance().getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 

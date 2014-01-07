@@ -13,7 +13,7 @@ public abstract class RoboAsyncTaskLoader<D> extends AsyncTaskLoader<D> {
 
     public RoboAsyncTaskLoader(Context context) {
         super(context);
-        DroidGuice.injectMembers(context, this);
+        DroidGuice.instance().injectMembers(context, this);
     }
     
 }

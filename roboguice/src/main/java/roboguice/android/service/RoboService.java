@@ -58,7 +58,7 @@ public abstract class RoboService extends Service implements RoboContext {
 
     @Override
     public void onCreate() {
-        final Injector injector = DroidGuice.getInjector(this);
+        final Injector injector = DroidGuice.instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembers(this);
         super.onCreate();
@@ -78,7 +78,7 @@ public abstract class RoboService extends Service implements RoboContext {
                 eventManager.fire(new OnDestroyEvent() );
         } finally {
             try {
-                DroidGuice.destroyInjector(this);
+                DroidGuice.instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }

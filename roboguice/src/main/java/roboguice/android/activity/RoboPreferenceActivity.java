@@ -60,7 +60,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     /** {@inheritDoc } */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = DroidGuice.getInjector(this);
+        final RoboInjector injector = DroidGuice.instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         preferenceListener = injector.getInstance(PreferenceListener.class);
         injector.injectMembersWithoutViews(this);
@@ -72,7 +72,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
         super.setPreferenceScreen(preferenceScreen);
 
-        final ContextScope scope = DroidGuice.getInjector(this).getInstance(ContextScope.class);
+        final ContextScope scope = DroidGuice.instance().getInjector(this).getInstance(ContextScope.class);
         synchronized (ContextScope.class) {
             scope.enter(this);
             try {
@@ -128,7 +128,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                DroidGuice.destroyInjector(this);
+                DroidGuice.instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -145,7 +145,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        DroidGuice.getInjector(this).injectViewMembers(this);
+        DroidGuice.instance().getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 

@@ -42,7 +42,7 @@ public class SharedPreferencesProviderTest {
 
     @Test
     public void shouldInjectNamedSharedPrefs() throws Exception {
-        DroidGuice.setBaseApplicationInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleA() );
+        DroidGuice.instance().setScopedInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA() );
         try {
             
             final A a = new A();
@@ -84,7 +84,7 @@ public class SharedPreferencesProviderTest {
 
     @Test
     public void shouldNotFallbackOnOldDefaultIfNamedFileSpecified() throws Exception {
-        DroidGuice.setBaseApplicationInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.newDefaultRoboModule(Robolectric.application), new ModuleA() );
+        DroidGuice.instance().setScopedInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA() );
 
         final File oldDefault = new File("shared_prefs/default.xml");
         final File oldDir = new File("shared_prefs");

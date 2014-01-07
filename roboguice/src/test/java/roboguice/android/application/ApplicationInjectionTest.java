@@ -49,7 +49,7 @@ public class ApplicationInjectionTest {
         @Override
         public void onCreate() {
             super.onCreate();
-            DroidGuice.getInjector(this).injectMembers(this);
+            DroidGuice.instance().getInjector(this).injectMembers(this);
         }
     }
 
@@ -59,7 +59,7 @@ public class ApplicationInjectionTest {
         @Override
         public void onCreate() {
             super.onCreate();
-            DroidGuice.getInjector(this).injectMembers(this);
+            DroidGuice.instance().getInjector(this).injectMembers(this);
         }
     }
 

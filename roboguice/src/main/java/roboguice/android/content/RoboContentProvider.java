@@ -14,7 +14,7 @@ public abstract class RoboContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        DroidGuice.getInjector(getContext()).injectMembers(this);
+        DroidGuice.instance().getInjector(getContext()).injectMembers(this);
         return true;
     }
 }

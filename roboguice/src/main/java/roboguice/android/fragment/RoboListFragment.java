@@ -10,12 +10,12 @@ public abstract class RoboListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DroidGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
+        DroidGuice.instance().getInjector(getActivity()).injectMembersWithoutViews(this);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DroidGuice.getInjector(getActivity()).injectViewMembers(this);
+        DroidGuice.instance().getInjector(getActivity()).injectViewMembers(this);
     }
 }

@@ -50,7 +50,7 @@ import com.google.inject.name.Names;
  * RoboGuice.setAppliationInjector( app, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(app)).with(new MyModule() );
  *
  * @see com.google.inject.util.Modules#override(com.google.inject.Module...)
- * @see roboguice.android.DroidGuice#setBaseApplicationInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
+ * @see roboguice.android.DroidGuice#setScopedInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
  * @see roboguice.android.DroidGuice#newDefaultRoboModule(android.app.Application)
  * @see roboguice.android.DroidGuice#DEFAULT_STAGE
  *

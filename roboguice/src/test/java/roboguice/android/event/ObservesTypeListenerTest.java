@@ -36,7 +36,7 @@ public class ObservesTypeListenerTest {
     @Before
     public void setup() throws NoSuchMethodException {
         app = Robolectric.application;
-        injector = DroidGuice.getInjector(app);
+        injector = DroidGuice.instance().getInjector(app);
 
         eventManager = injector.getInstance(EventManager.class);
 

@@ -1,23 +1,22 @@
 package roboguice.android;
 
+import java.util.ArrayList;
+import java.util.WeakHashMap;
+
 import roboguice.android.config.DefaultRoboModule;
 import roboguice.android.event.EventManager;
-import roboguice.android.inject.*;
+import roboguice.android.inject.ContextScope;
+import roboguice.android.inject.ContextScopedRoboInjector;
+import roboguice.android.inject.RoboInjector;
+import roboguice.android.inject.ViewListener;
+import roboguice.base.RoboGuice;
 
-import android.app.Application;
-import android.content.Context;
-
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
-import com.google.inject.spi.DefaultElementVisitor;
-import com.google.inject.spi.Element;
-import com.google.inject.spi.Elements;
-import com.google.inject.spi.StaticInjectionRequest;
 
-import java.util.ArrayList;
-import java.util.WeakHashMap;
+import android.app.Application;
+import android.content.Context;
 
 /**
  *
@@ -32,83 +31,38 @@ import java.util.WeakHashMap;
  * BUG hashmap should also key off of stage and modules list
  */
 
-public class DroidGuice {
-    public static Stage DEFAULT_STAGE = Stage.PRODUCTION;
-
-    protected static WeakHashMap<Application,Injector> injectors = new WeakHashMap<Application,Injector>();
-    protected static WeakHashMap<Application,ResourceListener> resourceListeners = new WeakHashMap<Application, ResourceListener>();
+public class DroidGuice extends RoboGuice<Application> {
+    
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
     protected static int modulesResourceId = 0;
     
+    private static DroidGuice guice = null;
+    
+    public static DroidGuice instance()
+    {
+        if ( guice == null )
+        {
+            guice = new DroidGuice();
+        }
+        
+        return guice;
+    }
+    
     private DroidGuice() {
-    }
-
-    /**
-     * Return the cached Injector instance for this application, or create a new one if necessary.
-     */
-    public static Injector getBaseApplicationInjector(Application application) {
-        Injector rtrn = injectors.get(application);
-        if( rtrn!=null )
-            return rtrn;
-
-        synchronized (DroidGuice.class) {
-            rtrn = injectors.get(application);
-            if( rtrn!=null )
-                return rtrn;
-            
-            return setBaseApplicationInjector(application, DEFAULT_STAGE);
-        }
-    }
-
-    /**
-     * Return the cached Injector instance for this application, or create a new one if necessary.
-     * If specifying your own modules, you must include a DefaultRoboModule for most things to work properly.
-     * Do something like the following:
-     *
-     * RoboGuice.setAppliationInjector( app, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(app)).with(new MyModule() );
-     *
-     * @see com.google.inject.util.Modules#override(com.google.inject.Module...)
-     * @see roboguice.android.DroidGuice#setBaseApplicationInjector(android.app.Application, com.google.inject.Stage, com.google.inject.Module...)
-     * @see roboguice.android.DroidGuice#newDefaultRoboModule(android.app.Application)
-     * @see roboguice.android.DroidGuice#DEFAULT_STAGE
-     *
-     * If using this method with test cases, be sure to call {@link roboguice.android.DroidGuice.util#reset()} in your test teardown methods
-     * to avoid polluting our other tests with your custom injector.  Don't do this in your real application though.
-     *
-     */
-    public static Injector setBaseApplicationInjector(final Application application, Stage stage, Module... modules) {
-
-        // Do a little rewriting on the modules first to
-        // add static resource injection
-        for(Element element : Elements.getElements(modules)) {
-            element.acceptVisitor(new DefaultElementVisitor<Void>() {
-                @Override
-                public Void visit(StaticInjectionRequest element) {
-                    getResourceListener(application).requestStaticInjection(element.getType());
-                    return null;
-                }
-            });
-        }
-
-        synchronized (DroidGuice.class) {
-            final Injector rtrn = Guice.createInjector(stage, modules);
-            injectors.put(application,rtrn);
-            return rtrn;
-        }
     }
 
     /**
      * Allows the user to override the "roboguice_modules" resource name with some other identifier.
      * This is a static value.
      */
-    public static void setModulesResourceId(int modulesResourceId) {
+    public void setModulesResourceId(int modulesResourceId) {
         DroidGuice.modulesResourceId = modulesResourceId;
     }
 
     /**
      * Return the cached Injector instance for this application, or create a new one if necessary.
      */
-    public static Injector setBaseApplicationInjector(Application application, Stage stage) {
+    public Injector setBaseApplicationInjector(Application application, Stage stage) {
 
         synchronized (DroidGuice.class) {
             int id = modulesResourceId;
@@ -136,7 +90,7 @@ public class DroidGuice {
                 throw new RuntimeException(e);
             }
 
-            final Injector rtrn = setBaseApplicationInjector(application, stage, modules.toArray(new Module[modules.size()]));
+            final Injector rtrn = setScopedInjector(application, stage, modules.toArray(new Module[modules.size()]));
             injectors.put(application,rtrn);
             return rtrn;
         }
@@ -144,44 +98,24 @@ public class DroidGuice {
     }
 
 
-    public static RoboInjector getInjector(Context context) {
+    public RoboInjector getInjector(Context context) {
         final Application application = (Application)context.getApplicationContext();
-        return new ContextScopedRoboInjector(context, getBaseApplicationInjector(application), getViewListener(application));
+        return new ContextScopedRoboInjector(context, getScopedInjector(application), getViewListener(application));
     }
 
     /**
      * A shortcut for RoboGuice.getInjector(context).injectMembers(o);
      */
-    public static <T> T injectMembers( Context context, T t ) {
+    public <T> T injectMembers( Context context, T t ) {
         getInjector(context).injectMembers(t);
         return t;
     }
 
-
-    
-    public static DefaultRoboModule newDefaultRoboModule(final Application application) {
+    public DefaultRoboModule newDefaultRoboModule(final Application application) {
         return new DefaultRoboModule(application, new ContextScope(application), getViewListener(application), getResourceListener(application));
     }
 
-
-
-
-
-
-    protected static ResourceListener getResourceListener( Application application ) {
-        ResourceListener resourceListener = resourceListeners.get(application);
-        if( resourceListener==null ) {
-            synchronized (DroidGuice.class) {
-                if( resourceListener==null ) {
-                    resourceListener = new ResourceListener(application);
-                    resourceListeners.put(application,resourceListener);
-                }
-            }
-        }
-        return resourceListener;
-    }
-
-    protected static ViewListener getViewListener( final Application application ) {
+    protected ViewListener getViewListener( final Application application ) {
         ViewListener viewListener = viewListeners.get(application);
         if( viewListener==null ) {
             synchronized (DroidGuice.class) {
@@ -193,13 +127,6 @@ public class DroidGuice {
         }
         return viewListener;
     }
-
-    public static void destroyInjector(Context context) {
-        final RoboInjector injector = getInjector(context);
-        injector.getInstance(EventManager.class).destroy();
-        injectors.remove(context);
-    }
-    
     
     public static class util {
         private util() {}
@@ -209,8 +136,8 @@ public class DroidGuice {
          * It should not be called in a real application.
          */
         public static void reset() {
-            injectors.clear();
-            resourceListeners.clear();
+            guice.injectors.clear();
+            guice.resourceListeners.clear();
             viewListeners.clear();
         }
     }

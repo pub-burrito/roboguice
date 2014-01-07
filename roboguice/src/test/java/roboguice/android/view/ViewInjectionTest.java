@@ -154,7 +154,7 @@ public class ViewInjectionTest {
                 ref.setId(101);
                 addView(ref);
 
-                DroidGuice.getInjector(getContext()).injectMembers(this);
+                DroidGuice.instance().getInjector(getContext()).injectMembers(this);
             }
 
         }
@@ -189,7 +189,7 @@ public class ViewInjectionTest {
                 ref.setTag("101");
                 addView(ref);
 
-                DroidGuice.getInjector(getContext()).injectMembers(this);
+                DroidGuice.instance().getInjector(getContext()).injectMembers(this);
             }
 
         }
