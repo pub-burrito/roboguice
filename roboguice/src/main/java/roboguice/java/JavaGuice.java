@@ -35,6 +35,7 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
     {
         Properties property = new Properties();
         
+        //scoped object should the directory to property file
         InputStream in = JavaResourceListener.class.getClassLoader().getResourceAsStream( scopeObject );
         try
         {//and load the property file 
@@ -63,7 +64,9 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
             }
         }
         
-        final String[] moduleNames = property.get(modulesResourceId) != null ? (String[]) property.get(modulesResourceId) : new String[]{};
+        String custom_modules = (String) property.get(modulesResourceId);
+        final String[] moduleNames = custom_modules != null ? custom_modules.split( "," ) : new String[]{};
+        
         final ArrayList<Module> modules = new ArrayList<Module>();
         final JavaDefaultRoboModule defaultRoboModule = newDefaultRoboModule( scopeObject );
 
