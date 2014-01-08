@@ -56,9 +56,8 @@ public class AndroidResourceListener extends ResourceListener {
 
     protected static class AndroidResourceMembersInjector<T> extends ResourceMemberInjector<T> {
 
-        protected Field field;
         protected Application application;
-        protected InjectResource annotation;
+
 
         public AndroidResourceMembersInjector(Field field, Application application, InjectResource annotation) {
             super( field, annotation );
