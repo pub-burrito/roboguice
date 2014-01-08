@@ -184,7 +184,11 @@ public class JavaResourceListener extends ResourceListener {
             
             Properties property = new Properties();
             
-            InputStream in = JavaResourceListener.class.getClassLoader().getResourceAsStream( propertyFile.getAbsolutePath() );
+            //Getting relative path to be able to load resource
+            String absPath = propertyFile.getAbsolutePath();
+            String relativePath = absPath.substring( absPath.indexOf( resourcePath ) );
+            
+            InputStream in = JavaResourceListener.class.getClassLoader().getResourceAsStream( relativePath );
             try
             {//and load the property file 
                 if ( in != null )
