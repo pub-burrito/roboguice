@@ -3,14 +3,42 @@ package roboguice.android.config;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.event.ObservesTypeListener;
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
-import roboguice.android.inject.*;
+import roboguice.android.inject.AccountManagerProvider;
+import roboguice.android.inject.AndroidResourceListener;
+import roboguice.android.inject.AssetManagerProvider;
+import roboguice.android.inject.ContentResolverProvider;
+import roboguice.android.inject.ContextScope;
+import roboguice.android.inject.ContextScopedSystemServiceProvider;
+import roboguice.android.inject.ExtrasListener;
+import roboguice.android.inject.FragmentManagerProvider;
+import roboguice.android.inject.HandlerProvider;
+import roboguice.android.inject.NullProvider;
+import roboguice.android.inject.PreferenceListener;
+import roboguice.android.inject.ResourcesProvider;
+import roboguice.android.inject.SharedPreferencesProvider;
+import roboguice.android.inject.SystemServiceProvider;
+import roboguice.android.inject.ViewListener;
 import roboguice.android.service.RoboService;
+import roboguice.base.config.DefaultRoboModule;
 import roboguice.base.event.EventManager;
 import roboguice.base.inject.ContextSingleton;
 import roboguice.base.util.Strings;
 import roboguice.base.util.logging.Ln;
 
-import android.app.*;
+import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
+import com.google.inject.matcher.Matchers;
+import com.google.inject.name.Names;
+
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.KeyguardManager;
+import android.app.NotificationManager;
+import android.app.SearchManager;
+import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,13 +62,6 @@ import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Key;
-import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
-import com.google.inject.matcher.Matchers;
-import com.google.inject.name.Names;
-
 /**
  * A Module that provides bindings and configuration to use Guice on Android.
  * Used by {@link roboguice.android.DroidGuice}.
@@ -57,11 +78,14 @@ import com.google.inject.name.Names;
  *
  * @author Mike Burton
  */
-public class AndroidDefaultRoboModule extends AbstractModule {
+public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceListener> {
+    @SuppressWarnings("rawtypes")
     protected static final Class fragmentManagerClass;
+    @SuppressWarnings("rawtypes")
     protected static final Class accountManagerClass;
 
     static {
+        @SuppressWarnings("rawtypes")
         Class c = null;
         try {
             c = Class.forName("android.support.v4.app.FragmentManager");
@@ -70,6 +94,7 @@ public class AndroidDefaultRoboModule extends AbstractModule {
     }
 
     static {
+        @SuppressWarnings("rawtypes")
         Class c = null;
         try {
             c = Class.forName("android.accounts.AccountManager");
@@ -80,17 +105,15 @@ public class AndroidDefaultRoboModule extends AbstractModule {
 
     protected Application application;
     protected ContextScope contextScope;
-    protected AndroidResourceListener resourceListener;
     protected ViewListener viewListener;
 
 
     public AndroidDefaultRoboModule(final Application application, ContextScope contextScope, ViewListener viewListener, AndroidResourceListener resourceListener) {
-
-
+        
+        super(resourceListener);
         this.application = application;
         this.contextScope = contextScope;
         this.viewListener = viewListener;
-        this.resourceListener = resourceListener;
     }
 
     /**

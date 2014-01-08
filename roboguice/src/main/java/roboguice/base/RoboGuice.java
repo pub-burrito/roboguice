@@ -3,7 +3,7 @@ package roboguice.base;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import roboguice.android.config.AndroidDefaultRoboModule;
+import roboguice.base.config.DefaultRoboModule;
 import roboguice.base.event.EventManager;
 import roboguice.base.inject.ResourceListener;
 
@@ -23,13 +23,16 @@ import com.google.inject.spi.StaticInjectionRequest;
  * -->
  * TODO Description
  * 
+ * @param <I> Id to identify the DefaultModuleId
  * @param <S> Object which a main {@link Injector} is scoped to
  * @param <O> Object which multiple {@link Injector}s are scoped bye
- * @param <R> Specific {@link AndroidDefaultRoboModule} impl
+ * @param <R> Specific {@link DefaultRoboModule} impl
  * @param <L> Specific {@link ResourceListener} impl
  */
-public abstract class RoboGuice<S, O, R extends AndroidDefaultRoboModule, L extends ResourceListener>{
+public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L extends ResourceListener>{
     public static Stage DEFAULT_STAGE = Stage.PRODUCTION;
+    
+    protected I modulesResourceId;
     
     protected WeakHashMap<S,Injector> injectors = new WeakHashMap<S,Injector>();
     protected WeakHashMap<S,L> resourceListeners = new WeakHashMap<S,L>();
@@ -37,6 +40,14 @@ public abstract class RoboGuice<S, O, R extends AndroidDefaultRoboModule, L exte
     public WeakHashMap<S, Injector> injectors()
     {
         return injectors;
+    }
+    
+    /**
+     * Allows the user to override the "roboguice_modules" resource name with some other identifier.
+     * This is a static value.
+     */
+    public void setModulesResourceId(I modulesResourceId) {
+        this.modulesResourceId = modulesResourceId;
     }
     
     /**
@@ -96,13 +107,13 @@ public abstract class RoboGuice<S, O, R extends AndroidDefaultRoboModule, L exte
     /**
      * Return the cached Injector instance for this application, or create a new one if necessary.
      */
-    public Injector setScopedInjector(S application, Stage stage) {
+    public Injector setScopedInjector(S scopedObject, Stage stage) {
 
         synchronized (RoboGuice.class) {
             
-            List<Module> modules = baseModules(application);
-            final Injector rtrn = setScopedInjector(application, stage, modules.toArray(new Module[modules.size()]));
-            injectors.put(application,rtrn);
+            List<Module> modules = baseModules(scopedObject);
+            final Injector rtrn = setScopedInjector(scopedObject, stage, modules.toArray(new Module[modules.size()]));
+            injectors.put(scopedObject,rtrn);
             return rtrn;
         }
     }
@@ -115,20 +126,20 @@ public abstract class RoboGuice<S, O, R extends AndroidDefaultRoboModule, L exte
         return s;
     }
     
-    protected abstract List<Module> baseModules( S application );
+    protected abstract List<Module> baseModules( S scopeObject );
     
     public void destroyInjector(O context) {
         final Injector injector = getInjector(context);
         injector.getInstance(EventManager.class).destroy();
         injectors.remove(context);
     }
-    
+        
     public Injector getInjector( O context )
     {
         return Guice.createInjector(DEFAULT_STAGE);
     }
     
-    public abstract AndroidDefaultRoboModule newDefaultRoboModule( S app );
+    public abstract R newDefaultRoboModule( S scopeObject );
     
     protected abstract L getResourceListener( S scopedObject );
 }

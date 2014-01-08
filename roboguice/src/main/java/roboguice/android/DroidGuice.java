@@ -30,10 +30,9 @@ import android.content.Context;
  * BUG hashmap should also key off of stage and modules list
  */
 
-public class DroidGuice extends RoboGuice<Application, Context, AndroidDefaultRoboModule, AndroidResourceListener> {
+public final class DroidGuice extends RoboGuice<Integer, Application, Context, AndroidDefaultRoboModule, AndroidResourceListener> {
     
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
-    protected static int modulesResourceId = 0;
     
     private static DroidGuice guice = null;
     
@@ -48,14 +47,6 @@ public class DroidGuice extends RoboGuice<Application, Context, AndroidDefaultRo
     }
     
     private DroidGuice() {
-    }
-
-    /**
-     * Allows the user to override the "roboguice_modules" resource name with some other identifier.
-     * This is a static value.
-     */
-    public void setModulesResourceId(int modulesResourceId) {
-        DroidGuice.modulesResourceId = modulesResourceId;
     }
 
     @Override

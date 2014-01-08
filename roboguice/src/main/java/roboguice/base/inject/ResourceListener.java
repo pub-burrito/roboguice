@@ -51,7 +51,7 @@ public abstract class ResourceListener implements TypeListener {
             this.annotation = annotation;
         }
 
-        public void injectMembers(T instance) {
+        public void injectMembers( T instance ) {
 
             Object value = null;
 
