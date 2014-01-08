@@ -23,7 +23,7 @@ import com.google.inject.spi.StaticInjectionRequest;
  * -->
  * TODO Description
  * 
- * @param <I> Id to identify the DefaultModuleId
+ * @param <I> Id to identify the Custom Modules
  * @param <S> Object which a main {@link Injector} is scoped to
  * @param <O> Object which multiple {@link Injector}s are scoped bye
  * @param <R> Specific {@link DefaultRoboModule} impl
