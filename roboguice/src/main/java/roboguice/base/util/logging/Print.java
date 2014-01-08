@@ -9,19 +9,19 @@ public class Print {
      */
     @Inject protected static BaseConfig config = new BaseConfig();
      
-    public int println(int priority, String msg )
+    public int println(LogLevel priority, String msg )
     {
         return 0;
     }
 
     protected String processMessage(String msg) {
-        if( config.getLoggingLevel() <= LogLevel.DEBUG.logLevel() )
+        if( config.getLoggingLevel().logLevel() <= LogLevel.DEBUG.logLevel() )
             msg = String.format("%s %s", Thread.currentThread().getName(), msg);
         return msg;
     }
 
     protected static String getScope(int skipDepth) {
-        if( config.getLoggingLevel() <= LogLevel.DEBUG.logLevel() ) {
+        if( config.getLoggingLevel().logLevel() <= LogLevel.DEBUG.logLevel() ) {
             final StackTraceElement trace = Thread.currentThread().getStackTrace()[skipDepth];
             return config.scope() + "/" + trace.getFileName() + ":" + trace.getLineNumber();
         }

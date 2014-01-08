@@ -18,81 +18,62 @@ public class JavaBaseConfig extends BaseConfig {
     {
         BasicConfigurator.configure();
         logger = Logger.getLogger(name);
-        
+        //TODO add system prop to determine debug build from prod build
         logger.setLevel( Level.ALL );
         
         minimumLogLevel = JavaLogLevel.ALL.getLogLevel();
     }
     
     @Override
-    public void setLoggingLevel(int level) {
+    public void setLoggingLevel(LogLevel level) {
         super.setLoggingLevel(level);
         
-        logger.setLevel( JavaLogLevel.forLogLevel(level) );
+        logger.setLevel( JavaLogLevel.from( level ).javaLevel() );
     }
     
     static enum JavaLogLevel
     {
-        ALL( Level.ALL ),
+        ALL( Level.ALL, LogLevel.VERBOSE ),
         DEBUG( Level.DEBUG ),
         WARN( Level.WARN ),
         INFO( Level.INFO ), 
         ERROR( Level.ERROR ),
-        TRACE( Level.TRACE )
+        FATAL( Level.FATAL )
         ;
 
         private Level level;
+        private LogLevel logLevel;
         
         private JavaLogLevel( Level level )
         {
             this.level = level;
         }
         
-        public int getLogLevel()
+        private JavaLogLevel( Level level, LogLevel logLevel )
         {
-            switch( this )
-            {
-                case ALL:
-                    return LogLevel.VERBOSE.logLevel();
-                case DEBUG:
-                    return LogLevel.DEBUG.logLevel();
-                case WARN:
-                    return LogLevel.WARN.logLevel();
-                case INFO:
-                    return LogLevel.INFO.logLevel();
-                case ERROR:
-                    return LogLevel.ERROR.logLevel();
-                case TRACE:
-                    return LogLevel.ASSERT.logLevel();
-                default:
-                    return LogLevel.VERBOSE.logLevel();
-            }
+            this.level = level;
         }
         
-        public static Level forLogLevel( int level )
+        public LogLevel getLogLevel()
         {
-            LogLevel match = null;
-            for ( LogLevel logLevel : LogLevel.values() )
+            return logLevel;
+        }
+        
+        public Level javaLevel()
+        {
+            return level;
+        }
+        
+        public static JavaLogLevel from( LogLevel canidate )
+        {
+            for ( JavaLogLevel level : JavaLogLevel.values() )
             {
-                if ( logLevel.logLevel() == level )
+                if ( level.logLevel == canidate )
                 {
-                    match = logLevel;
-                    break;
+                    return level;
                 }
             }
-            
-            if ( match != null )
-            {
-                for ( JavaLogLevel logLevel : values() )
-                {
-                    if ( logLevel.getLogLevel() == level )
-                    {
-                        return logLevel.level;
-                    }
-                }
-            }
-            
-            return Level.ALL;
+            return ALL;
         }
     }
 }

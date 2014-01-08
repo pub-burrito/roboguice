@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class BaseConfig implements Config {
 
-    protected int minimumLogLevel = LogLevel.VERBOSE.logLevel();
+    protected LogLevel minimumLogLevel = LogLevel.VERBOSE;
     protected String packageName = "";
     protected String scope = "";
     
@@ -15,18 +15,18 @@ public class BaseConfig implements Config {
             packageName = "";
             scope = packageName.toUpperCase();
 
-            Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel) );
+            Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );
 
         } catch( Exception e ) {
             Log.e(packageName, "Error configuring logger", e);
         }
     }
 
-    public int getLoggingLevel() {
+    public LogLevel getLoggingLevel() {
         return minimumLogLevel;
     }
 
-    public void setLoggingLevel(int level) {
+    public void setLoggingLevel(LogLevel level) {
         minimumLogLevel = level;
     }
     

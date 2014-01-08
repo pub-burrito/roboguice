@@ -20,14 +20,13 @@ public class AndroidBaseConfig extends BaseConfig {
         try {
             packageName = context.getPackageName();
             final int flags = context.getPackageManager().getApplicationInfo(packageName, 0).flags;
-            minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? LogLevel.VERBOSE.logLevel() : LogLevel.INFO.logLevel();
+            minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? LogLevel.VERBOSE : LogLevel.INFO;
             scope = packageName.toUpperCase();
 
-            Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel) );
+            Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );
 
         } catch( Exception e ) {
             Log.e(packageName, "Error configuring logger", e);
         }
     }
-    
 }

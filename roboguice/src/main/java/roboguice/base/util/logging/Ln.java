@@ -72,121 +72,121 @@ public class Ln  {
 
 
     public static int v(Throwable t) {
-        return config.getLoggingLevel() <= LogLevel.VERBOSE.logLevel() ? print.println(LogLevel.VERBOSE.logLevel(), getStackTraceString(t)) : 0;
+        return config.getLoggingLevel().logLevel() <= LogLevel.VERBOSE.logLevel() ? print.println(LogLevel.VERBOSE, getStackTraceString(t)) : 0;
     }
 
     public static int v(Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.VERBOSE.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.VERBOSE.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = args.length>0 ? String.format(s,args) : s;
-        return print.println(LogLevel.VERBOSE.logLevel(), message);
+        return print.println(LogLevel.VERBOSE, message);
     }
 
     public static int v(Throwable throwable, Object s1, Object... args ) {
-        if( config.getLoggingLevel() > LogLevel.VERBOSE.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.VERBOSE.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = (args.length>0 ? String.format(s,args) : s) + '\n' + getStackTraceString(throwable);
-        return print.println(LogLevel.VERBOSE.logLevel(), message);
+        return print.println(LogLevel.VERBOSE, message);
     }
 
     public static int d(Throwable t) {
-        return config.getLoggingLevel() <= LogLevel.DEBUG.logLevel() ? print.println(LogLevel.DEBUG.logLevel(), getStackTraceString(t)) : 0;
+        return config.getLoggingLevel().logLevel() <= LogLevel.DEBUG.logLevel() ? print.println(LogLevel.DEBUG, getStackTraceString(t)) : 0;
     }
 
     public static int d(Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.DEBUG.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.DEBUG.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = args.length>0 ? String.format(s,args) : s;
-        return print.println(LogLevel.DEBUG.logLevel(), message);
+        return print.println(LogLevel.DEBUG, message);
     }
 
     public static int d(Throwable throwable, Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.DEBUG.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.DEBUG.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = (args.length>0 ? String.format(s,args) : s) + '\n' + getStackTraceString(throwable);
-        return print.println(LogLevel.DEBUG.logLevel(), message);
+        return print.println(LogLevel.DEBUG, message);
     }
 
     public static int i(Throwable t) {
-        return config.getLoggingLevel() <= LogLevel.INFO.logLevel() ? print.println(LogLevel.INFO.logLevel(), getStackTraceString(t)) : 0;
+        return config.getLoggingLevel().logLevel() <= LogLevel.INFO.logLevel() ? print.println(LogLevel.INFO, getStackTraceString(t)) : 0;
     }
 
     public static int i( Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.INFO.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.INFO.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = args.length>0 ? String.format(s,args) : s;
-        return print.println(LogLevel.INFO.logLevel(), message);
+        return print.println(LogLevel.INFO, message);
     }
 
     public static int i(Throwable throwable, Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.INFO.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.INFO.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = (args.length > 0 ? String.format(s, args) : s) + '\n' + getStackTraceString(throwable);
-        return print.println(LogLevel.INFO.logLevel(), message);
+        return print.println(LogLevel.INFO, message);
     }
 
     public static int w(Throwable t) {
-        return config.getLoggingLevel() <= LogLevel.WARN.logLevel() ? print.println(LogLevel.WARN.logLevel(), getStackTraceString(t)) : 0;
+        return config.getLoggingLevel().logLevel() <= LogLevel.WARN.logLevel() ? print.println(LogLevel.WARN, getStackTraceString(t)) : 0;
     }
 
     public static int w( Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.WARN.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.WARN.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = args.length>0 ? String.format(s,args) : s;
-        return print.println(LogLevel.WARN.logLevel(), message);
+        return print.println(LogLevel.WARN, message);
     }
 
     public static int w( Throwable throwable, Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.WARN.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.WARN.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = (args.length>0 ? String.format(s,args) : s) + '\n' + getStackTraceString(throwable);
-        return print.println(LogLevel.WARN.logLevel(), message);
+        return print.println(LogLevel.WARN, message);
     }
 
     public static int e(Throwable t) {
-        return config.getLoggingLevel() <= LogLevel.ERROR.logLevel() ? print.println(LogLevel.ERROR.logLevel(), getStackTraceString(t)) : 0;
+        return config.getLoggingLevel().logLevel() <= LogLevel.ERROR.logLevel() ? print.println(LogLevel.ERROR, getStackTraceString(t)) : 0;
     }
 
     public static int e( Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.ERROR.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.ERROR.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = args.length>0 ? String.format(s,args) : s;
-        return print.println(LogLevel.ERROR.logLevel(), message);
+        return print.println(LogLevel.ERROR, message);
     }
 
     public static int e( Throwable throwable, Object s1, Object... args) {
-        if( config.getLoggingLevel() > LogLevel.ERROR.logLevel() )
+        if( config.getLoggingLevel().logLevel() > LogLevel.ERROR.logLevel() )
             return 0;
 
         final String s = Strings.toString(s1);
         final String message = (args.length>0 ? String.format(s,args) : s) + '\n' + getStackTraceString(throwable);
-        return print.println(LogLevel.ERROR.logLevel(), message);
+        return print.println(LogLevel.ERROR, message);
     }
 
     public static boolean isDebugEnabled() {
-        return config.getLoggingLevel() <= LogLevel.DEBUG.logLevel();
+        return config.getLoggingLevel().logLevel() <= LogLevel.DEBUG.logLevel();
     }
 
     public static boolean isVerboseEnabled() {
-        return config.getLoggingLevel() <= LogLevel.VERBOSE.logLevel();
+        return config.getLoggingLevel().logLevel() <= LogLevel.VERBOSE.logLevel();
     }
 
     public static Config getConfig() {
