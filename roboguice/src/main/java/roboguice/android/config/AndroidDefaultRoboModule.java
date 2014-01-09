@@ -20,14 +20,14 @@ import roboguice.android.inject.SystemServiceProvider;
 import roboguice.android.inject.ViewListener;
 import roboguice.android.service.RoboService;
 import roboguice.android.util.logging.AndroidBaseConfig;
-import roboguice.android.util.logging.AndroidPrint;
+import roboguice.android.util.logging.AndroidWriter;
 import roboguice.base.config.DefaultRoboModule;
 import roboguice.base.event.EventManager;
 import roboguice.base.inject.ContextSingleton;
 import roboguice.base.util.Strings;
 import roboguice.base.util.logging.BaseConfig;
 import roboguice.base.util.logging.Ln;
-import roboguice.base.util.logging.Print;
+import roboguice.base.util.logging.Writer;
 
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -204,7 +204,7 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
         requestInjection(observerThreadingDecorator);
 
         bind(BaseConfig.class).to(AndroidBaseConfig.class);
-        bind(Print.class).to(AndroidPrint.class);
+        bind(Writer.class).to(AndroidWriter.class);
         requestStaticInjection(Ln.class);
 
         // Compatibility library bindings

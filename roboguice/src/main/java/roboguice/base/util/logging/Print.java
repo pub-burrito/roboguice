@@ -8,10 +8,12 @@ public class Print {
      * by BaseConfig(ContextSingleton) during guice static injection pass.
      */
     @Inject protected static BaseConfig config = new BaseConfig();
+    
+    @Inject protected static Writer writer = new Writer();
      
     public int println(LogLevel priority, String msg )
     {
-        return 0;
+        return writer.write(priority, getScope( 5 ), processMessage(msg) );
     }
 
     protected String processMessage(String msg) {
