@@ -56,6 +56,17 @@
 		<developerConnection>scm:hg:https://roboguice.googlecode.com/hg/</developerConnection>
 	</scm>
 
+	<distributionManagement>
+		<repository>
+			<id>cloud.archiva.internal</id>
+			<url>http://archiva.cliff.cloudburrito.com:8080/archiva/repository/internal/</url>
+		</repository>
+		<snapshotRepository>
+			<id>cloud.archiva.snapshots</id>
+			<url>http://archiva.cliff.cloudburrito.com:8080/archiva/repository/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
