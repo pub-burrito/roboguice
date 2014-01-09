@@ -15,23 +15,34 @@
  */
 package roboguice.android.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import roboguice.android.DroidGuice;
-import roboguice.android.activity.event.*;
+import roboguice.android.activity.event.OnActivityResultEvent;
+import roboguice.android.activity.event.OnConfigurationChangedEvent;
+import roboguice.android.activity.event.OnContentChangedEvent;
+import roboguice.android.activity.event.OnCreateEvent;
+import roboguice.android.activity.event.OnDestroyEvent;
+import roboguice.android.activity.event.OnNewIntentEvent;
+import roboguice.android.activity.event.OnPauseEvent;
+import roboguice.android.activity.event.OnRestartEvent;
+import roboguice.android.activity.event.OnResumeEvent;
+import roboguice.android.activity.event.OnStartEvent;
+import roboguice.android.activity.event.OnStopEvent;
 import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.RoboInjector;
 import roboguice.android.util.RoboContext;
+import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
+
+import com.google.inject.Inject;
+import com.google.inject.Key;
 
 import android.app.ActivityGroup;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import com.google.inject.Inject;
-import com.google.inject.Key;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A {@link RoboActivityGroup} extends from {@link ActivityGroup} to provide
@@ -50,7 +61,7 @@ public class RoboActivityGroup extends ActivityGroup implements RoboContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = DroidGuice.instance().getInjector(this);
+        final RoboInjector injector = RoboGuice.<DroidGuice>instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembersWithoutViews(this);
         super.onCreate(savedInstanceState);
@@ -102,7 +113,7 @@ public class RoboActivityGroup extends ActivityGroup implements RoboContext {
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                DroidGuice.instance().destroyInjector(this);
+                RoboGuice.<DroidGuice>instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -119,7 +130,7 @@ public class RoboActivityGroup extends ActivityGroup implements RoboContext {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        DroidGuice.instance().getInjector(this).injectViewMembers(this);
+        RoboGuice.<DroidGuice>instance().getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 

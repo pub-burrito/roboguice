@@ -22,6 +22,7 @@ import roboguice.android.inject.ContextScope;
 import roboguice.android.inject.PreferenceListener;
 import roboguice.android.inject.RoboInjector;
 import roboguice.android.util.RoboContext;
+import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
 
 import android.content.Intent;
@@ -60,7 +61,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     /** {@inheritDoc } */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = DroidGuice.instance().getInjector(this);
+        final RoboInjector injector = RoboGuice.<DroidGuice>instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         preferenceListener = injector.getInstance(PreferenceListener.class);
         injector.injectMembersWithoutViews(this);
@@ -72,7 +73,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
         super.setPreferenceScreen(preferenceScreen);
 
-        final ContextScope scope = DroidGuice.instance().getInjector(this).getInstance(ContextScope.class);
+        final ContextScope scope = RoboGuice.<DroidGuice>instance().getInjector(this).getInstance(ContextScope.class);
         synchronized (ContextScope.class) {
             scope.enter(this);
             try {
@@ -128,7 +129,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                DroidGuice.instance().destroyInjector(this);
+                RoboGuice.<DroidGuice>instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -145,7 +146,7 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        DroidGuice.instance().getInjector(this).injectViewMembers(this);
+        RoboGuice.<DroidGuice>instance().getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 

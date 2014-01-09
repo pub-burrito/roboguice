@@ -20,6 +20,7 @@ import roboguice.android.activity.event.*;
 import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.RoboInjector;
 import roboguice.android.util.RoboContext;
+import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
 
 import android.app.TabActivity;
@@ -50,7 +51,7 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final RoboInjector injector = DroidGuice.instance().getInjector(this);
+        final RoboInjector injector = RoboGuice.<DroidGuice>instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembersWithoutViews(this);
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
             eventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-                DroidGuice.instance().destroyInjector(this);
+                RoboGuice.<DroidGuice>instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -119,7 +120,7 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        DroidGuice.instance().getInjector(this).injectViewMembers(this);
+        RoboGuice.<DroidGuice>instance().getInjector(this).injectViewMembers(this);
         eventManager.fire(new OnContentChangedEvent());
     }
 

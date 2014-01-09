@@ -1,5 +1,7 @@
 package roboguice.base;
 
+import java.lang.reflect.Field;
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.WeakHashMap;
 
@@ -36,6 +38,46 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
     
     protected WeakHashMap<S,Injector> injectors = new WeakHashMap<S,Injector>();
     protected WeakHashMap<S,L> resourceListeners = new WeakHashMap<S,L>();
+    
+    @SuppressWarnings("rawtypes")
+    private static RoboGuice instance;
+    public static RoboGuiceType type;
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static <T extends RoboGuice> T instance()
+    {
+        if ( instance == null )
+        {
+            try
+            {
+                if ( type == RoboGuiceType.JAVA )
+                {
+                    instance = (RoboGuice) Class.forName("roboguice.java.JavaGuice").newInstance();
+                }
+                else if ( type == RoboGuiceType.ANDROID )
+                {
+                    instance = (RoboGuice) Class.forName("roboguice.android.AndroidGuice").newInstance(); 
+                }
+                else
+                {
+                    throw new InvalidParameterException( "RoboGuice.type was not set, make sure it is not null before requesting an instance of RoboGuice");
+                }
+            }
+            catch ( Exception e )
+            {
+               new RuntimeException(e);
+            }
+        }
+        
+        return (T) instance;
+    }
+    
+    public static enum RoboGuiceType
+    {
+        JAVA,
+        ANDROID
+        ;
+    }
     
     public WeakHashMap<S, Injector> injectors()
     {
@@ -142,4 +184,33 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
     public abstract R newDefaultRoboModule( S scopeObject );
     
     protected abstract L getResourceListener( S scopedObject );
+    
+    public static class util {
+        private util() {}
+
+        /**
+         * This method is provided to reset RoboGuice in testcases.
+         * It should not be called in a real application.
+         */
+        @SuppressWarnings("rawtypes")
+        public static void reset() {
+            RoboGuice.instance().injectors.clear();
+            RoboGuice.instance().resourceListeners.clear();
+            
+            try
+            {
+                //doing through reflection to not have any dependencies on child class on RoboGuice
+                Field f = RoboGuice.instance().getClass().getField("viewListeners");
+                if ( RoboGuice.instance().getClass().getField("viewListeners") != null )
+                {
+                    f.setAccessible(true);
+                    ( (WeakHashMap) f.get( RoboGuice.instance() ) ).clear();
+                }
+            }
+            catch ( Exception e )
+            {
+                //ignore
+            }
+        }
+    }
 }

@@ -33,19 +33,7 @@ import android.content.Context;
 public final class DroidGuice extends RoboGuice<Integer, Application, Context, AndroidDefaultRoboModule, AndroidResourceListener> {
     
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
-    
-    private static DroidGuice guice = null;
-    
-    public static DroidGuice instance()
-    {
-        if ( guice == null )
-        {
-            guice = new DroidGuice();
-        }
-        
-        return guice;
-    }
-    
+
     private DroidGuice() {
     }
 
@@ -117,19 +105,4 @@ public final class DroidGuice extends RoboGuice<Integer, Application, Context, A
         }
         return viewListener;
     }
-    
-    public static class util {
-        private util() {}
-
-        /**
-         * This method is provided to reset RoboGuice in testcases.
-         * It should not be called in a real application.
-         */
-        public static void reset() {
-            guice.injectors.clear();
-            guice.resourceListeners.clear();
-            viewListeners.clear();
-        }
-    }
-
 }

@@ -15,18 +15,7 @@ import com.google.inject.Module;
 
 public final class JavaGuice extends RoboGuice<String, String, String, JavaDefaultRoboModule, JavaResourceListener> {
 
-    private static JavaGuice guice = null;
-    
-    public static JavaGuice instance()
-    {
-        if ( guice == null )
-        {
-            guice = new JavaGuice();
-        }
-        
-        return guice;
-    }
-    
+
     private JavaGuice() {
     }
     
