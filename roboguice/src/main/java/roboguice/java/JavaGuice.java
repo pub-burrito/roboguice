@@ -15,7 +15,6 @@ import com.google.inject.Module;
 
 public final class JavaGuice extends RoboGuice<String, String, String, JavaDefaultRoboModule, JavaResourceListener> {
 
-
     private JavaGuice() {
     }
     
@@ -84,15 +83,21 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
         return new JavaDefaultRoboModule( getResourceListener(scopeObject) );
     }
 
+    public JavaGuice addResourcePath( String scopedObject, String... paths )
+    {
+        getResourceListener( scopedObject ).addResourcePath(paths);
+        return this;
+    }
+    
     @Override
-    protected JavaResourceListener getResourceListener(String scopeObject) {
+    protected JavaResourceListener getResourceListener(String scopedObject) {
         
-        JavaResourceListener resourceListener = resourceListeners.get(scopeObject);
+        JavaResourceListener resourceListener = resourceListeners.get(scopedObject);
         if( resourceListener==null ) {
             synchronized (RoboGuice.class) {
                 if( resourceListener==null ) {
-                    resourceListener = new JavaResourceListener( );
-                    resourceListeners.put(scopeObject,resourceListener);
+                    resourceListener = new JavaResourceListener();
+                    resourceListeners.put(scopedObject,resourceListener);
                 }
             }
         }
