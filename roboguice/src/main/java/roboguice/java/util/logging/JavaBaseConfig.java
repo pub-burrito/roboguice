@@ -2,33 +2,17 @@ package roboguice.java.util.logging;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 import roboguice.base.util.logging.BaseConfig;
 import roboguice.base.util.logging.LogLevel;
 
-import com.google.inject.Inject;
-
 public class JavaBaseConfig extends BaseConfig {
 
-    public Logger logger;
-    
-    @Inject
-    public JavaBaseConfig ( String name )
+    public JavaBaseConfig()
     {
         BasicConfigurator.configure();
-        logger = Logger.getLogger(name);
-        //TODO add system prop to determine debug build from prod build
-        logger.setLevel( Level.ALL );
         
         minimumLogLevel = JavaLogLevel.ALL.getLogLevel();
-    }
-    
-    @Override
-    public void setLoggingLevel(LogLevel level) {
-        super.setLoggingLevel(level);
-        
-        logger.setLevel( JavaLogLevel.from( level ).javaLevel() );
     }
     
     static enum JavaLogLevel
