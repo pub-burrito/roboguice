@@ -1,7 +1,6 @@
 package roboguice.base.util.logging;
 
 
-import android.util.Log;
 
 
 public class BaseConfig implements Config {
@@ -18,7 +17,7 @@ public class BaseConfig implements Config {
             Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );
 
         } catch( Exception e ) {
-            Log.e(packageName, "Error configuring logger", e);
+            System.err.println(String.format("%s - %s %s",packageName, "Error configuring logger", e) );
         }
     }
 
