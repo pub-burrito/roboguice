@@ -1,6 +1,8 @@
 package roboguice.base;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.WeakHashMap;
@@ -52,11 +54,11 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
             {
                 if ( type == RoboGuiceType.JAVA )
                 {
-                    instance = (RoboGuice) Class.forName("roboguice.java.JavaGuice").newInstance();
+                    instance = juice("roboguice.java.JavaGuice");
                 }
                 else if ( type == RoboGuiceType.ANDROID )
                 {
-                    instance = (RoboGuice) Class.forName("roboguice.android.AndroidGuice").newInstance(); 
+                    instance = juice("roboguice.android.DroidGuice");
                 }
                 else
                 {
@@ -65,11 +67,22 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
             }
             catch ( Exception e )
             {
-               new RuntimeException(e);
+               throw new RuntimeException(e);
             }
         }
         
         return (T) instance;
+    }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private static <T extends RoboGuice> T juice( String className ) throws ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
+    {
+        Class<?> clazz = Class.forName(className);
+        
+        Constructor constructor = clazz.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
+        
+        return (T) constructor.newInstance();
     }
     
     public static enum RoboGuiceType
