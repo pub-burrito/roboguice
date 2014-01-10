@@ -70,9 +70,9 @@ public class ResourceManager {
          return this;
      }
      
-     public Object getValue( String name )
+     public String getValue( String name )
      {
-         Object val = null;
+         String val = null;
          //Check cache first
          for ( String resourcePath : properties.keySet() )
          {//for every resource path
@@ -94,7 +94,7 @@ public class ResourceManager {
          {
                  Properties prop = ResourceManager.instance().loadProperty(resourcePath);
                  
-                 val = prop.get( name );
+                 val = prop.getProperty( name );
                  
                  if ( val != null )
                  {

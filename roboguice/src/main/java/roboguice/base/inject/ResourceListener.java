@@ -3,7 +3,6 @@ package roboguice.base.inject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-
 import com.google.inject.MembersInjector;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
@@ -56,7 +55,6 @@ public abstract class ResourceListener implements TypeListener {
             Object value = null;
 
             try {
-
                 value = getValue();
                 
                 if (value == null && Nullable.notNullable(field) ) {
@@ -65,8 +63,32 @@ public abstract class ResourceListener implements TypeListener {
                 }
 
                 field.setAccessible(true);
-                field.set(instance, value);
-
+                
+                if ( field.getType().equals(boolean.class) || field.getType().equals(Boolean.class))
+                {
+                    field.set(instance, (Boolean.valueOf((String) value)));
+                }
+                else if ( field.getType().equals(int.class) || field.getType().equals(Integer.class))
+                {
+                    field.set(instance, (Integer.valueOf((String) value)));
+                }
+                else if ( field.getType().equals(long.class) || field.getType().equals(Long.class))
+                {
+                    field.set(instance, (Long.valueOf((String) value)));
+                }
+                else if ( field.getType().equals(float.class) || field.getType().equals(Float.class))
+                {
+                    field.set(instance, (Float.valueOf((String) value)));
+                }
+                else if ( field.getType().equals(double.class) || field.getType().equals(Double.class))
+                {
+                    field.set(instance, (Double.valueOf((String) value)));
+                }
+                else 
+                {
+                    field.set(instance, value);
+                }
+              
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
 
