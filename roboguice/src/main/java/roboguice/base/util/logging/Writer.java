@@ -9,6 +9,7 @@ public class Writer
     
     public int write(LogLevel priority, String tag, String msg )
     {
+        System.out.println(String.format("%s - %s | %s", priority, tag, msg));
         return 0;
     }
 }
