@@ -42,7 +42,7 @@ public class JavaResourceListener extends ResourceListener {
     
     public JavaResourceListener removeAllPaths()
     {
-        ResourceManager.instance().removeAllPaths();
+        ResourceManager.instance().reset();
         return this;
     }
     

@@ -1,10 +1,16 @@
 package roboguice.java.util;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -12,14 +18,17 @@ import java.util.Set;
 import roboguice.base.util.logging.Ln;
 import roboguice.java.inject.JavaResourceListener;
 
+import com.google.common.collect.Lists;
+
 public class ResourceManager {
 
-    private static final Set<String> resourcePaths = Collections.synchronizedSet( new HashSet<String>() );
+    private static final Set<String> resourcePaths = Collections.synchronizedSet( new LinkedHashSet<String>() );
     /*
      *           Key     - path to properties file
      *           Value   - properties object 
      */      
      private static final Map<String,Properties> properties = Collections.synchronizedMap( new HashMap<String,Properties>());
+     private static Comparator<URL> comparator;
      
      private static ResourceManager instance;
      
@@ -36,8 +45,8 @@ public class ResourceManager {
      public ResourceManager addResourcePath( String... paths )
      {
          if ( paths != null && paths.length > 0 )
-         {
-             resourcePaths.addAll( Arrays.asList(paths) );
+         {             
+             resourcePaths.addAll( Arrays.asList( paths ) );
              //don't add resource paths to map yet
              //Lazy init in JavaMemberResourceInjector
          }
@@ -45,11 +54,24 @@ public class ResourceManager {
          return this;
      }
      
+     public ResourceManager addComparator( Comparator<URL> comparator )
+     {
+         ResourceManager.comparator = comparator;
+         return this;
+     }
+
+     public ResourceManager removeComparator()
+     {
+         ResourceManager.comparator = null;
+         return this;
+     }
+     
      public ResourceManager removeResourcePath( String... paths )
      {
          if ( paths != null && paths.length > 0 )
          {
-             resourcePaths.removeAll(Arrays.asList(paths));
+             List<String> list = Arrays.asList(paths);
+            resourcePaths.removeAll(list);
              /*
               * Returns a Set view of the keys contained in this map. The set is backed by the map, so changes 
               * to the map are reflected in the set, and vice-versa. If the map is modified while an iteration 
@@ -58,41 +80,42 @@ public class ResourceManager {
               * from the map, via the Iterator.remove, Set.remove, removeAll, retainAll, and clear operations.
               *  It does not support the add or addAll operations.
               */
-             properties.keySet().removeAll(Arrays.asList(paths)); 
+             properties.keySet().removeAll(list); 
          }
          
          return this;
      }
      
-     public ResourceManager removeAllPaths()
+     public ResourceManager reset()
      {
          resourcePaths.clear();
+         properties.clear();
          return this;
      }
      
      public String getValue( String name )
      {
          String val = null;
-         //Check cache first
-         for ( String resourcePath : properties.keySet() )
-         {//for every resource path
-             
-             //get property
-             val = properties.get(resourcePath).getProperty( name );
-             
-             if ( val != null )
-             {//return if found
-                 
-                 return val;
-             }
-             
-         }
          
-         //No properties found in cache
-         //Start loading properties
-         for ( String resourcePath : resourcePaths )
-         {
-                 Properties prop = ResourceManager.instance().loadProperty(resourcePath);
+         List<String> paths = Lists.reverse( new ArrayList<String>(resourcePaths) );
+         
+         //Check cache first
+         for ( String path : paths)
+         {//for every resource path
+             if ( properties.containsKey( path ) )
+             {
+                 //get property
+                 val = properties.get(path).getProperty( name );
+                 
+                 if ( val != null )
+                 {//return if found
+                     
+                     return val;
+                 }
+             }
+             else
+             {
+                 Properties prop = ResourceManager.instance().loadProperty(path);
                  
                  val = prop.getProperty( name );
                  
@@ -100,48 +123,66 @@ public class ResourceManager {
                  {
                      return val;
                  }
+             }
+             
          }
          
          return val;
      }
  
-     public Properties loadProperty(String propertyFile) {
-         
-         Properties property = new Properties();
-                 
-         InputStream in = JavaResourceListener.class.getClassLoader().getResourceAsStream( propertyFile );
-         try
-         {//and load the property file 
-             if ( in != null )
-             {
-                 property.load( in );
+    Properties loadProperty(String propertyFile) {
 
-                 //put resource path cache map into main cache
-                 properties.put(propertyFile, property);
-             } 
-             else
-             {
-                 Ln.w( "Could not find [%s] resource - can not inject any resources in specified file.", propertyFile );
-             }
-         }
-         catch ( Exception e )
-         {
-             Ln.e( e, "Error loading property file [%s]", propertyFile );
-         }
-         finally
-         {
-             try
-             {
-                 in.close();
-             }
-             catch ( Exception ex )
-             {
-                 // ignore
-             }
-         }
-         
-         return property;
-     }
+        Properties property = new Properties();
+
+        try 
+        {
+            Enumeration<URL> urls = JavaResourceListener.class.getClassLoader().getResources( propertyFile );
+            List<URL> allUrls = Collections.list(urls);
+            if ( comparator != null )
+            {
+                Collections.sort(allUrls, comparator);
+            }
+            
+            for( URL url : allUrls)
+            {//for each url
+                
+                InputStream in = url.openStream();
+                try 
+                {// and load the property file
+                    if ( in != null ) 
+                    {
+                        property.load( in );
+
+                        // put resource path cache map into main cache
+                        properties.put(propertyFile, property);
+                    } 
+                    else 
+                    {
+                        Ln.w( "Could not find [%s] resource - can not inject any resources in specified file.", propertyFile );
+                    }
+                } 
+                catch (Exception e) 
+                {
+                    Ln.e( e, "Error loading property file [%s]", propertyFile );
+                } 
+                finally 
+                {
+                    try 
+                    {
+                        in.close();
+                    } catch (Exception ex) 
+                    {
+                        // ignore
+                    }
+                }
+            }
+        } 
+        catch ( IOException e1 ) 
+        {
+            e1.printStackTrace();
+        }
+        return property;
+    }
      
      public static interface Callback
      {
