@@ -1,7 +1,9 @@
 package roboguice.java;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
@@ -87,6 +89,12 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
     public JavaGuice addResourcePath( String scopedObject, String... paths )
     {
         getResourceListener( scopedObject ).addResourcePath(paths);
+        return this;
+    }
+    
+    public JavaGuice addResourceComparator( String scopedObject, Comparator<URL> comparator )
+    {
+        getResourceListener(scopedObject).addResourceComparator(comparator);
         return this;
     }
     

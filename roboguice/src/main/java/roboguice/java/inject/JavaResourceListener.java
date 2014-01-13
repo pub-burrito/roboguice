@@ -1,6 +1,8 @@
 package roboguice.java.inject;
 
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.Comparator;
 
 import roboguice.base.inject.InjectResource;
 import roboguice.base.inject.ResourceListener;
@@ -30,6 +32,12 @@ public class JavaResourceListener extends ResourceListener {
     {
         ResourceManager.instance().addResourcePath(paths);
         
+        return this;
+    }
+    
+    public JavaResourceListener addResourceComparator( Comparator<URL> comparator )
+    {
+        ResourceManager.instance().addComparator(comparator);
         return this;
     }
     
