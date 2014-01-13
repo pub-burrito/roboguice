@@ -16,6 +16,7 @@ import com.google.inject.Module;
 public final class JavaGuice extends RoboGuice<String, String, String, JavaDefaultRoboModule, JavaResourceListener> {
 
     private JavaGuice() {
+        modulesResourceId = "";
     }
     
     @Override

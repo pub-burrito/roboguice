@@ -35,6 +35,7 @@ public final class DroidGuice extends RoboGuice<Integer, Application, Context, A
     protected static WeakHashMap<Application,ViewListener> viewListeners = new WeakHashMap<Application, ViewListener>();
 
     private DroidGuice() {
+        modulesResourceId = 0;
     }
 
     @Override
