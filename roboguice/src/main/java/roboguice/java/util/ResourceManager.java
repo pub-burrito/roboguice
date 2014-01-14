@@ -1,7 +1,6 @@
 package roboguice.java.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import roboguice.base.util.logging.Ln;
+import roboguice.base.util.PropertyLoader;
 import roboguice.java.inject.JavaResourceListener;
 
 import com.google.common.collect.Lists;
@@ -146,34 +145,9 @@ public class ResourceManager {
             for( URL url : allUrls)
             {//for each url
                 
-                InputStream in = url.openStream();
-                try 
-                {// and load the property file
-                    if ( in != null ) 
-                    {
-                        property.load( in );
-
-                        // put resource path cache map into main cache
-                        properties.put(propertyFile, property);
-                    } 
-                    else 
-                    {
-                        Ln.w( "Could not find [%s] resource - can not inject any resources in specified file.", propertyFile );
-                    }
-                } 
-                catch (Exception e) 
+                if ( PropertyLoader.loadProperty(url, property) != null )
                 {
-                    Ln.e( e, "Error loading property file [%s]", propertyFile );
-                } 
-                finally 
-                {
-                    try 
-                    {
-                        in.close();
-                    } catch (Exception ex) 
-                    {
-                        // ignore
-                    }
+                    properties.put(propertyFile, property);
                 }
             }
         } 

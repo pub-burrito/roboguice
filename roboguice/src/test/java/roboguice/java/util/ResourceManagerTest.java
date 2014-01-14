@@ -42,6 +42,7 @@ public class ResourceManagerTest {
     @Test
     public void testGetValueThatIsRepeated()
     {
+        ResourceManager.instance().addResourcePath( "path1/resone.properties");
         ResourceManager.instance().addResourcePath( "path2/restwo.properties");
         //value in path2 should be expected
         

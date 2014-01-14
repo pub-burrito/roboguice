@@ -1,6 +1,5 @@
 package roboguice.java;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import roboguice.base.RoboGuice;
-import roboguice.base.util.logging.Ln;
+import roboguice.base.util.PropertyLoader;
 import roboguice.java.config.JavaDefaultRoboModule;
 import roboguice.java.inject.JavaResourceListener;
 
@@ -24,38 +23,9 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
     @Override
     protected List<Module> baseModules(String scopedObject) 
     {
-        Properties property = new Properties();
+        Properties property = PropertyLoader.loadProperty(scopedObject, null);
         
-        //scoped object should the directory to property file
-        InputStream in = JavaResourceListener.class.getClassLoader().getResourceAsStream( scopedObject );
-        try
-        {//and load the property file 
-            if ( in != null )
-            {
-                property.load( in );
-            } 
-            else
-            {
-                Ln.w( "Could not find [%s] resource - can not inject any resources in specified file.", scopedObject );
-            }
-        }
-        catch ( Exception e )
-        {
-            Ln.e( e, "Error loading property file [%s]", scopedObject );
-        }
-        finally
-        {
-            try
-            {
-                in.close();
-            }
-            catch ( Exception ex )
-            {
-                // ignore
-            }
-        }
-        
-        String custom_modules = (String) property.get(modulesResourceId);
+        String custom_modules = property != null ? (String) property.get(modulesResourceId) : null;
         final String[] moduleNames = custom_modules != null ? custom_modules.split( "," ) : new String[]{};
         
         final ArrayList<Module> modules = new ArrayList<Module>();
