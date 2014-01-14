@@ -63,28 +63,37 @@ public abstract class ResourceListener implements TypeListener {
                 }
 
                 field.setAccessible(true);
+                boolean set = false;
+                if ( value instanceof String)
+                {
+                    if ( field.getType().equals(boolean.class) || field.getType().equals(Boolean.class))
+                    {
+                        field.set(instance, Boolean.valueOf( (String) value) );
+                        set = true;
+                    }
+                    else if ( field.getType().equals(int.class) || field.getType().equals(Integer.class))
+                    {
+                        field.set(instance, Integer.valueOf( (String) value) ) ;
+                        set = true;
+                    }
+                    else if ( field.getType().equals(long.class) || field.getType().equals(Long.class))
+                    {
+                        field.set(instance, Long.valueOf( (String) value ) );
+                        set = true;
+                    }
+                    else if ( field.getType().equals(float.class) || field.getType().equals(Float.class))
+                    {
+                        field.set(instance, Float.valueOf( (String) value ) );
+                        set = true;
+                    }
+                    else if ( field.getType().equals(double.class) || field.getType().equals(Double.class))
+                    {
+                        field.set(instance, Double.valueOf( (String) value) );
+                        set = true;
+                    }
+                }
                 
-                if ( field.getType().equals(boolean.class) || field.getType().equals(Boolean.class))
-                {
-                    field.set(instance, (Boolean.valueOf((String) value)));
-                }
-                else if ( field.getType().equals(int.class) || field.getType().equals(Integer.class))
-                {
-                    field.set(instance, (Integer.valueOf((String) value)));
-                }
-                else if ( field.getType().equals(long.class) || field.getType().equals(Long.class))
-                {
-                    field.set(instance, (Long.valueOf((String) value)));
-                }
-                else if ( field.getType().equals(float.class) || field.getType().equals(Float.class))
-                {
-                    field.set(instance, (Float.valueOf((String) value)));
-                }
-                else if ( field.getType().equals(double.class) || field.getType().equals(Double.class))
-                {
-                    field.set(instance, (Double.valueOf((String) value)));
-                }
-                else 
+                if ( !set )
                 {
                     field.set(instance, value);
                 }
