@@ -1,12 +1,10 @@
 package roboguice.java.util;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import roboguice.base.util.PropertyLoader;
-import roboguice.java.inject.JavaResourceListener;
 
 import com.google.common.collect.Lists;
 
@@ -133,28 +130,11 @@ public class ResourceManager {
 
         Properties property = new Properties();
 
-        try 
+        if ( PropertyLoader.loadProperty(propertyFile, property, comparator) != null )
         {
-            Enumeration<URL> urls = JavaResourceListener.class.getClassLoader().getResources( propertyFile );
-            List<URL> allUrls = Collections.list(urls);
-            if ( comparator != null )
-            {
-                Collections.sort(allUrls, comparator);
-            }
-            
-            for( URL url : allUrls)
-            {//for each url
-                
-                if ( PropertyLoader.loadProperty(url, property) != null )
-                {
-                    properties.put(propertyFile, property);
-                }
-            }
-        } 
-        catch ( IOException e1 ) 
-        {
-            e1.printStackTrace();
+            properties.put(propertyFile, property);
         }
+
         return property;
     }
      
