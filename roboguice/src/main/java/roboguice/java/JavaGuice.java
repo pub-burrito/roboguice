@@ -23,7 +23,7 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
     @Override
     protected List<Module> baseModules(String scopedObject) 
     {
-        Properties property = PropertyLoader.loadProperty(scopedObject, null);
+        Properties property = PropertyLoader.loadProperty(scopedObject, null, null);
         
         String custom_modules = property != null ? (String) property.get(modulesResourceId) : null;
         final String[] moduleNames = custom_modules != null ? custom_modules.split( "," ) : new String[]{};

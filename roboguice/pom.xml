@@ -164,6 +164,10 @@
 				<version>2.2</version>
 				<executions>
 					<execution>
+					    <id>default-jar</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
 					    <id>juicy-test-jar</id>
 						<goals>
 							<goal>test-jar</goal>
