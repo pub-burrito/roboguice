@@ -11,13 +11,21 @@ public class BaseConfig implements Config {
     
     public BaseConfig() {
         try {
-            packageName = "";
+            packageName = BaseConfig.class.getPackage().getName();
             scope = packageName.toUpperCase();
 
-            Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );
+            //can't really log with Ln just yet as building BaseConfig is done while initializing Ln and BaseConfig is not initialized as an instance in Ln (so Ln.* would all fail)
+            //Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );
 
         } catch( Exception e ) {
-            System.err.println(String.format("%s - %s %s",packageName, "Error configuring logger", e) );
+            System.err.println(
+                  String.format( 
+                        "%s - %s", 
+                        packageName, 
+                        "Error configuring logger"
+                  ) 
+            );
+            e.printStackTrace();
         }
     }
 

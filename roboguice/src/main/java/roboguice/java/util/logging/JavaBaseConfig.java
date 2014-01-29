@@ -18,11 +18,11 @@ public class JavaBaseConfig extends BaseConfig {
     static enum JavaLogLevel
     {
         ALL( Level.ALL, LogLevel.VERBOSE ),
-        DEBUG( Level.DEBUG ),
-        WARN( Level.WARN ),
-        INFO( Level.INFO ), 
-        ERROR( Level.ERROR ),
-        FATAL( Level.FATAL )
+        DEBUG( Level.DEBUG, LogLevel.DEBUG ),
+        WARN( Level.WARN, LogLevel.WARN ),
+        INFO( Level.INFO, LogLevel.INFO ), 
+        ERROR( Level.ERROR, LogLevel.ERROR ),
+        FATAL( Level.FATAL, LogLevel.ERROR )
         ;
 
         private Level level;
@@ -36,6 +36,7 @@ public class JavaBaseConfig extends BaseConfig {
         private JavaLogLevel( Level level, LogLevel logLevel )
         {
             this.level = level;
+            this.logLevel = logLevel;
         }
         
         public LogLevel getLogLevel()
