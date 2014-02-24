@@ -137,4 +137,10 @@ public class RoboFragmentActivity extends FragmentActivity implements RoboContex
         return scopedObjects;
     }
 
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

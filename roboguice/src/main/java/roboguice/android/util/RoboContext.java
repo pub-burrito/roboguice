@@ -6,4 +6,6 @@ import com.google.inject.Key;
 
 public interface RoboContext {
     Map<Key<?>,Object> getScopedObjectMap();
+    
+    public String configurationLocation();
 }

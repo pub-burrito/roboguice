@@ -145,4 +145,10 @@ public class RoboLauncherActivity extends LauncherActivity implements RoboContex
         return scopedObjects;
     }
 
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

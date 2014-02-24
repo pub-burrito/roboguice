@@ -167,4 +167,10 @@ public class RoboActivity extends Activity implements RoboContext {
     public Map<Key<?>, Object> getScopedObjectMap() {
         return scopedObjects;
     }
+
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

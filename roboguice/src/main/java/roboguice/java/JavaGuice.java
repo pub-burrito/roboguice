@@ -6,23 +6,25 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
+import roboguice.android.util.RoboContext;
 import roboguice.base.RoboGuice;
 import roboguice.base.util.PropertyLoader;
 import roboguice.base.util.logging.Ln;
 import roboguice.java.config.JavaDefaultRoboModule;
 import roboguice.java.inject.JavaResourceListener;
+import roboguice.java.inject.RoboApplication;
 
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-public final class JavaGuice extends RoboGuice<String, String, String, JavaDefaultRoboModule, JavaResourceListener> {
+public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboContext, JavaDefaultRoboModule, JavaResourceListener> {
 
     private JavaGuice() {
         modulesResourceId = "";
     }
     
     @Override
-    protected List<Module> baseModules(String scopedObject) 
+    protected List<Module> baseModules(RoboApplication scopedObject) 
     {
         List<URL> configMatches = PropertyLoader.urlsFor(scopedObject, null);
         Ln.v("Configuration files: %s", configMatches);
@@ -51,29 +53,29 @@ public final class JavaGuice extends RoboGuice<String, String, String, JavaDefau
     }
 
     @Override
-    public Injector getInjector(String scopedObject) {
-        return getScopedInjector( scopedObject );
+    public Injector getInjector(RoboContext scopedObject) {
+        return getScopedInjector( new RoboApplication(scopedObject) );
     }
     
     @Override
-    public JavaDefaultRoboModule newDefaultRoboModule( String scopedObject ) {
+    public JavaDefaultRoboModule newDefaultRoboModule( RoboApplication scopedObject ) {
         return new JavaDefaultRoboModule( getResourceListener(scopedObject) );
     }
 
-    public JavaGuice addResourcePath( String scopedObject, String... paths )
+    public JavaGuice addResourcePath( RoboApplication scopedObject, String... paths )
     {
         getResourceListener( scopedObject ).addResourcePath(paths);
         return this;
     }
     
-    public JavaGuice addResourceComparator( String scopedObject, Comparator<URL> comparator )
+    public JavaGuice addResourceComparator( RoboApplication scopedObject, Comparator<URL> comparator )
     {
         getResourceListener(scopedObject).addResourceComparator(comparator);
         return this;
     }
     
     @Override
-    protected JavaResourceListener getResourceListener(String scopedObject) {
+    protected JavaResourceListener getResourceListener(RoboApplication scopedObject) {
         
         JavaResourceListener resourceListener = resourceListeners.get(scopedObject);
         if( resourceListener==null ) {

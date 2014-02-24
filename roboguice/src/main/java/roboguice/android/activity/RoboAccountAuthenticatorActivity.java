@@ -143,4 +143,10 @@ public class RoboAccountAuthenticatorActivity extends AccountAuthenticatorActivi
     public Map<Key<?>, Object> getScopedObjectMap() {
         return scopedObjects;
     }
+
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

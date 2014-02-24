@@ -145,4 +145,10 @@ public class RoboTabActivity extends TabActivity implements RoboContext {
         return scopedObjects;
     }
 
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -145,4 +145,10 @@ public class RoboActivityGroup extends ActivityGroup implements RoboContext {
         return scopedObjects;
     }
 
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

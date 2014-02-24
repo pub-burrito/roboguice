@@ -146,4 +146,10 @@ public class RoboExpandableListActivity extends ExpandableListActivity implement
         return scopedObjects;
     }
 
+    @Override
+    public String configurationLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
