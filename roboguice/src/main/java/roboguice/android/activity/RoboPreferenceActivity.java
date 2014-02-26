@@ -31,12 +31,12 @@ import roboguice.android.activity.event.OnResumeEvent;
 import roboguice.android.activity.event.OnStartEvent;
 import roboguice.android.activity.event.OnStopEvent;
 import roboguice.android.inject.ContentViewListener;
-import roboguice.android.inject.ContextScope;
+import roboguice.android.inject.AndroidContextScope;
 import roboguice.android.inject.PreferenceListener;
 import roboguice.android.inject.RoboInjector;
-import roboguice.android.util.RoboContext;
 import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
+import roboguice.base.util.RoboContext;
 
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -83,8 +83,8 @@ public abstract class RoboPreferenceActivity extends PreferenceActivity implemen
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
         super.setPreferenceScreen(preferenceScreen);
 
-        final ContextScope scope = RoboGuice.<DroidGuice>instance().getInjector(this).getInstance(ContextScope.class);
-        synchronized (ContextScope.class) {
+        final AndroidContextScope scope = RoboGuice.<DroidGuice>instance().getInjector(this).getInstance(AndroidContextScope.class);
+        synchronized (AndroidContextScope.class) {
             scope.enter(this);
             try {
                 preferenceListener.injectPreferenceViews();

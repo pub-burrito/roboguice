@@ -41,9 +41,9 @@ public class PreferenceListener implements TypeListener {
 
     protected Provider<Context> contextProvider;
     protected Application application;
-    protected ContextScope scope;
+    protected AndroidContextScope scope;
 
-    public PreferenceListener(Provider<Context> contextProvider, Application application, ContextScope scope) {
+    public PreferenceListener(Provider<Context> contextProvider, Application application, AndroidContextScope scope) {
         this.contextProvider = contextProvider;
         this.application = application;
         this.scope = scope;
@@ -76,10 +76,10 @@ public class PreferenceListener implements TypeListener {
         protected Field field;
         protected Provider<Context> contextProvider;
         protected InjectPreference annotation;
-        protected ContextScope scope;
+        protected AndroidContextScope scope;
         protected WeakReference<T> instanceRef;
 
-        public PreferenceMembersInjector(Field field, Provider<Context> contextProvider, InjectPreference annotation, ContextScope scope) {
+        public PreferenceMembersInjector(Field field, Provider<Context> contextProvider, InjectPreference annotation, AndroidContextScope scope) {
             this.field = field;
             this.annotation = annotation;
             this.contextProvider = contextProvider;

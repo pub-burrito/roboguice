@@ -4,10 +4,10 @@ import roboguice.android.activity.RoboActivity;
 import roboguice.android.event.ObservesTypeListener;
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
 import roboguice.android.inject.AccountManagerProvider;
+import roboguice.android.inject.AndroidContextScope;
 import roboguice.android.inject.AndroidResourceListener;
 import roboguice.android.inject.AssetManagerProvider;
 import roboguice.android.inject.ContentResolverProvider;
-import roboguice.android.inject.ContextScope;
 import roboguice.android.inject.ContextScopedSystemServiceProvider;
 import roboguice.android.inject.ExtrasListener;
 import roboguice.android.inject.FragmentManagerProvider;
@@ -24,6 +24,7 @@ import roboguice.android.util.logging.AndroidWriter;
 import roboguice.base.config.DefaultRoboModule;
 import roboguice.base.event.EventManager;
 import roboguice.base.inject.ContextSingleton;
+import roboguice.base.inject.RoboScope;
 import roboguice.base.util.Strings;
 import roboguice.base.util.logging.BaseConfig;
 import roboguice.base.util.logging.Ln;
@@ -107,11 +108,11 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
 
 
     protected Application application;
-    protected ContextScope contextScope;
+    protected AndroidContextScope contextScope;
     protected ViewListener viewListener;
 
 
-    public AndroidDefaultRoboModule(final Application application, ContextScope contextScope, ViewListener viewListener, AndroidResourceListener resourceListener) {
+    public AndroidDefaultRoboModule(final Application application, AndroidContextScope contextScope, ViewListener viewListener, AndroidResourceListener resourceListener) {
         
         super(resourceListener);
         this.application = application;
@@ -149,11 +150,9 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
         bind(ViewListener.class).toInstance(viewListener);
         bind(PreferenceListener.class).toInstance(preferenceListener);
 
-
-
         // ContextSingleton bindings
         bindScope(ContextSingleton.class, contextScope);
-        bind(ContextScope.class).toInstance(contextScope);
+        bind(RoboScope.class).toInstance(contextScope);
         bind(AssetManager.class).toProvider(AssetManagerProvider.class);
         bind(Context.class).toProvider(NullProvider.<Context>instance()).in(ContextSingleton.class);
         bind(Activity.class).toProvider(NullProvider.<Activity>instance()).in(ContextSingleton.class);

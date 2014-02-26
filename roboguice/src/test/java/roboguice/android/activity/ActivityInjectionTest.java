@@ -18,22 +18,21 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 
 import roboguice.android.DroidGuice;
 import roboguice.android.activity.ActivityInjectionTest.ModuleA.A;
 import roboguice.android.activity.ActivityInjectionTest.ModuleB.B;
 import roboguice.android.activity.ActivityInjectionTest.ModuleC.C;
 import roboguice.android.activity.ActivityInjectionTest.ModuleD.D;
-import roboguice.android.inject.ContextScopedProvider;
 import roboguice.android.inject.InjectExtra;
 import roboguice.android.inject.InjectPreference;
 import roboguice.android.inject.InjectView;
 import roboguice.android.test.RobolectricRoboTestRunner;
-import roboguice.base.RoboGuice;
-import roboguice.base.RoboGuice.RoboGuiceType;
+import roboguice.base.inject.ContextScopedProvider;
 import roboguice.base.inject.InjectResource;
 import roboguice.base.inject.ResourceListener.RequestStaticResourceInjection;
+
+import com.xtremelabs.robolectric.Robolectric;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
@@ -172,7 +171,7 @@ public class ActivityInjectionTest {
         f.onCreate(null);
 
         final FutureTask<Context> future = new FutureTask<Context>(new Callable<Context>() {
-            final ContextScopedProvider<Context> contextProvider = DroidGuice.instance().getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Context>>(){}));
+            final ContextScopedProvider<Application, Context, Context> contextProvider = DroidGuice.instance().getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Application, Context, Context>>(){}));
             
             @Override
             public Context call() throws Exception {

@@ -1,11 +1,11 @@
-package roboguice.android.inject;
+package roboguice.java.inject;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import roboguice.android.inject.ViewListener.ViewMembersInjector;
+import roboguice.base.util.RoboContext;
 
 import com.google.inject.Binding;
 import com.google.inject.Injector;
@@ -17,26 +17,20 @@ import com.google.inject.Scope;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeConverterBinding;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.v4.app.Fragment;
-
-public class ContextScopedRoboInjector implements RoboInjector {
+public class JavaContextScopedRoboInjector implements Injector {
     protected Injector delegate;
-    protected Context context;
-    protected ContextScope scope;
-    protected ViewListener viewListener;
+    protected RoboContext context;
+    protected JavaContextScope scope;
 
-    public ContextScopedRoboInjector(Context context, Injector applicationInjector, ViewListener viewListener) {
+    public JavaContextScopedRoboInjector(RoboContext context, Injector applicationInjector ) {
         this.delegate = applicationInjector;
         this.context = context;
-        this.viewListener = viewListener;
-        this.scope = delegate.getInstance(ContextScope.class);
+        this.scope = delegate.getInstance(JavaContextScope.class);
     }
 
     @Override
     public Injector createChildInjector(Iterable<? extends Module> modules) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.createChildInjector(modules);
@@ -48,7 +42,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public Injector createChildInjector(Module... modules) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.createChildInjector(modules);
@@ -60,7 +54,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> List<Binding<T>> findBindingsByType(TypeLiteral<T> type) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.findBindingsByType(type);
@@ -72,7 +66,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public Map<Key<?>, Binding<?>> getAllBindings() {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getAllBindings();
@@ -84,7 +78,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> Binding<T> getBinding(Key<T> key) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getBinding(key);
@@ -96,7 +90,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> Binding<T> getBinding(Class<T> type) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getBinding(type);
@@ -108,7 +102,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public Map<Key<?>, Binding<?>> getBindings() {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getBindings();
@@ -120,7 +114,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> Binding<T> getExistingBinding(Key<T> key) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getExistingBinding(key);
@@ -132,7 +126,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> T getInstance(Key<T> key) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getInstance(key);
@@ -144,7 +138,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> T getInstance(Class<T> type) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getInstance(type);
@@ -156,7 +150,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> MembersInjector<T> getMembersInjector(Class<T> type) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getMembersInjector(type);
@@ -168,7 +162,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> MembersInjector<T> getMembersInjector(TypeLiteral<T> typeLiteral) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getMembersInjector(typeLiteral);
@@ -180,7 +174,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public Injector getParent() {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getParent();
@@ -192,7 +186,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> Provider<T> getProvider(Key<T> key) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getProvider(key);
@@ -204,7 +198,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public <T> Provider<T> getProvider(Class<T> type) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getProvider(type);
@@ -216,7 +210,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public Map<Class<? extends Annotation>, Scope> getScopeBindings() {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getScopeBindings();
@@ -228,7 +222,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public Set<TypeConverterBinding> getTypeConverterBindings() {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 return delegate.getTypeConverterBindings();
@@ -240,11 +234,7 @@ public class ContextScopedRoboInjector implements RoboInjector {
 
     @Override
     public void injectMembers(Object instance) {
-        injectMembersWithoutViews(instance);
-    }
-
-    public void injectMembersWithoutViews( Object instance ) {
-        synchronized (ContextScope.class) {
+        synchronized (JavaContextScope.class) {
             scope.enter(context);
             try {
                 delegate.injectMembers(instance);
@@ -254,30 +244,4 @@ public class ContextScopedRoboInjector implements RoboInjector {
         }
     }
 
-    @Override
-    public void injectViewMembers(Activity activity) {
-        synchronized (ContextScope.class) {
-            scope.enter(context);
-            try {
-                if( context!=activity )
-                    throw new UnsupportedOperationException("internal error, how did you get here?");
-
-                ViewMembersInjector.injectViews(activity);
-            } finally {
-                scope.exit(context);
-            }
-        }
-    }
-
-    @Override
-    public void injectViewMembers(Fragment fragment) {
-        synchronized (ContextScope.class) {
-            scope.enter(context);
-            try {
-                ViewMembersInjector.injectViews(fragment);
-            } finally {
-                scope.exit(context);
-            }
-        }
-    }
 }

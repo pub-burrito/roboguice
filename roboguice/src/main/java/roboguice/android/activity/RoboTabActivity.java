@@ -32,9 +32,9 @@ import roboguice.android.activity.event.OnStartEvent;
 import roboguice.android.activity.event.OnStopEvent;
 import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.RoboInjector;
-import roboguice.android.util.RoboContext;
 import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
+import roboguice.base.util.RoboContext;
 
 import com.google.inject.Inject;
 import com.google.inject.Key;

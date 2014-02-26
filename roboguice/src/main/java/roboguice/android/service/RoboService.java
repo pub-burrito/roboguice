@@ -18,8 +18,8 @@ import roboguice.android.service.event.OnConfigurationChangedEvent;
 import roboguice.android.service.event.OnCreateEvent;
 import roboguice.android.service.event.OnDestroyEvent;
 import roboguice.android.service.event.OnStartEvent;
-import roboguice.android.util.RoboContext;
 import roboguice.base.event.EventManager;
+import roboguice.base.util.RoboContext;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.inject.Key;
 
-import roboguice.android.util.RoboContext;
+import roboguice.base.util.RoboContext;
 
 public class RoboApplication implements RoboContext {
 

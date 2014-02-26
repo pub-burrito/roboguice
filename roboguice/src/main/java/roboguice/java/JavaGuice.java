@@ -6,11 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
-import roboguice.android.util.RoboContext;
 import roboguice.base.RoboGuice;
 import roboguice.base.util.PropertyLoader;
 import roboguice.base.util.logging.Ln;
 import roboguice.java.config.JavaDefaultRoboModule;
+import roboguice.java.inject.JavaContextScope;
+import roboguice.java.inject.JavaContextScopedRoboInjector;
 import roboguice.java.inject.JavaResourceListener;
 import roboguice.java.inject.RoboApplication;
 
@@ -54,12 +55,12 @@ public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboCont
 
     @Override
     public Injector getInjector(RoboContext scopedObject) {
-        return getScopedInjector( new RoboApplication(scopedObject) );
+        return new JavaContextScopedRoboInjector(scopedObject, getScopedInjector( new RoboApplication(scopedObject) ) );
     }
     
     @Override
     public JavaDefaultRoboModule newDefaultRoboModule( RoboApplication scopedObject ) {
-        return new JavaDefaultRoboModule( getResourceListener(scopedObject) );
+        return new JavaDefaultRoboModule( new JavaContextScope(scopedObject), getResourceListener(scopedObject) );
     }
 
     public JavaGuice addResourcePath( RoboApplication scopedObject, String... paths )

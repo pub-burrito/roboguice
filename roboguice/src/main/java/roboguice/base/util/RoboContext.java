@@ -1,4 +1,4 @@
-package roboguice.android.util;
+package roboguice.base.util;
 
 import java.util.Map;
 
