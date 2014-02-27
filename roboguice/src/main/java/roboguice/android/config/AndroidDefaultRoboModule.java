@@ -153,6 +153,7 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
         // ContextSingleton bindings
         bindScope(ContextSingleton.class, contextScope);
         bind(RoboScope.class).toInstance(contextScope);
+        bind(AndroidContextScope.class).toInstance(contextScope);
         bind(AssetManager.class).toProvider(AssetManagerProvider.class);
         bind(Context.class).toProvider(NullProvider.<Context>instance()).in(ContextSingleton.class);
         bind(Activity.class).toProvider(NullProvider.<Activity>instance()).in(ContextSingleton.class);
