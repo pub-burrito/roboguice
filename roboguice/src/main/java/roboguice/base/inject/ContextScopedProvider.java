@@ -6,7 +6,7 @@ import com.google.inject.Provider;
 import android.content.Context;
 
 public class ContextScopedProvider<A,C,T> {
-    @Inject protected RoboScope<A,C> scope;
+    @Inject protected RoboScope scope;
     @Inject protected Provider<T> provider;
 
     public T get(C context) {
