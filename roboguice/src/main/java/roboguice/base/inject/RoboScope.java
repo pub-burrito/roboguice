@@ -34,7 +34,7 @@ public abstract class RoboScope<A, C> implements Scope
     public void enter(C context) {
 
         // BUG synchronizing on ContextScope.class may be overly conservative
-        synchronized (AndroidContextScope.class) {
+        synchronized (RoboScope.class) {
 
             final Stack<WeakReference<C>> stack = getContextStack();
             final Map<Key<?>,Object> map = getScopedObjectMap(context);
@@ -53,7 +53,7 @@ public abstract class RoboScope<A, C> implements Scope
     }
 
     public void exit(C context) {
-        synchronized (AndroidContextScope.class) {
+        synchronized (RoboScope.class) {
             final Stack<WeakReference<C>> stack = getContextStack();
             final C c = stack.pop().get();
             if( c!=null && c!=context )
@@ -63,17 +63,25 @@ public abstract class RoboScope<A, C> implements Scope
 
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
         return new Provider<T>() {
+            @SuppressWarnings("unchecked")
             public T get() {
-                synchronized (AndroidContextScope.class) {
+                synchronized (RoboScope.class) {
                     final Stack<WeakReference<C>> stack = getContextStack();
                     final C context = stack.peek().get(); // The context should never be finalized as long as the provider is still in memory
                     final Map<Key<?>, Object> objectsForScope = getScopedObjectMap(context);
                     if( objectsForScope==null )
                         return null;  // May want to consider throwing an exception here (if provider is used after onDestroy())
 
-                    @SuppressWarnings({"unchecked"}) T current = (T) objectsForScope.get(key);
-                    if (current==null && !objectsForScope.containsKey(key)) {
-                        current = unscoped.get();
+                    T current = (T) objectsForScope.get(key);
+                    if (current==null && !objectsForScope.containsKey(key) ) {
+                        if ( unscoped instanceof ContextScopedProvider )
+                        {
+                            current = ( ( ContextScopedProvider<A,C,T> ) unscoped).get(context);
+                        }
+                        else
+                        {
+                            current = unscoped.get();
+                        }
                         objectsForScope.put(key, current);
                     }
 
