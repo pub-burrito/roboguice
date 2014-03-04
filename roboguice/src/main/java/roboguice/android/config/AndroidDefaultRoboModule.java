@@ -27,6 +27,7 @@ import roboguice.base.inject.ContextSingleton;
 import roboguice.base.util.Strings;
 import roboguice.base.util.logging.BaseConfig;
 import roboguice.base.util.logging.Ln;
+import roboguice.base.util.logging.Print;
 import roboguice.base.util.logging.Writer;
 
 import com.google.inject.Key;
@@ -204,7 +205,8 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
         requestInjection(observerThreadingDecorator);
 
         bind(BaseConfig.class).to(AndroidBaseConfig.class);
-        bind(Writer.class).to(AndroidWriter.class);
+        bind(Writer.class).to(AndroidWriter.class);        
+        requestStaticInjection(Print.class);
         requestStaticInjection(Ln.class);
 
         // Compatibility library bindings
