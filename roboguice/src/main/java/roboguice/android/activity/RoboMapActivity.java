@@ -15,24 +15,34 @@
  */
 package roboguice.android.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import roboguice.android.DroidGuice;
-import roboguice.android.activity.event.*;
+import roboguice.android.activity.event.OnActivityResultEvent;
+import roboguice.android.activity.event.OnConfigurationChangedEvent;
+import roboguice.android.activity.event.OnContentChangedEvent;
+import roboguice.android.activity.event.OnCreateEvent;
+import roboguice.android.activity.event.OnDestroyEvent;
+import roboguice.android.activity.event.OnNewIntentEvent;
+import roboguice.android.activity.event.OnPauseEvent;
+import roboguice.android.activity.event.OnRestartEvent;
+import roboguice.android.activity.event.OnResumeEvent;
+import roboguice.android.activity.event.OnStartEvent;
+import roboguice.android.activity.event.OnStopEvent;
 import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.RoboInjector;
 import roboguice.android.util.RoboContext;
 import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-
 import com.google.android.maps.MapActivity;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 
 /**
  * A {@link RoboMapActivity} extends from {@link MapActivity} to provide

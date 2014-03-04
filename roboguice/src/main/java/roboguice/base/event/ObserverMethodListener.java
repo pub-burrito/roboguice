@@ -1,10 +1,10 @@
 package roboguice.base.event;
 
-import roboguice.base.event.eventListener.javaassist.RuntimeSupport;
-import roboguice.base.util.logging.Ln;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import roboguice.base.event.eventListener.javaassist.RuntimeSupport;
+import roboguice.base.util.logging.Ln;
 
 /**
  * Observer Method Event Listener.  This class calls to the method on the given instance during onEvent().

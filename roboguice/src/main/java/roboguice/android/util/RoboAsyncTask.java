@@ -1,11 +1,11 @@
 package roboguice.android.util;
 
+import java.util.concurrent.Executor;
+
 import roboguice.android.DroidGuice;
 
 import android.content.Context;
 import android.os.Handler;
-
-import java.util.concurrent.Executor;
 
 public abstract class RoboAsyncTask<ResultT> extends SafeAsyncTask<ResultT> {
     protected Context context;

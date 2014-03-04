@@ -1,10 +1,10 @@
 package roboguice.android.adapter;
 
-import android.content.Context;
-import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Context;
+import android.widget.ArrayAdapter;
 
 public class IterableAdapter<T> extends ArrayAdapter<T> {
 

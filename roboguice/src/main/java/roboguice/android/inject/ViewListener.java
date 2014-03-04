@@ -15,20 +15,6 @@
  */
 package roboguice.android.inject;
 
-import android.app.Activity;
-import android.content.Context;
-import android.view.View;
-
-import com.google.inject.MembersInjector;
-import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
-import com.google.inject.spi.TypeEncounter;
-import com.google.inject.spi.TypeListener;
-
-import javax.inject.Singleton;
-
-import roboguice.base.inject.Nullable;
-
 import java.lang.annotation.Annotation;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -37,6 +23,20 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.WeakHashMap;
+
+import javax.inject.Singleton;
+
+import roboguice.base.inject.Nullable;
+
+import com.google.inject.MembersInjector;
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
+import com.google.inject.spi.TypeEncounter;
+import com.google.inject.spi.TypeListener;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.View;
 
 @Singleton
 public class ViewListener implements TypeListener {

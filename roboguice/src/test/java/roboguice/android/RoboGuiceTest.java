@@ -1,24 +1,27 @@
 package roboguice.android;
 
-import com.xtremelabs.robolectric.Robolectric;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import roboguice.android.DroidGuice;
-import roboguice.android.activity.RoboActivity;
-import roboguice.android.test.RobolectricRoboTestRunner;
-
-import android.app.Activity;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+
+import roboguice.android.activity.RoboActivity;
+import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
+import roboguice.base.RoboGuice.RoboGuiceType;
+
+import android.app.Activity;
+
 @RunWith(RobolectricRoboTestRunner.class)
+@SuppressWarnings("unchecked")
 public class RoboGuiceTest {
     
     @Before
     public void setup() {
+        RoboGuice.type = RoboGuiceType.ANDROID; 
         DroidGuice.instance().injectors().clear();
     }
     

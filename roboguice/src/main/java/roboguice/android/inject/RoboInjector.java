@@ -1,9 +1,9 @@
 package roboguice.android.inject;
 
+import com.google.inject.Injector;
+
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-
-import com.google.inject.Injector;
 
 public interface RoboInjector extends Injector {
     void injectViewMembers(Activity activity);

@@ -1,22 +1,22 @@
 package roboguice.android.application;
 
-import com.xtremelabs.robolectric.Robolectric;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Random;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 
 import roboguice.android.DroidGuice;
 import roboguice.android.test.RobolectricRoboTestRunner;
 
-import android.app.Application;
-import android.content.Context;
-
 import com.google.inject.Inject;
 
-import java.util.Random;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import android.app.Application;
+import android.content.Context;
 
 @RunWith(RobolectricRoboTestRunner.class)
 public class ApplicationInjectionTest {

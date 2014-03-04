@@ -15,22 +15,27 @@
  */
 package roboguice.android.inject;
 
-import roboguice.android.DroidGuice;
-import roboguice.base.inject.Nullable;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-
-import com.google.inject.*;
-import com.google.inject.spi.TypeEncounter;
-import com.google.inject.spi.TypeListener;
-import com.google.inject.util.Types;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
+
+import roboguice.android.DroidGuice;
+import roboguice.base.inject.Nullable;
+
+import com.google.inject.Binding;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.MembersInjector;
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
+import com.google.inject.spi.TypeEncounter;
+import com.google.inject.spi.TypeListener;
+import com.google.inject.util.Types;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 
 /**
  * 

@@ -1,8 +1,11 @@
 package roboguice.android.test.shadow;
 
-import com.xtremelabs.robolectric.internal.Implementation;
-import com.xtremelabs.robolectric.internal.Implements;
-import com.xtremelabs.robolectric.shadows.ShadowActivity;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+import org.robolectric.annotation.Implementation;
+import org.robolectric.annotation.Implements;
+import org.robolectric.shadows.ShadowActivity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +13,6 @@ import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.util.List;
 
 @Implements(FragmentActivity.class)
 public class ShadowFragmentActivity extends ShadowActivity {
@@ -224,11 +223,6 @@ public class ShadowFragmentActivity extends ShadowActivity {
             public void dump(String s, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strings) {
             }
 
-            @Override
-            public List<Fragment> getFragments() {
-                // TODO Auto-generated method stub
-                return null;
-            }
         };
     }
 

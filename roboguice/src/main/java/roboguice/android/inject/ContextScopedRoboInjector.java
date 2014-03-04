@@ -1,18 +1,25 @@
 package roboguice.android.inject;
 
-import roboguice.android.inject.ViewListener.ViewMembersInjector;
-
-import android.app.Activity;
-import android.content.Context;
-import android.support.v4.app.Fragment;
-
-import com.google.inject.*;
-import com.google.inject.spi.TypeConverterBinding;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import roboguice.android.inject.ViewListener.ViewMembersInjector;
+
+import com.google.inject.Binding;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.MembersInjector;
+import com.google.inject.Module;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import com.google.inject.TypeLiteral;
+import com.google.inject.spi.TypeConverterBinding;
+
+import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 
 public class ContextScopedRoboInjector implements RoboInjector {
     protected Injector delegate;

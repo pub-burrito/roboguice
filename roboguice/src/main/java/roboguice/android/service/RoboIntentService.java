@@ -1,5 +1,8 @@
 package roboguice.android.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import roboguice.android.DroidGuice;
 import roboguice.android.service.event.OnConfigurationChangedEvent;
 import roboguice.android.service.event.OnCreateEvent;
@@ -8,15 +11,12 @@ import roboguice.android.service.event.OnStartEvent;
 import roboguice.android.util.RoboContext;
 import roboguice.base.event.EventManager;
 
-import android.app.IntentService;
-import android.content.Intent;
-import android.content.res.Configuration;
-
 import com.google.inject.Injector;
 import com.google.inject.Key;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.app.IntentService;
+import android.content.Intent;
+import android.content.res.Configuration;
 
 /**
  * A {@link RoboIntentService} extends from {@link IntentService} to provide dynamic

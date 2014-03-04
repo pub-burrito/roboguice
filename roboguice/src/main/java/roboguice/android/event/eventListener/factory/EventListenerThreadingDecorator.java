@@ -5,10 +5,10 @@ import roboguice.android.event.eventListener.AsynchronousEventListenerDecorator;
 import roboguice.android.event.eventListener.UIThreadEventListenerDecorator;
 import roboguice.base.event.EventListener;
 
-import android.os.Handler;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import android.os.Handler;
 
 /**
  * @author John Ericksen

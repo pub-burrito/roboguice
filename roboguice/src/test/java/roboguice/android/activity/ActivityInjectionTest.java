@@ -1,18 +1,42 @@
 package roboguice.android.activity;
 
-import com.xtremelabs.robolectric.Robolectric;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+
 import roboguice.android.DroidGuice;
-import roboguice.android.activity.RoboActivity;
 import roboguice.android.activity.ActivityInjectionTest.ModuleA.A;
 import roboguice.android.activity.ActivityInjectionTest.ModuleB.B;
 import roboguice.android.activity.ActivityInjectionTest.ModuleC.C;
 import roboguice.android.activity.ActivityInjectionTest.ModuleD.D;
-import roboguice.android.inject.*;
+import roboguice.android.inject.ContextScopedProvider;
+import roboguice.android.inject.InjectExtra;
+import roboguice.android.inject.InjectPreference;
+import roboguice.android.inject.InjectView;
 import roboguice.android.test.RobolectricRoboTestRunner;
 import roboguice.base.inject.InjectResource;
+
+import com.google.inject.ConfigurationException;
+import com.google.inject.Inject;
+import com.google.inject.Key;
+import com.google.inject.Stage;
+import com.google.inject.TypeLiteral;
 
 import android.R;
 import android.app.Activity;
@@ -24,18 +48,6 @@ import android.preference.Preference;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.inject.*;
-
-import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.concurrent.*;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricRoboTestRunner.class)
 public class ActivityInjectionTest {

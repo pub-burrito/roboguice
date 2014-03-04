@@ -1,16 +1,13 @@
 package roboguice.android.inject;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.lang.reflect.Field;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import javax.annotation.Nullable;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
 public class NullableTest {

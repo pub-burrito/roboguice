@@ -1,13 +1,13 @@
 package roboguice.android.event;
 
+import static junit.framework.Assert.assertEquals;
+
+import java.lang.reflect.Method;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import roboguice.base.event.ObserverMethodListener;
-
-import java.lang.reflect.Method;
-
-import static junit.framework.Assert.assertEquals;
 
 /**
  * Test class exercising the ObserverReferences

@@ -1,16 +1,16 @@
 package roboguice.android.inject;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import roboguice.android.activity.RoboActivity;
 import roboguice.base.inject.InjectResource;
 
 import android.os.Bundle;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class ResourceListenerTest {

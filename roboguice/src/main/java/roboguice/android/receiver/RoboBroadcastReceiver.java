@@ -2,12 +2,12 @@ package roboguice.android.receiver;
 
 import roboguice.android.DroidGuice;
 
+import com.google.inject.Injector;
+
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
-import com.google.inject.Injector;
 
 /**
  * To ensure proper ContextScope usage, override the handleReceive method

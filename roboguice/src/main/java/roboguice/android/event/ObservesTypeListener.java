@@ -1,5 +1,8 @@
 package roboguice.android.event;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
 import roboguice.base.event.EventManager;
 import roboguice.base.event.ObserverMethodListener;
@@ -9,9 +12,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.spi.InjectionListener;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 /**
  * Guice driven type listener which scans for the @Observes annotations.

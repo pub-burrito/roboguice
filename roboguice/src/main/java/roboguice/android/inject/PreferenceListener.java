@@ -15,9 +15,12 @@
  */
 package roboguice.android.inject;
 
-import android.app.Application;
-import android.content.Context;
-import android.preference.PreferenceActivity;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+
+import roboguice.base.inject.Nullable;
 
 import com.google.inject.MembersInjector;
 import com.google.inject.Provider;
@@ -25,12 +28,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-
-import roboguice.base.inject.Nullable;
+import android.app.Application;
+import android.content.Context;
+import android.preference.PreferenceActivity;
 
 /**
  * 

@@ -1,20 +1,19 @@
 package roboguice.android.inject;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import roboguice.android.activity.RoboActivity;
-import roboguice.android.inject.InjectExtra;
 import roboguice.android.service.RoboService;
 import roboguice.android.test.RobolectricRoboTestRunner;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRoboTestRunner.class)
 public class ExtrasListenerTest {

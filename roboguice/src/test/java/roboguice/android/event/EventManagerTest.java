@@ -1,13 +1,13 @@
 package roboguice.android.event;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import roboguice.base.event.EventManager;
 import roboguice.base.event.ObserverMethodListener;
-
-import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * Test class verifying eventManager functionality

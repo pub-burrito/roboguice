@@ -1,24 +1,22 @@
 package roboguice.android.service;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import roboguice.android.inject.InjectView;
-import roboguice.android.service.RoboIntentService;
-import roboguice.android.service.RoboService;
 import roboguice.android.test.RobolectricRoboTestRunner;
+
+import com.google.inject.ConfigurationException;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.view.View;
-
-import com.google.inject.ConfigurationException;
-
-import javax.inject.Inject;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricRoboTestRunner.class)
 public class ServiceInjectionTest {

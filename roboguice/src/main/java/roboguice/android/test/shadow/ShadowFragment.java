@@ -1,7 +1,7 @@
 package roboguice.android.test.shadow;
 
-import com.xtremelabs.robolectric.internal.Implementation;
-import com.xtremelabs.robolectric.internal.Implements;
+import org.robolectric.annotation.Implementation;
+import org.robolectric.annotation.Implements;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -1,13 +1,13 @@
 package roboguice.android.util;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import roboguice.base.util.Strings;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
+import roboguice.base.util.Strings;
 
 @RunWith(RobolectricTestRunner.class)
 public class StringsTest {

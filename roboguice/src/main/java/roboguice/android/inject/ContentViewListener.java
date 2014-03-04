@@ -4,10 +4,10 @@ import roboguice.android.activity.event.OnCreateEvent;
 import roboguice.android.event.Observes;
 import roboguice.base.inject.ContextSingleton;
 
+import com.google.inject.Inject;
+
 import android.app.Activity;
 import android.content.Context;
-
-import com.google.inject.Inject;
 
 @SuppressWarnings("UnusedParameters")
 @ContextSingleton

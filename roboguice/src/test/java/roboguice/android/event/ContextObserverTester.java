@@ -1,6 +1,5 @@
 package roboguice.android.event;
 
-import roboguice.android.event.Observes;
 
 /**
  * ContextSingleton Observer testing interface

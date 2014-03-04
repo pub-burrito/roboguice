@@ -1,23 +1,21 @@
 package roboguice.android.event.eventListener;
 
+import static junit.framework.Assert.assertEquals;
+import static org.easymock.EasyMock.createMock;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import roboguice.android.event.EventThread;
-import roboguice.android.event.eventListener.AsynchronousEventListenerDecorator;
-import roboguice.android.event.eventListener.UIThreadEventListenerDecorator;
 import roboguice.android.event.eventListener.factory.EventListenerThreadingDecorator;
 import roboguice.base.event.EventListener;
-
-import android.os.Handler;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-import static junit.framework.Assert.assertEquals;
-import static org.easymock.EasyMock.createMock;
+import android.os.Handler;
 
 /**
  * Tests for the EventListenerThreadingDecorator class
