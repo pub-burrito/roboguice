@@ -30,9 +30,7 @@ import roboguice.base.util.logging.Ln;
 import roboguice.base.util.logging.Print;
 import roboguice.base.util.logging.Writer;
 
-import com.google.inject.Key;
 import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 
@@ -124,6 +122,7 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
     /**
      * Configure this module to define Android related bindings.
      */
+    @SuppressWarnings("unchecked")
     @Override
     protected void configure() {
 
@@ -156,12 +155,11 @@ public class AndroidDefaultRoboModule extends DefaultRoboModule<AndroidResourceL
         bindScope(ContextSingleton.class, contextScope);
         bind(ContextScope.class).toInstance(contextScope);
         bind(AssetManager.class).toProvider(AssetManagerProvider.class);
-        bind(Context.class).toProvider(Key.get(new TypeLiteral<NullProvider<Context>>(){})).in(ContextSingleton.class);
-        bind(Activity.class).toProvider(Key.get(new TypeLiteral<NullProvider<Activity>>(){})).in(ContextSingleton.class);
-        bind(RoboActivity.class).toProvider(Key.get(new TypeLiteral<NullProvider<RoboActivity>>(){})).in(ContextSingleton.class);
-        bind(Service.class).toProvider(Key.get(new TypeLiteral<NullProvider<Service>>(){})).in(ContextSingleton.class);
-        bind(RoboService.class).toProvider(Key.get(new TypeLiteral<NullProvider<RoboService>>(){})).in(ContextSingleton.class);
-
+        bind(Context.class).toProvider(NullProvider.<Context>instance()).in(ContextSingleton.class);
+        bind(Activity.class).toProvider(NullProvider.<Activity>instance()).in(ContextSingleton.class);
+        bind(RoboActivity.class).toProvider(NullProvider.<RoboActivity>instance()).in(ContextSingleton.class);
+        bind(Service.class).toProvider(NullProvider.<Service>instance()).in(ContextSingleton.class);
+        bind(RoboService.class).toProvider(NullProvider.<RoboService>instance()).in(ContextSingleton.class);
         
         // Sundry Android Classes
         bind(SharedPreferences.class).toProvider(SharedPreferencesProvider.class);
