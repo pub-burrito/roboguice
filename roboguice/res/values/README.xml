@@ -1,0 +1,5 @@
+<resources>
+	<!--
+	Keeping a file in this folder so ADT doesn't complain when running instrumented tests.
+	-->
+</resources>
