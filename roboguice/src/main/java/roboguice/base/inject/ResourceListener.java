@@ -18,7 +18,7 @@ public abstract class ResourceListener implements TypeListener {
         for( Class<?> c = typeLiteral.getRawType(); c!=Object.class; c = c.getSuperclass() )
             for (Field field : c.getDeclaredFields())
                 if ( field.isAnnotationPresent(InjectResource.class) && !Modifier.isStatic(field.getModifiers()) )
-                    typeEncounter.register( newResourceMember( typeLiteral, field ) );
+                    typeEncounter.register( newResourceMemberInjector( typeLiteral, field ) );
 
     }
 
@@ -29,14 +29,14 @@ public abstract class ResourceListener implements TypeListener {
             for( ; c!=Object.class; c=c.getSuperclass() )
                 for (Field field : c.getDeclaredFields())
                     if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(InjectResource.class))
-                        newResourceMember( field ).injectMembers(null);
+                        newResourceMemberInjector( field ).injectMembers(null);
 
     }
     
-    protected abstract <I> ResourceMemberInjector<I> newResourceMember( TypeLiteral<I> typeLiteral /*Here to figure out the type*/, Field field );
+    protected abstract <I> ResourceMemberInjector<I> newResourceMemberInjector( TypeLiteral<I> typeLiteral /*Here to figure out the type*/, Field field );
     
     @SuppressWarnings("rawtypes")
-    protected abstract ResourceMemberInjector newResourceMember( Field field );
+    protected abstract ResourceMemberInjector newResourceMemberInjector( Field field );
     
     
     protected static abstract class ResourceMemberInjector<T> implements MembersInjector<T>

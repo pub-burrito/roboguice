@@ -44,13 +44,13 @@ public class AndroidResourceListener extends ResourceListener {
     }
 
     @Override
-    protected <I> ResourceMemberInjector<I> newResourceMember(TypeLiteral<I> typeLiteral, Field field ) {
+    protected <I> ResourceMemberInjector<I> newResourceMemberInjector(TypeLiteral<I> typeLiteral, Field field ) {
         return new AndroidResourceMembersInjector<I>(field, application, field.getAnnotation(InjectResource.class));
     }
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected ResourceMemberInjector newResourceMember( Field field ) {
+    protected ResourceMemberInjector newResourceMemberInjector( Field field ) {
         return new AndroidResourceMembersInjector(field, application, field.getAnnotation(InjectResource.class));
     }
 

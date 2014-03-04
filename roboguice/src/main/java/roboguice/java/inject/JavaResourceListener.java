@@ -18,13 +18,13 @@ public class JavaResourceListener extends ResourceListener {
     }
     
     @Override
-    protected <I> ResourceMemberInjector<I> newResourceMember( TypeLiteral<I> typeLiteral, Field field ) {
+    protected <I> ResourceMemberInjector<I> newResourceMemberInjector( TypeLiteral<I> typeLiteral, Field field ) {
         return new JavaMemberResourceInjector<I>(field, field.getAnnotation(InjectResource.class) );
     }
 
     @SuppressWarnings( "rawtypes" )
     @Override
-    protected ResourceMemberInjector newResourceMember( Field field ) {
+    protected ResourceMemberInjector newResourceMemberInjector( Field field ) {
         return new JavaMemberResourceInjector( field, field.getAnnotation(InjectResource.class) );
     }
     
