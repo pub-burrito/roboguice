@@ -1,5 +1,10 @@
 package roboguice.base.inject;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -110,4 +115,12 @@ public abstract class ResourceListener implements TypeListener {
         protected abstract Object getValue();
         
     }
+    
+    @Retention(RUNTIME)
+    @Target( { ElementType.TYPE })
+    @SuppressWarnings("rawtypes")
+    public @interface RequestStaticResourceInjection {
+        Class[] value();
+    }
+
 }

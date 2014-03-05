@@ -1,5 +1,7 @@
 package roboguice.base.util.logging;
 
+import java.util.Calendar;
+
 import com.google.inject.Inject;
 
 public class Writer 
@@ -9,7 +11,10 @@ public class Writer
     
     public int write(LogLevel priority, String tag, String msg )
     {
-        System.out.println(String.format("%s - %s | %s", priority, tag, msg));
-        return 0;
+        String log = String.format("%s %s %s %s", Calendar.getInstance().getTime(), priority, tag, msg);
+        
+        System.out.println(log);
+        
+        return log.length();
     }
 }

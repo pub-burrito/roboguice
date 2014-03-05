@@ -1,6 +1,5 @@
 package roboguice.java.util.logging;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 
 import roboguice.base.util.logging.BaseConfig;
@@ -10,7 +9,8 @@ public class JavaBaseConfig extends BaseConfig {
 
     public JavaBaseConfig()
     {
-        BasicConfigurator.configure();
+        //BasicConfigurator.configure();
+        //will read from log4j.properties automatically
         
         minimumLogLevel = JavaLogLevel.ALL.getLogLevel();
     }

@@ -30,7 +30,10 @@ import roboguice.android.inject.InjectExtra;
 import roboguice.android.inject.InjectPreference;
 import roboguice.android.inject.InjectView;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
+import roboguice.base.RoboGuice.RoboGuiceType;
 import roboguice.base.inject.InjectResource;
+import roboguice.base.inject.ResourceListener.RequestStaticResourceInjection;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
@@ -50,16 +53,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 @RunWith(RobolectricRoboTestRunner.class)
+@SuppressWarnings("unchecked")
 public class ActivityInjectionTest {
 
     protected DummyActivity activity;
 
     @Before
     public void setup() {
-        DroidGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA());
+    	RoboGuice.type = RoboGuiceType.ANDROID;
+        RoboGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, RoboGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA());
+        
         activity = new DummyActivity();
         activity.setIntent( new Intent(Robolectric.application,DummyActivity.class).putExtra("foobar","goober") );
-        activity.onCreate(null);
+        activity.onCreate(new Bundle());
     }
 
     @Test
@@ -100,7 +106,7 @@ public class ActivityInjectionTest {
 
     @Test(expected = ConfigurationException.class)
     public void shouldNotStaticallyInjectViews() {
-        DroidGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleB());
+        RoboGuice.instance().setScopedInjector(Robolectric.application, Stage.DEVELOPMENT, RoboGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleB());
         final B b = new B();
         b.onCreate(null);
     }
@@ -219,6 +225,7 @@ public class ActivityInjectionTest {
         }
     }
 
+    @RequestStaticResourceInjection( A.class )
     public static class ModuleA extends com.google.inject.AbstractModule {
         @Override
         protected void configure() {

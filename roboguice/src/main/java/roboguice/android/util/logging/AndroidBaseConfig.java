@@ -21,7 +21,7 @@ public class AndroidBaseConfig extends BaseConfig {
             packageName = context.getPackageName();
             final int flags = context.getPackageManager().getApplicationInfo(packageName, 0).flags;
             minimumLogLevel = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? LogLevel.VERBOSE : LogLevel.INFO;
-            scope = packageName.toUpperCase();
+            scope = packageName;
 
             Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );
 

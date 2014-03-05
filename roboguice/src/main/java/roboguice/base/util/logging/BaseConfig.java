@@ -12,7 +12,7 @@ public class BaseConfig implements Config {
     public BaseConfig() {
         try {
             packageName = BaseConfig.class.getPackage().getName();
-            scope = packageName.toUpperCase();
+            scope = packageName;
 
             //can't really log with Ln just yet as building BaseConfig is done while initializing Ln and BaseConfig is not initialized as an instance in Ln (so Ln.* would all fail)
             //Ln.d("Configuring Logging, minimum log level is %s", Ln.logLevelToString(minimumLogLevel.logLevel()) );

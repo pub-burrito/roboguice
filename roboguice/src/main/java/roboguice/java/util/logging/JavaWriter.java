@@ -1,5 +1,6 @@
 package roboguice.java.util.logging;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import roboguice.base.util.logging.LogLevel;
@@ -10,10 +11,22 @@ public class JavaWriter extends Writer {
 
     @Override
     public int write( LogLevel priority, String tag, String msg ) {
-        Logger logger = Logger.getLogger(tag);
-        logger.setLevel( JavaLogLevel.from( config.getLoggingLevel() ).javaLevel() );
         
-        logger.log(JavaLogLevel.from(priority).javaLevel(), msg);
+        logger(tag).log(level(priority), msg);
+        
         return 0;
     }
+
+    protected Logger logger(String tag) {
+        Logger logger = Logger.getLogger( tag );
+        
+        logger.setLevel( level( config.getLoggingLevel() ) );
+        
+        return logger;
+    }
+    
+    protected Level level(LogLevel priority) {
+        return JavaLogLevel.from( priority ).javaLevel();
+    }
+
 }

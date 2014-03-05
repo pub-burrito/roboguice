@@ -1,29 +1,25 @@
 package roboguice.base;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidParameterException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.WeakHashMap;
 
 import roboguice.base.config.DefaultRoboModule;
 import roboguice.base.event.EventManager;
 import roboguice.base.inject.ResourceListener;
+import roboguice.base.inject.ResourceListener.RequestStaticResourceInjection;
+import roboguice.base.util.logging.Ln;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
-import com.google.inject.spi.DefaultElementVisitor;
-import com.google.inject.spi.Element;
-import com.google.inject.spi.Elements;
-import com.google.inject.spi.StaticInjectionRequest;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * 
@@ -127,10 +123,6 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
         }
     }
     
-    //FIXME: Remove hack once fixes are in place
-    @SuppressWarnings("unchecked")
-    private static Set<Class<?>> inspectedTypesForResourceInjection = Collections.synchronizedSet( new HashSet<Class<?>>() );
-    
     /**
      * Return the cached Injector instance for this application, or create a new one if necessary.
      * If specifying your own modules, you must include a DefaultRoboModule for most things to work properly.
@@ -152,58 +144,67 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
         // Do a little rewriting on the modules first to
         // add static resource injection
         
-        System.out.println("Modules: " + modules.length);
-        System.out.println(" - " + Arrays.asList( modules ));
+        Ln.v("Modules: %s", modules.length);
+        Ln.v(" - %s", Arrays.asList( modules ));
+        Ln.v("Stage: %s", stage );
         
-        System.out.println("Getting elements...");
-        
-        /*
-         * FIXME: According to https://code.google.com/p/roboguice/issues/detail?id=196
-         * This triggers .configure() on all modules, which will be triggered again below when calling .createInjector()
-         * This also increases depending on the number of modules available, so we might want to save the second, third trip, etc.
-         * by recording these elements internally on the AbstractModule and then when asking it to be configured again, 
-         * we just pull the already configured elements and avoid calling .configure() over and over for an already configured module for a given injector.
-         */
-        List<Element> moduleElements = Elements.getElements(modules);
-        
-        System.out.println("Elements: " + moduleElements.size());
-        
-        /*
-         */
-        for (Element element : moduleElements) {
-            System.out.println("- " + element);
+        if ( stage == Stage.DEVELOPMENT )
+        {
+            GuiceDebug.enable();
         }
         
-        for(Element element : moduleElements) {
-            element.acceptVisitor(new DefaultElementVisitor<Void>() {
-                @Override
-                public Void visit(StaticInjectionRequest element) {
-                    
-                    Class<?> typeToInject = element.getType();
-                    
-                    if ( !inspectedTypesForResourceInjection.contains( typeToInject ) )
-                    {
-                        System.out.println("** StaticInjectionRequest: " + element + " - " + typeToInject);
-                        
-                        /*
-                         * FIXME: This causes us to reflectively scan every field in every class added to the static injection list to try and see if there's any with the InjectResource annotation, which can be costly.
-                         * Let's keep a separately list of StaticResourceInjectionRequests that are created by calling requestStaticResourceInjection, with only the guys we know have resources to be injected.
-                         */
-                        getResourceListener(scopedObject).requestStaticInjection(typeToInject);
-                        
-                        inspectedTypesForResourceInjection.add( typeToInject );
-                    }
-                    
-                    return null;
-                }
-            });
-        }
+        requestStaticResourceInjection(scopedObject, modules);
         
         synchronized (RoboGuice.class) {
             final Injector rtrn = Guice.createInjector(stage, modules);
             injectors.put(scopedObject,rtrn);
             return rtrn;
         }
+    }
+
+    /**
+     * Checking if module requests static resource injection for particular types
+     */
+    @SuppressWarnings("rawtypes")
+    protected void requestStaticResourceInjection(final S scopedObject, Module... modules) {
+        
+        for (Module module : modules) 
+        {
+            Class<? extends Module> moduleClass = module.getClass();
+            
+            if ( isAnnotationPresent( moduleClass, RequestStaticResourceInjection.class) )
+            {
+                RequestStaticResourceInjection requestStaticResourceInjection = getAnnotation(moduleClass, RequestStaticResourceInjection.class);
+                
+                Class[] classesToStaticallyInjectResources = requestStaticResourceInjection.value();
+                
+                Ln.v( "Static injection of resources for: " + Arrays.asList(classesToStaticallyInjectResources) );
+                
+                getResourceListener( scopedObject ).requestStaticInjection( classesToStaticallyInjectResources );
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected boolean isAnnotationPresent(Class<? extends Module> moduleClass, Class<? extends Annotation> annotationClass) {
+        return 
+               moduleClass.isAnnotationPresent( annotationClass ) || 
+               isModule( moduleClass ) &&
+               isAnnotationPresent( (Class<? extends Module>) moduleClass.getSuperclass(), annotationClass);
+    }
+
+    protected boolean isModule(Class<? extends Module> moduleClass) {
+        return moduleClass.getSuperclass() != null &&
+           Module.class.isAssignableFrom( moduleClass.getSuperclass() );
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected <T extends Annotation> T getAnnotation(Class<? extends Module> moduleClass, Class<T> annotationClass) {
+        return moduleClass.getAnnotation(annotationClass) != null ?
+                moduleClass.getAnnotation(annotationClass) :
+                  isModule( moduleClass ) ?
+                     getAnnotation( (Class<? extends Module>) moduleClass.getSuperclass(), annotationClass ) :
+                     null;
     }
     
     /**
