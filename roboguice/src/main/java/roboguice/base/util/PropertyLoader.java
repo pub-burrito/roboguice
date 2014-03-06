@@ -47,7 +47,26 @@ public class PropertyLoader {
         
         try {
             Enumeration<URL> urls = clazz.getClassLoader().getResources( resource );
-            allUrls = Collections.list(urls);
+            
+            if ( urls != null )
+            {
+                try
+                {
+                    while (urls.hasMoreElements()) {
+                        URL url = (URL) urls.nextElement();
+
+                        if ( url != null )
+                        {
+                            allUrls.add( url );
+                        }
+                    }
+                } 
+                catch (NullPointerException e)
+                {
+                    Ln.w(e, "Error getting all URLs");
+                }
+            }
+            
             
             if ( comparator != null )
             {
