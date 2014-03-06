@@ -110,6 +110,8 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
      * Return the cached Injector instance for this application, or create a new one if necessary.
      */
     public Injector getScopedInjector(S scopedObject ) {
+        Ln.v( "Getting injector for [%s] - Current: %s", scopedObject, injectors.keySet() );
+        
         Injector rtrn = injectors.get(scopedObject);
         if( rtrn!=null )
             return rtrn;
