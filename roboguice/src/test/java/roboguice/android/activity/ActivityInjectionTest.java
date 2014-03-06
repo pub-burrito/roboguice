@@ -224,7 +224,7 @@ public class ActivityInjectionTest {
         }
     }
 
-    @RequestStaticResourceInjection( A.class )
+//    @RequestStaticResourceInjection( A.class )
     public static class ModuleA extends com.google.inject.AbstractModule {
         @Override
         protected void configure() {
