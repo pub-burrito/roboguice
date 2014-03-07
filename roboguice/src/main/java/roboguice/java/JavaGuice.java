@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import roboguice.base.RoboGuice;
 import roboguice.base.util.PropertyLoader;
+import roboguice.base.util.RoboContext;
 import roboguice.base.util.logging.Ln;
 import roboguice.java.config.JavaDefaultRoboModule;
 import roboguice.java.inject.JavaContextScope;
@@ -27,10 +28,10 @@ public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboCont
     @Override
     protected List<Module> baseModules(RoboApplication scopedObject) 
     {
-        List<URL> configMatches = PropertyLoader.urlsFor(scopedObject, null);
+        List<URL> configMatches = PropertyLoader.urlsFor(scopedObject.configurationLocation(), null);
         Ln.v("Configuration files: %s", configMatches);
         
-        Properties property = PropertyLoader.loadProperty(scopedObject, new Properties(), null);
+        Properties property = PropertyLoader.loadProperty(scopedObject.configurationLocation(), new Properties(), null);
         
         String custom_modules = property != null ? (String) property.get(modulesResourceId) : null;
         final String[] moduleNames = custom_modules != null ? custom_modules.split( "," ) : new String[]{};
