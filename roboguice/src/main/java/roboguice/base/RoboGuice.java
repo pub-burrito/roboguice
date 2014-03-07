@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.WeakHashMap;
 
@@ -18,8 +19,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * 

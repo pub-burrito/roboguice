@@ -1,7 +1,5 @@
 package roboguice.base.util.logging;
 
-import org.apache.maven.artifact.ant.shaded.StringUtils;
-
 import com.google.inject.Inject;
 
 public class Print {
@@ -49,6 +47,6 @@ public class Print {
     }
 
     protected String scopeSeparator() {
-        return !StringUtils.isEmpty( config.scope() ) ? "/" : "";
+        return config.scope() == null || config.scope().length() == 0 ? "/" : "";
     }
 }
