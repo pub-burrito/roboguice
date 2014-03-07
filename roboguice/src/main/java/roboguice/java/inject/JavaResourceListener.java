@@ -64,7 +64,10 @@ public class JavaResourceListener extends ResourceListener {
         @Override
         protected Object getValue() 
         {
-            return ResourceManager.instance().getValue( annotation.name() );
+            String namedValue = ResourceManager.instance().getValue( annotation.name() );
+            String idValue = ResourceManager.instance().getValue( String.valueOf( annotation.value() ) );
+            
+            return namedValue != null ? namedValue : idValue;
         }
        
     }
