@@ -1,6 +1,7 @@
 package roboguice.android.content;
 
 import roboguice.android.DroidGuice;
+import roboguice.base.RoboGuice;
 
 import android.content.Context;
 import android.support.v4.content.Loader;
@@ -13,7 +14,7 @@ public abstract class RoboLoader<D> extends Loader<D> {
 
     public RoboLoader(Context context) {
         super(context);
-        DroidGuice.instance().injectMembers(context, this);
+        RoboGuice.<DroidGuice>instance().injectMembers(context, this);
     }
 
 }

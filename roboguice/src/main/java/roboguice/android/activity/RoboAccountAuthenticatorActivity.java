@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 
 import android.accounts.AccountAuthenticatorActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -52,7 +53,7 @@ import android.os.Bundle;
  *
  * @author Marcus Better
  */
-public class RoboAccountAuthenticatorActivity extends AccountAuthenticatorActivity implements RoboContext {
+public class RoboAccountAuthenticatorActivity extends AccountAuthenticatorActivity implements RoboContext<Context> {
     protected EventManager eventManager;
     protected HashMap<Key<?>,Object> scopedObjects = new HashMap<Key<?>, Object>();
 
@@ -144,9 +145,4 @@ public class RoboAccountAuthenticatorActivity extends AccountAuthenticatorActivi
         return scopedObjects;
     }
 
-    @Override
-    public String configurationLocation() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

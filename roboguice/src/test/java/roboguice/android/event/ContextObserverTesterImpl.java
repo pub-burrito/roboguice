@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author John Ericksen
  */
+@SuppressWarnings("unused")
 public class ContextObserverTesterImpl extends ContextObserverBase implements ContextObserverTester{
 
     public static final String[] methods = {

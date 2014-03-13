@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 
 import android.app.ExpandableListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ import android.os.Bundle;
  * 
  * @author Mike Burton
  */
-public class RoboExpandableListActivity extends ExpandableListActivity implements RoboContext {
+public class RoboExpandableListActivity extends ExpandableListActivity implements RoboContext<Context> {
     protected EventManager eventManager;
     protected HashMap<Key<?>,Object> scopedObjects = new HashMap<Key<?>, Object>();
 
@@ -144,12 +145,6 @@ public class RoboExpandableListActivity extends ExpandableListActivity implement
     @Override
     public Map<Key<?>, Object> getScopedObjectMap() {
         return scopedObjects;
-    }
-
-    @Override
-    public String configurationLocation() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

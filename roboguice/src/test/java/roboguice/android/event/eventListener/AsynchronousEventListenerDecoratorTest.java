@@ -23,6 +23,7 @@ public class AsynchronousEventListenerDecoratorTest {
     protected RunnableAsyncTaskAdaptor asyncTaskAdaptor;
     protected AsynchronousEventListenerDecorator<Object> decorator;
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setup(){
         //noinspection unchecked

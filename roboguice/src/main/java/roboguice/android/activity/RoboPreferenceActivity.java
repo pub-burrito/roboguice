@@ -30,8 +30,8 @@ import roboguice.android.activity.event.OnRestartEvent;
 import roboguice.android.activity.event.OnResumeEvent;
 import roboguice.android.activity.event.OnStartEvent;
 import roboguice.android.activity.event.OnStopEvent;
-import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.AndroidContextScope;
+import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.PreferenceListener;
 import roboguice.android.inject.RoboInjector;
 import roboguice.base.RoboGuice;
@@ -41,6 +41,7 @@ import roboguice.base.util.RoboContext;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ import android.preference.PreferenceScreen;
  * @author Rodrigo Damazio
  * @author Mike Burton
  */
-public abstract class RoboPreferenceActivity extends PreferenceActivity implements RoboContext {
+public abstract class RoboPreferenceActivity extends PreferenceActivity implements RoboContext<Context> {
     protected EventManager eventManager;
     protected PreferenceListener preferenceListener;
     protected HashMap<Key<?>,Object> scopedObjects = new HashMap<Key<?>, Object>();

@@ -19,10 +19,10 @@ import com.google.inject.spi.TypeConverterBinding;
 
 public class JavaContextScopedRoboInjector implements Injector {
     protected Injector delegate;
-    protected RoboContext context;
+    protected RoboContext<RoboApplication> context;
     protected JavaContextScope scope;
 
-    public JavaContextScopedRoboInjector(RoboContext context, Injector applicationInjector ) {
+    public JavaContextScopedRoboInjector(RoboContext<RoboApplication> context, Injector applicationInjector ) {
         this.delegate = applicationInjector;
         this.context = context;
         this.scope = delegate.getInstance(JavaContextScope.class);

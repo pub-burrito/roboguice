@@ -53,6 +53,7 @@ public class AndroidContextScope extends RoboScope<Application, Context> {
         super(application, application);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected Map<Key<?>,Object> getScopedObjectMap(final Context origContext) {
         Context context = origContext;
@@ -67,6 +68,6 @@ public class AndroidContextScope extends RoboScope<Application, Context> {
         if( !(context instanceof RoboContext) )
             throw new IllegalArgumentException(String.format("%s does not appear to be a RoboGuice context (instanceof RoboContext)",origContext));
 
-        return ((RoboContext)context).getScopedObjectMap();
+        return ((RoboContext<Context>)context).getScopedObjectMap();
     }
 }

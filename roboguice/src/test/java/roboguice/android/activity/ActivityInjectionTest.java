@@ -33,7 +33,6 @@ import roboguice.base.RoboGuice;
 import roboguice.base.RoboGuice.RoboGuiceType;
 import roboguice.base.inject.ContextScopedProvider;
 import roboguice.base.inject.InjectResource;
-import roboguice.base.inject.ResourceListener.RequestStaticResourceInjection;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
@@ -153,7 +152,7 @@ public class ActivityInjectionTest {
         // Force an OoM
         // http://stackoverflow.com/questions/3785713/how-to-make-the-java-system-release-soft-references/3810234
         try {
-            @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection"}) final ArrayList<Object[]> allocations = new ArrayList<Object[]>();
+            final ArrayList<Object[]> allocations = new ArrayList<Object[]>();
             //noinspection InfiniteLoopStatement
             while(true)
                 allocations.add( new Object[(int) Runtime.getRuntime().maxMemory()] );

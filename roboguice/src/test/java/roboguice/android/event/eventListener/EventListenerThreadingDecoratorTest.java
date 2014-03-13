@@ -22,6 +22,7 @@ import android.os.Handler;
  *
  * @author John Ericksen
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class EventListenerThreadingDecoratorTest {
 
     protected EventListenerThreadingDecorator eventListenerDecorator;

@@ -19,7 +19,7 @@ import roboguice.java.inject.RoboApplication;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboContext, JavaDefaultRoboModule, JavaResourceListener> {
+public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboContext<RoboApplication>, JavaDefaultRoboModule, JavaResourceListener> {
 
     private JavaGuice() {
         modulesResourceId = "";
@@ -28,10 +28,10 @@ public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboCont
     @Override
     protected List<Module> baseModules(RoboApplication scopedObject) 
     {
-        List<URL> configMatches = PropertyLoader.urlsFor(scopedObject.configurationLocation(), null);
+        List<URL> configMatches = PropertyLoader.urlsFor(scopedObject.configurationPath(), null);
         Ln.v("Configuration files: %s", configMatches);
         
-        Properties property = PropertyLoader.loadProperty(scopedObject.configurationLocation(), new Properties(), null);
+        Properties property = PropertyLoader.loadProperty(scopedObject.configurationPath(), new Properties(), null);
         
         String custom_modules = property != null ? (String) property.get(modulesResourceId) : null;
         final String[] moduleNames = custom_modules != null ? custom_modules.split( "," ) : new String[]{};
@@ -55,8 +55,9 @@ public final class JavaGuice extends RoboGuice<String, RoboApplication, RoboCont
     }
 
     @Override
-    public Injector getInjector(RoboContext scopedObject) {
-        return new JavaContextScopedRoboInjector(scopedObject, getScopedInjector( new RoboApplication(scopedObject) ) );
+    public Injector getInjector(RoboContext<RoboApplication> scopedObject) {
+        //FIXME: Get application from context
+        return new JavaContextScopedRoboInjector(scopedObject, getScopedInjector( scopedObject.getApplicationContext() ) );
     }
     
     @Override

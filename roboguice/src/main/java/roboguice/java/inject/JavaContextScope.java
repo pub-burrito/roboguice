@@ -42,14 +42,14 @@ import com.google.inject.Key;
  *
  * @see ContextScopedRoboInjector
  */
-public class JavaContextScope extends RoboScope<RoboApplication, RoboContext> {
+public class JavaContextScope extends RoboScope<RoboApplication, RoboContext<RoboApplication>> {
     
     public JavaContextScope(RoboApplication application) {
         super(application, application);
     }
 
     @Override
-    protected Map<Key<?>,Object> getScopedObjectMap(final RoboContext origContext) {
+    protected Map<Key<?>,Object> getScopedObjectMap(final RoboContext<RoboApplication> origContext) {
         
         // Special case for application so that users don't have to manually set up application subclasses
         if( origContext instanceof RoboApplication )

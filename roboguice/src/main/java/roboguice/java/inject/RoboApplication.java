@@ -2,32 +2,32 @@ package roboguice.java.inject;
 
 import java.util.Map;
 
-import com.google.inject.Key;
-
 import roboguice.base.util.RoboContext;
 
-public class RoboApplication implements RoboContext {
+import com.google.inject.Key;
 
-    private String configurationLocation;
+public class RoboApplication implements RoboContext<RoboApplication> {
+
+    private String configurationPath;
     
-    public RoboApplication( String configurationLocation )
+    public RoboApplication( String configurationPath )
     {
-        this.configurationLocation = configurationLocation;
+        this.configurationPath = configurationPath;
     }
     
-    public RoboApplication( RoboContext ctx )
+    public String configurationPath()
     {
-        configurationLocation = ctx.configurationLocation();
-    }
-    
-    public String configurationLocation()
-    {
-        return configurationLocation;
+        return configurationPath;
     }
     
     @Override
     public Map<Key<?>, Object> getScopedObjectMap() {
         return null;
+    }
+
+    @Override
+    public RoboApplication getApplicationContext() {
+        return this;
     }
 
 }

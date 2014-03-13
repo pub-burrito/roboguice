@@ -3,9 +3,9 @@ package roboguice.base.inject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import android.content.Context;
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ContextScopedProvider<A,C,T> {
+    
     @Inject protected RoboScope scope;
     @Inject protected Provider<T> provider;
 

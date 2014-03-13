@@ -8,6 +8,7 @@ import roboguice.android.service.event.OnConfigurationChangedEvent;
 import roboguice.android.service.event.OnCreateEvent;
 import roboguice.android.service.event.OnDestroyEvent;
 import roboguice.android.service.event.OnStartEvent;
+import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
 import roboguice.base.util.RoboContext;
 
@@ -15,6 +16,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 
@@ -40,7 +42,7 @@ import android.content.res.Configuration;
  *
  * @author Donn Felker
  */
-public abstract class RoboIntentService extends IntentService implements RoboContext {
+public abstract class RoboIntentService extends IntentService implements RoboContext<Context> {
 
     protected EventManager eventManager;
     protected HashMap<Key<?>,Object> scopedObjects = new HashMap<Key<?>, Object>();
@@ -54,7 +56,7 @@ public abstract class RoboIntentService extends IntentService implements RoboCon
 
     @Override
     public void onCreate() {
-        final Injector injector = DroidGuice.instance().getInjector(this);
+        final Injector injector = RoboGuice.<DroidGuice>instance().getInjector(this);
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembers(this);
         super.onCreate();
@@ -75,7 +77,7 @@ public abstract class RoboIntentService extends IntentService implements RoboCon
                 eventManager.fire(new OnDestroyEvent() );
         } finally {
             try {
-                DroidGuice.instance().destroyInjector(this);
+                RoboGuice.<DroidGuice>instance().destroyInjector(this);
             } finally {
                 super.onDestroy();
             }

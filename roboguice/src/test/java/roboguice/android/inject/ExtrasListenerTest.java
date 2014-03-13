@@ -61,12 +61,5 @@ public class ExtrasListenerTest {
             return null;
         }
 
-        @Override
-        public String configurationLocation() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        
     }
 }

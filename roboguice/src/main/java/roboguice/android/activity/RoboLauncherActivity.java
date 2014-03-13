@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 
 import android.app.LauncherActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -52,7 +53,7 @@ import android.os.Bundle;
  * 
  * @author Toly Pochkin
  */
-public class RoboLauncherActivity extends LauncherActivity implements RoboContext {
+public class RoboLauncherActivity extends LauncherActivity implements RoboContext<Context> {
     protected EventManager eventManager;
     protected HashMap<Key<?>,Object> scopedObjects = new HashMap<Key<?>, Object>();
 
@@ -143,12 +144,6 @@ public class RoboLauncherActivity extends LauncherActivity implements RoboContex
     @Override
     public Map<Key<?>, Object> getScopedObjectMap() {
         return scopedObjects;
-    }
-
-    @Override
-    public String configurationLocation() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

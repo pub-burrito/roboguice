@@ -16,6 +16,7 @@ import org.robolectric.tester.android.content.TestSharedPreferences;
 import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
 import roboguice.base.util.Strings;
 
 import com.google.inject.AbstractModule;
@@ -25,7 +26,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 @RunWith(RobolectricRoboTestRunner.class)
 public class SharedPreferencesProviderTest {
 
@@ -43,7 +43,7 @@ public class SharedPreferencesProviderTest {
 
     @Test
     public void shouldInjectNamedSharedPrefs() throws Exception {
-        DroidGuice.instance().setScopedInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA() );
+        RoboGuice.<DroidGuice>instance().setScopedInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, RoboGuice.<DroidGuice>instance().newDefaultRoboModule(Robolectric.application), new ModuleA() );
         try {
             
             final A a = new A();
@@ -85,7 +85,7 @@ public class SharedPreferencesProviderTest {
 
     @Test
     public void shouldNotFallbackOnOldDefaultIfNamedFileSpecified() throws Exception {
-        DroidGuice.instance().setScopedInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, DroidGuice.instance().newDefaultRoboModule(Robolectric.application), new ModuleA() );
+        RoboGuice.<DroidGuice>instance().setScopedInjector(Robolectric.application,DroidGuice.DEFAULT_STAGE, RoboGuice.<DroidGuice>instance().newDefaultRoboModule(Robolectric.application), new ModuleA() );
 
         final File oldDefault = new File("shared_prefs/default.xml");
         final File oldDir = new File("shared_prefs");

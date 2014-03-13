@@ -50,12 +50,6 @@ public class ServiceInjectionTest {
         public IBinder onBind(Intent intent) {
             return null;
         }
-
-        @Override
-        public String configurationLocation() {
-            // TODO Auto-generated method stub
-            return null;
-        }
     }
 
     static public class RoboIntentServiceA extends RoboIntentService {
@@ -68,12 +62,6 @@ public class ServiceInjectionTest {
         @Override
         protected void onHandleIntent(Intent intent) {
         }
-
-        @Override
-        public String configurationLocation() {
-            // TODO Auto-generated method stub
-            return null;
-        }
     }
 
     static public class RoboServiceB extends RoboService {
@@ -81,12 +69,6 @@ public class ServiceInjectionTest {
 
         @Override
         public IBinder onBind(Intent intent) {
-            return null;
-        }
-
-        @Override
-        public String configurationLocation() {
-            // TODO Auto-generated method stub
             return null;
         }
     }

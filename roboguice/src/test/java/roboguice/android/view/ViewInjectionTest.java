@@ -15,6 +15,7 @@ import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.inject.InjectView;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
 
 import com.google.inject.Inject;
 
@@ -58,7 +59,7 @@ public class ViewInjectionTest {
         // Force an OoM
         // http://stackoverflow.com/questions/3785713/how-to-make-the-java-system-release-soft-references/3810234
         try {
-            @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection"}) final ArrayList<Object[]> allocations = new ArrayList<Object[]>();
+            final ArrayList<Object[]> allocations = new ArrayList<Object[]>();
             //noinspection InfiniteLoopStatement
             while(true)
                 allocations.add( new Object[(int) Runtime.getRuntime().maxMemory()] );
@@ -154,7 +155,7 @@ public class ViewInjectionTest {
                 ref.setId(101);
                 addView(ref);
 
-                DroidGuice.instance().getInjector(getContext()).injectMembers(this);
+                RoboGuice.<DroidGuice>instance().getInjector(getContext()).injectMembers(this);
             }
 
         }
@@ -189,7 +190,7 @@ public class ViewInjectionTest {
                 ref.setTag("101");
                 addView(ref);
 
-                DroidGuice.instance().getInjector(getContext()).injectMembers(this);
+                RoboGuice.<DroidGuice>instance().getInjector(getContext()).injectMembers(this);
             }
 
         }

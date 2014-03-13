@@ -21,14 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import com.google.inject.*;
-import com.google.inject.spi.TypeConverterBinding;
-
-import java.lang.annotation.Annotation;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 public class AndroidContextScopedRoboInjector implements RoboInjector {
     protected Injector delegate;
     protected Context context;

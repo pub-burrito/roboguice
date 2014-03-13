@@ -10,8 +10,8 @@ import org.robolectric.Robolectric;
 
 import roboguice.android.DroidGuice;
 import roboguice.android.activity.RoboActivity;
-import roboguice.android.inject.AndroidContextScope;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
 import roboguice.base.inject.ContextSingleton;
 
 import com.google.inject.Inject;
@@ -42,7 +42,7 @@ public class ContextScopeTest {
 
     @Test
     public void shouldBeAbleToOpenMultipleScopes() {
-        final AndroidContextScope scope = DroidGuice.instance().getScopedInjector(Robolectric.application).getInstance(AndroidContextScope.class);
+        final AndroidContextScope scope = RoboGuice.<DroidGuice>instance().getScopedInjector(Robolectric.application).getInstance(AndroidContextScope.class);
         final Activity a = new A();
         final Activity b = new B();
 
@@ -54,7 +54,7 @@ public class ContextScopeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotBeAbleToExitTheWrongScope() {
-        final AndroidContextScope scope = DroidGuice.instance().getScopedInjector(Robolectric.application).getInstance(AndroidContextScope.class);
+        final AndroidContextScope scope = RoboGuice.<DroidGuice>instance().getScopedInjector(Robolectric.application).getInstance(AndroidContextScope.class);
         final Activity a = new A();
         final Activity b = new B();
 

@@ -27,6 +27,7 @@ public class JavaDefaultRoboModule extends DefaultRoboModule<JavaResourceListene
      // ContextSingleton bindings
         bindScope(ContextSingleton.class, contextScope);
         bind(RoboScope.class).toInstance(contextScope);
+        bind(JavaContextScope.class).toInstance(contextScope);
         
         bindListener(Matchers.any(), resourceListener);
         

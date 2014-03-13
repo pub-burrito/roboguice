@@ -1,6 +1,7 @@
 package roboguice.android.receiver;
 
 import roboguice.android.DroidGuice;
+import roboguice.base.RoboGuice;
 
 import com.google.inject.Injector;
 
@@ -21,7 +22,7 @@ public abstract class RoboBroadcastReceiver extends BroadcastReceiver {
      */
     @Override
     public final void onReceive(Context context, Intent intent) {
-        final Injector injector = DroidGuice.instance().getScopedInjector((Application) context.getApplicationContext());
+        final Injector injector = RoboGuice.<DroidGuice>instance().getScopedInjector((Application) context.getApplicationContext());
 
         injector.injectMembers(this);
         handleReceive(context, intent);
@@ -34,7 +35,6 @@ public abstract class RoboBroadcastReceiver extends BroadcastReceiver {
      * @param context
      * @param intent
      */
-    @SuppressWarnings("UnusedParameters")
     protected void handleReceive(Context context, Intent intent) {
         // proper template method to handle the receive
     }
