@@ -40,6 +40,7 @@ public class ObserverMethodListener<T> implements EventListener<T> {
         return instance;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

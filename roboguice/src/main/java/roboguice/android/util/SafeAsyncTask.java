@@ -118,7 +118,6 @@ public abstract class SafeAsyncTask<ResultT> implements Callable<ResultT> {
      * @param t the result of {@link #call()}
      * @throws Exception, captured on passed to onException() if present.
      */
-    @SuppressWarnings({"UnusedDeclaration"})
     protected void onSuccess( ResultT t ) throws Exception {}
 
     /**
@@ -267,7 +266,7 @@ public abstract class SafeAsyncTask<ResultT> implements Callable<ResultT> {
          * @param c the callable to post
          * @throws Exception on error
          */
-        protected void postToUiThreadAndWait( final Callable c ) throws Exception {
+        protected void postToUiThreadAndWait( final Callable<?> c ) throws Exception {
             final CountDownLatch latch = new CountDownLatch(1);
             final Exception[] exceptions = new Exception[1];
 

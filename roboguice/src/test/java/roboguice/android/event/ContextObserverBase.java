@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author John Ericksen
  */
-@SuppressWarnings({"UnusedParameters", "UnusedDeclaration"})
+@SuppressWarnings("unused")
 public class ContextObserverBase {
 
     private Map<String, Map<Class<?>, Integer>> callCount = new HashMap<String, Map<Class<?>, Integer>>();
@@ -117,7 +117,7 @@ public class ContextObserverBase {
         triggerCalled(OVERLOADED_METHOD, EventTwo.class);
     }
 
-    public void triggerCalled(String method, Class eventClass) {
+    public void triggerCalled(String method, Class<?> eventClass) {
         if(!callCount.containsKey(method)){
             callCount.put(method, new HashMap<Class<?>, Integer>());
         }

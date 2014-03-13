@@ -10,6 +10,7 @@ import org.robolectric.Robolectric;
 
 import roboguice.android.DroidGuice;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
 
 import com.google.inject.Inject;
@@ -35,7 +36,7 @@ public class ObservesTypeListenerTest {
     @Before
     public void setup() throws NoSuchMethodException {
         app = Robolectric.application;
-        injector = DroidGuice.instance().getInjector(app);
+        injector = RoboGuice.<DroidGuice>instance().getInjector(app);
 
         eventManager = injector.getInstance(EventManager.class);
 

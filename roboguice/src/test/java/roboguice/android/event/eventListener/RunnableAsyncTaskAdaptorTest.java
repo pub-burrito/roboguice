@@ -13,6 +13,7 @@ import org.junit.Test;
  *
  * @author John Ericksen
  */
+@SuppressWarnings("rawtypes")
 public class RunnableAsyncTaskAdaptorTest {
 
     protected EventListenerRunnable runnable;

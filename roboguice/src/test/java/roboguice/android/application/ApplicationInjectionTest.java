@@ -12,6 +12,7 @@ import org.robolectric.Robolectric;
 
 import roboguice.android.DroidGuice;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.RoboGuice;
 
 import com.google.inject.Inject;
 
@@ -49,7 +50,7 @@ public class ApplicationInjectionTest {
         @Override
         public void onCreate() {
             super.onCreate();
-            DroidGuice.instance().getInjector(this).injectMembers(this);
+            RoboGuice.<DroidGuice>instance().getInjector(this).injectMembers(this);
         }
     }
 
@@ -59,7 +60,7 @@ public class ApplicationInjectionTest {
         @Override
         public void onCreate() {
             super.onCreate();
-            DroidGuice.instance().getInjector(this).injectMembers(this);
+            RoboGuice.<DroidGuice>instance().getInjector(this).injectMembers(this);
         }
     }
 

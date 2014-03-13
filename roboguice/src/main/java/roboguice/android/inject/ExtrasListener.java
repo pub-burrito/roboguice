@@ -21,6 +21,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 
 import roboguice.android.DroidGuice;
+import roboguice.base.RoboGuice;
 import roboguice.base.inject.Nullable;
 
 import com.google.inject.Binding;
@@ -102,7 +103,7 @@ public class ExtrasListener implements TypeListener {
 
             value = extras.get(id);
 
-            value = convert(field, value, DroidGuice.instance().getScopedInjector(activity.getApplication()));
+            value = convert(field, value, RoboGuice.<DroidGuice>instance().getScopedInjector(activity.getApplication()));
 
             /*
              * Please notice : null checking is done AFTER conversion. Having
@@ -131,7 +132,7 @@ public class ExtrasListener implements TypeListener {
             }
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         protected Object convert(Field field, Object value, Injector injector) {
 
             // Don't try to convert null or primitives

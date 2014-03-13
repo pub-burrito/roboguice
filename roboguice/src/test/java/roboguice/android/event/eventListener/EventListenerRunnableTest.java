@@ -16,6 +16,7 @@ import roboguice.base.event.EventListener;
  *
  * @author John Ericksen
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class EventListenerRunnableTest {
 
     protected EventOne event;

@@ -41,8 +41,8 @@ import android.view.View;
 @Singleton
 public class ViewListener implements TypeListener {
     
-    protected static Class fragmentClass = null;
-    protected static Class fragmentManagerClass = null;
+    protected static Class<?> fragmentClass = null;
+    protected static Class<?> fragmentManagerClass = null;
     protected static Method fragmentGetViewMethod = null;
     protected static Method fragmentFindFragmentByIdMethod = null;
     protected static Method fragmentFindFragmentByTagMethod = null;
@@ -88,6 +88,7 @@ public class ViewListener implements TypeListener {
     /**
      * This class gets twice as many providers as necessary to do its job, look into optimizations in the future if this is a bottleneck
      */
+    @SuppressWarnings("rawtypes")
     public static class ViewMembersInjector<T> implements MembersInjector<T> {
         protected static WeakHashMap<Object,ArrayList<ViewMembersInjector<?>>> viewMembersInjectors = new WeakHashMap<Object, ArrayList<ViewMembersInjector<?>>>();
 
@@ -156,6 +157,7 @@ public class ViewListener implements TypeListener {
          *
          * @param activityOrFragment an activity or fragment
          */
+        @SuppressWarnings("unchecked")
         protected void reallyInjectMemberViews(Object activityOrFragment) {
 
             final T instance = fragmentClass!=null && fragmentClass.isInstance(activityOrFragment) ? (T)activityOrFragment : instanceRef.get();

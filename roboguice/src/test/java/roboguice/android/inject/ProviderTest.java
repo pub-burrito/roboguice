@@ -14,7 +14,9 @@ import org.junit.runner.RunWith;
 
 import roboguice.android.activity.RoboActivity;
 import roboguice.android.test.RobolectricRoboTestRunner;
+import roboguice.base.inject.ContextScopedProvider;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -63,7 +65,7 @@ public class ProviderTest {
 
 
     public static class A extends RoboActivity {
-        @Inject ContextScopedProvider<Context> contextProvider;
+        @Inject ContextScopedProvider<Application, Context, Context> contextProvider;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class ProviderTest {
     }
 
     public static class C extends RoboActivity {
-        @Inject ContextScopedProvider<Context> contextProvider;
+        @Inject ContextScopedProvider<Application, Context, Context> contextProvider;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {

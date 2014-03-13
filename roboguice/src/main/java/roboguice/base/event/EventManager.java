@@ -37,7 +37,7 @@ public class EventManager {
      * @param listener to be triggered
      * @param <T> event type
      */
-    public <T> void registerObserver( Class<T> event, EventListener listener ) {
+    public <T> void registerObserver( Class<T> event, EventListener<?> listener ) {
         Set<EventListener<?>> observers = registrations.get(event);
         if (observers == null) {
             observers = Collections.synchronizedSet(new LinkedHashSet<EventListener<?>>());
@@ -75,7 +75,7 @@ public class EventManager {
         //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized (observers) {
             for (Iterator<EventListener<?>> iterator = observers.iterator(); iterator.hasNext();) {
-                final EventListener registeredListener = iterator.next();
+                final EventListener<?> registeredListener = iterator.next();
                 if (registeredListener == listener) {
                     iterator.remove();
                     break;
@@ -99,9 +99,9 @@ public class EventManager {
         //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized (observers) {
             for (Iterator<EventListener<?>> iterator = observers.iterator(); iterator.hasNext();) {
-                final EventListener listener = iterator.next();
+                final EventListener<?> listener = iterator.next();
                 if( listener instanceof ObserverMethodListener ) {
-                    final ObserverMethodListener observer = ((ObserverMethodListener)listener);
+                    final ObserverMethodListener<?> observer = ((ObserverMethodListener<?>)listener);
                     if (observer.getInstance() == instance) {
                         iterator.remove();
                         break;
@@ -117,6 +117,7 @@ public class EventManager {
      *
      * @param event observed
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void fire(Object event) {
 
         final Set<EventListener<?>> observers = registrations.get(event.getClass());

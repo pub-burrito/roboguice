@@ -25,15 +25,14 @@ import roboguice.android.activity.ActivityInjectionTest.ModuleA.A;
 import roboguice.android.activity.ActivityInjectionTest.ModuleB.B;
 import roboguice.android.activity.ActivityInjectionTest.ModuleC.C;
 import roboguice.android.activity.ActivityInjectionTest.ModuleD.D;
-import roboguice.android.inject.ContextScopedProvider;
 import roboguice.android.inject.InjectExtra;
 import roboguice.android.inject.InjectPreference;
 import roboguice.android.inject.InjectView;
 import roboguice.android.test.RobolectricRoboTestRunner;
 import roboguice.base.RoboGuice;
 import roboguice.base.RoboGuice.RoboGuiceType;
+import roboguice.base.inject.ContextScopedProvider;
 import roboguice.base.inject.InjectResource;
-import roboguice.base.inject.ResourceListener.RequestStaticResourceInjection;
 
 import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
@@ -41,7 +40,6 @@ import com.google.inject.Key;
 import com.google.inject.Stage;
 import com.google.inject.TypeLiteral;
 
-import android.R;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -75,7 +73,7 @@ public class ActivityInjectionTest {
 
     @Test
     public void shouldInjectView() {
-        assertThat(activity.text1,is(activity.findViewById(R.id.text1)));
+        assertThat(activity.text1,is(activity.findViewById(android.R.id.text1)));
     }
 
     @Test
@@ -154,7 +152,7 @@ public class ActivityInjectionTest {
         // Force an OoM
         // http://stackoverflow.com/questions/3785713/how-to-make-the-java-system-release-soft-references/3810234
         try {
-            @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection"}) final ArrayList<Object[]> allocations = new ArrayList<Object[]>();
+            final ArrayList<Object[]> allocations = new ArrayList<Object[]>();
             //noinspection InfiniteLoopStatement
             while(true)
                 allocations.add( new Object[(int) Runtime.getRuntime().maxMemory()] );
@@ -172,7 +170,7 @@ public class ActivityInjectionTest {
         f.onCreate(null);
 
         final FutureTask<Context> future = new FutureTask<Context>(new Callable<Context>() {
-            final ContextScopedProvider<Context> contextProvider = DroidGuice.instance().getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Context>>(){}));
+            final ContextScopedProvider<Application, Context, Context> contextProvider = DroidGuice.instance().getInjector(f).getInstance(Key.get(new TypeLiteral<ContextScopedProvider<Application, Context, Context>>(){}));
             
             @Override
             public Context call() throws Exception {
@@ -190,8 +188,8 @@ public class ActivityInjectionTest {
         @Inject protected String emptyString;
         @Inject protected Activity activity;
         @Inject protected RoboActivity roboActivity;
-        @InjectView(R.id.text1) protected TextView text1;
-        @InjectResource(R.string.cancel) protected String cancel;
+        @InjectView(android.R.id.text1) protected TextView text1;
+        @InjectResource(android.R.string.cancel) protected String cancel;
         @InjectExtra("foobar") protected String foobar;
 
         
@@ -203,11 +201,11 @@ public class ActivityInjectionTest {
 
             final TextView text1 = new TextView(this);
             root.addView(text1);
-            text1.setId(R.id.text1);
+            text1.setId(android.R.id.text1);
 
-            final LinearLayout included1 = addIncludedView(R.id.summary, R.string.ok);
+            final LinearLayout included1 = addIncludedView(android.R.id.summary, android.R.string.ok);
             root.addView(included1);
-            final LinearLayout included2 = addIncludedView(R.id.title, R.string.no);
+            final LinearLayout included2 = addIncludedView(android.R.id.title, android.R.string.no);
             root.addView(included2);
 
             setContentView(root);
@@ -219,13 +217,13 @@ public class ActivityInjectionTest {
 
             TextView textView = new TextView(this);
             container.addView(textView);
-            textView.setId(R.id.text2);
+            textView.setId(android.R.id.text2);
             textView.setText(stringResId);
             return container;
         }
     }
 
-    @RequestStaticResourceInjection( A.class )
+//    @RequestStaticResourceInjection( A.class )
     public static class ModuleA extends com.google.inject.AbstractModule {
         @Override
         protected void configure() {

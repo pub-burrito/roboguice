@@ -32,15 +32,16 @@ import roboguice.android.activity.event.OnStartEvent;
 import roboguice.android.activity.event.OnStopEvent;
 import roboguice.android.inject.ContentViewListener;
 import roboguice.android.inject.RoboInjector;
-import roboguice.android.util.RoboContext;
 import roboguice.base.RoboGuice;
 import roboguice.base.event.EventManager;
+import roboguice.base.util.RoboContext;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -76,7 +77,7 @@ import android.os.Bundle;
  * 
  * @author Mike Burton
  */
-public class RoboActivity extends Activity implements RoboContext {
+public class RoboActivity extends Activity implements RoboContext<Context> {
     protected EventManager eventManager;
     protected HashMap<Key<?>,Object> scopedObjects = new HashMap<Key<?>, Object>();
 
@@ -167,4 +168,5 @@ public class RoboActivity extends Activity implements RoboContext {
     public Map<Key<?>, Object> getScopedObjectMap() {
         return scopedObjects;
     }
+
 }

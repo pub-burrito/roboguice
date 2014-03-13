@@ -9,7 +9,6 @@ import com.google.inject.Inject;
 import android.app.Activity;
 import android.content.Context;
 
-@SuppressWarnings("UnusedParameters")
 @ContextSingleton
 public class ContentViewListener {
     @Inject protected Activity activity;

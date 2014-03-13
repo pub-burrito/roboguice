@@ -63,7 +63,6 @@ public abstract class RoboSplashActivity extends Activity {
      * 
      * @param app
      */
-    @SuppressWarnings({"UnusedParameters"})
     protected void doStuffInBackground(Application app) {
     }
 
