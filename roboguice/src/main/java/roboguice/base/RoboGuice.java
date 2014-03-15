@@ -115,6 +115,8 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
         if( rtrn!=null )
             return rtrn;
 
+        Ln.v( new Throwable() );
+        
         synchronized (RoboGuice.class) {
             rtrn = injectors.get(scopedObject);
             if( rtrn!=null )
