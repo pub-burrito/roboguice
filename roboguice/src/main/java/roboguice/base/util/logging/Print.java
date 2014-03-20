@@ -5,6 +5,8 @@ import com.google.inject.Inject;
 public class Print {
     
     protected static final int LOG_CALLER_DEPTH = 5;
+    
+    private static final String SCOPE_SEPARATOR = "/";
 
     /**
      * config is initially set to BaseConfig() with sensible defaults, then replaced
@@ -47,6 +49,8 @@ public class Print {
     }
 
     protected String scopeSeparator() {
-        return config.scope() == null || config.scope().length() == 0 ? "/" : "";
+        boolean hasNoScope = config.scope() == null || config.scope().length() == 0;
+        
+        return hasNoScope ? "" : SCOPE_SEPARATOR;
     }
 }
