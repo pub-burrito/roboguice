@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 
 public class Print {
     
+    // 5=Class.method() > 4=Ln.d > 3=Print.println > 2=Print.getScope, 1=debugScope, 0=Thread.getStackTrace() 
     protected static final int LOG_CALLER_DEPTH = 5;
     
     private static final String SCOPE_SEPARATOR = "/";
@@ -40,16 +41,22 @@ public class Print {
            String
                .format(
                    "%s%s%s:%d [%s]", 
-                   config.scope(), 
-                   scopeSeparator(), 
+                   scope( trace ), 
+                   scopeSeparator( trace ), 
                    trace.getFileName(), 
                    trace.getLineNumber(), 
                    Thread.currentThread().getName()
                );
     }
 
-    protected String scopeSeparator() {
-        boolean hasNoScope = config.scope() == null || config.scope().length() == 0;
+    protected String scope(final StackTraceElement trace) {
+        return config.hasCustomScope() ? config.scope() : trace.getClassName().substring( 0, trace.getClassName().lastIndexOf(".") );
+    }
+
+    protected String scopeSeparator( StackTraceElement trace ) {
+        String scope = scope( trace );
+        
+        boolean hasNoScope = scope == null || scope.length() == 0;
         
         return hasNoScope ? "" : SCOPE_SEPARATOR;
     }

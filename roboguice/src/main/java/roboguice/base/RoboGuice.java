@@ -239,6 +239,8 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
         injector.getInstance(EventManager.class).destroy();
         injectors.remove(context);
         
+        Ln.v( "Injectors: %s (empty=%s)", injectors, injectors.isEmpty() );
+        
         if ( injectors.isEmpty() )
         {
             instance = null;
