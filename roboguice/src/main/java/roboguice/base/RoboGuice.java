@@ -238,6 +238,11 @@ public abstract class RoboGuice<I, S, O, R extends DefaultRoboModule<L>, L exten
         final Injector injector = getInjector(context);
         injector.getInstance(EventManager.class).destroy();
         injectors.remove(context);
+        
+        if ( injectors.isEmpty() )
+        {
+            instance = null;
+        }
     }
         
     public Injector getInjector( O context )
