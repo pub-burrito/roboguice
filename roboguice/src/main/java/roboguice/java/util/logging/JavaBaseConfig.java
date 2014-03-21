@@ -12,17 +12,17 @@ public class JavaBaseConfig extends BaseConfig {
         //BasicConfigurator.configure();
         //will read from log4j.properties automatically
         
-        minimumLogLevel = JavaLogLevel.ALL.getLogLevel();
+        minimumLogLevel = JavaLogLevel.TRACE.getLogLevel();
     }
     
     static enum JavaLogLevel
     {
-        ALL( Level.ALL, LogLevel.VERBOSE ),
-        DEBUG( Level.DEBUG, LogLevel.DEBUG ),
-        WARN( Level.WARN, LogLevel.WARN ),
-        INFO( Level.INFO, LogLevel.INFO ), 
-        ERROR( Level.ERROR, LogLevel.ERROR ),
-        FATAL( Level.FATAL, LogLevel.ERROR )
+        TRACE   ( Level.TRACE,  LogLevel.VERBOSE ),
+        DEBUG   ( Level.DEBUG,  LogLevel.DEBUG ),
+        WARN    ( Level.WARN,   LogLevel.WARN ),
+        INFO    ( Level.INFO,   LogLevel.INFO ), 
+        ERROR   ( Level.ERROR,  LogLevel.ERROR ),
+        FATAL   ( Level.FATAL,  LogLevel.ERROR )
         ;
 
         private Level level;
@@ -58,7 +58,7 @@ public class JavaBaseConfig extends BaseConfig {
                     return level;
                 }
             }
-            return ALL;
+            return TRACE;
         }
     }
 }
