@@ -12,12 +12,12 @@ public class JavaWriter extends Writer {
     @Override
     public int write( LogLevel priority, String tag, String msg ) {
         
-        logger(tag).log(level(priority), msg);
+        logger( tag ).log( level( priority ), msg );
         
         return 0;
     }
 
-    protected Logger logger(String tag) {
+    protected Logger logger( String tag ) {
         Logger logger = Logger.getLogger( tag );
         
         logger.setLevel( level( config.getLoggingLevel() ) );
@@ -25,7 +25,7 @@ public class JavaWriter extends Writer {
         return logger;
     }
     
-    protected Level level(LogLevel priority) {
+    protected Level level( LogLevel priority ) {
         return JavaLogLevel.from( priority ).javaLevel();
     }
 
