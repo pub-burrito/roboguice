@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 
 public class Print {
     
-    // 5=Class.method() > 4=Ln.d > 3=Print.println > 2=Print.getScope, 1=debugScope, 0=Thread.getStackTrace() 
-    protected static final int LOG_CALLER_DEPTH = 5;
+    // 4=Class.method() > 3=Ln.d > 2=Print.println > 1=Print.getScope, 0=debugScope 
+    protected static final int LOG_CALLER_DEPTH = 4;
     
     private static final String SCOPE_SEPARATOR = "/";
 
@@ -35,7 +35,7 @@ public class Print {
     }
 
     protected String debugScope(int skipDepth) {
-        final StackTraceElement trace = Thread.currentThread().getStackTrace()[skipDepth];
+        final StackTraceElement trace = new Throwable().getStackTrace()[skipDepth];
         
         return 
            String
