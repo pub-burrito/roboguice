@@ -1,8 +1,10 @@
 package roboguice.base.util.logging;
 
-import java.util.regex.Pattern;
+import jregex.Pattern;
+import jregex.Replacer;
 
 import com.google.inject.Inject;
+
 
 public class Print {
     
@@ -10,8 +12,12 @@ public class Print {
     protected static final int LOG_CALLER_DEPTH = 4;
     private static final String SCOPE_SEPARATOR = "/";
     
-    public static final Pattern PATTERN_REPEATED_CHARS = Pattern.compile( "(.{3,}?)\\1\\1+" ); //at least 3 char string, repeated at least 2 more times, ie: abcabcabc would be replaced, abababab would not just like abcabc.
     private static final String REMOVED_FOR_BREVITY = "...<removed-for-brevity-in-logs>...";
+    
+    //at least 3 char string, repeated at least 2 more times, ie: abcabcabc would be replaced, abababab would not just like abcabc.
+    public static final Pattern PATTERN_REPEATED_CHARS = new Pattern( "(.{3,4}?)\\1\\1+" );
+    public static final Replacer REPLACER_REPEATED_CHARS = PATTERN_REPEATED_CHARS.replacer( "$1" + REMOVED_FOR_BREVITY );
+    
     public static final String CONTINUES = "...";
     
     public static final int MAX_LINE_LENGTH = 5 * 1024; //5 KB
@@ -30,7 +36,7 @@ public class Print {
     }
 
     protected String processMessage(String msg) {
-        String msgWithoutLongRepeatedLetters = msg != null ? PATTERN_REPEATED_CHARS.matcher( msg ).replaceAll( "$1" + REMOVED_FOR_BREVITY ) : msg;
+        String msgWithoutLongRepeatedLetters = msg != null ? REPLACER_REPEATED_CHARS.replace( msg ) : msg;
         
         String abbreviatedMsg = 
                 msgWithoutLongRepeatedLetters != null ?
