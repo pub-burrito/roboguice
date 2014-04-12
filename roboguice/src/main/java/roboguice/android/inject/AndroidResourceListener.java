@@ -21,6 +21,7 @@ import roboguice.base.inject.InjectResource;
 import roboguice.base.inject.ResourceListener;
 
 import com.google.inject.TypeLiteral;
+import roboguice.base.util.logging.Ln;
 
 import android.app.Application;
 import android.content.res.ColorStateList;
@@ -71,24 +72,30 @@ public class AndroidResourceListener extends ResourceListener {
             final int id = getId(resources,annotation);
             final Class<?> t = field.getType();
 
-            if (String.class.isAssignableFrom(t)) {
-                return resources.getString(id);
-            } else if (boolean.class.isAssignableFrom(t) || Boolean.class.isAssignableFrom(t)) {
-                return resources.getBoolean(id);
-            } else if (ColorStateList.class.isAssignableFrom(t)  ) {
-                return resources.getColorStateList(id);
-            } else if (int.class.isAssignableFrom(t) || Integer.class.isAssignableFrom(t)) {
-                return resources.getInteger(id);
-            } else if (Drawable.class.isAssignableFrom(t)) {
-                return resources.getDrawable(id);
-            } else if (String[].class.isAssignableFrom(t)) {
-                return resources.getStringArray(id);
-            } else if (int[].class.isAssignableFrom(t) || Integer[].class.isAssignableFrom(t)) {
-                return resources.getIntArray(id);
-            } else if (Animation.class.isAssignableFrom(t)) {
-                return AnimationUtils.loadAnimation(application, id);
-            } else if (Movie.class.isAssignableFrom(t)  ) {
-                return resources.getMovie(id);
+            try
+            {
+                if (String.class.isAssignableFrom(t)) {
+                    return resources.getString(id);
+                } else if (boolean.class.isAssignableFrom(t) || Boolean.class.isAssignableFrom(t)) {
+                    return resources.getBoolean(id);
+                } else if (ColorStateList.class.isAssignableFrom(t)  ) {
+                    return resources.getColorStateList(id);
+                } else if (int.class.isAssignableFrom(t) || Integer.class.isAssignableFrom(t)) {
+                    return resources.getInteger(id);
+                } else if (Drawable.class.isAssignableFrom(t)) {
+                    return resources.getDrawable(id);
+                } else if (String[].class.isAssignableFrom(t)) {
+                    return resources.getStringArray(id);
+                } else if (int[].class.isAssignableFrom(t) || Integer[].class.isAssignableFrom(t)) {
+                    return resources.getIntArray(id);
+                } else if (Animation.class.isAssignableFrom(t)) {
+                    return AnimationUtils.loadAnimation(application, id);
+                } else if (Movie.class.isAssignableFrom(t)  ) {
+                    return resources.getMovie(id);
+                }
+            }
+            catch( Resources.NotFoundException ex){
+                Ln.e(ex);
             }
             
             return null;
