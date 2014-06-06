@@ -74,7 +74,9 @@ public class Print {
     }
 
     protected String scope(final StackTraceElement trace) {
-        return config.hasCustomScope() ? config.scope() : trace.getClassName().substring( 0, trace.getClassName().lastIndexOf(".") );
+        String className = trace.getClassName();
+        
+        return config.hasCustomScope() ? config.scope() : className.substring( 0, className.lastIndexOf(".") >= 0 ? className.lastIndexOf(".") : className.length() );
     }
 
     protected String scopeSeparator( StackTraceElement trace ) {
