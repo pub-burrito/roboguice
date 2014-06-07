@@ -1,5 +1,8 @@
 package roboguice.base.util.logging;
 
+import java.io.IOException;
+import java.io.StringReader;
+
 import jregex.Pattern;
 import jregex.Replacer;
 
@@ -36,18 +39,36 @@ public class Print {
     }
 
     protected String processMessage(String msg) {
-        String msgWithoutLongRepeatedLetters = msg != null ? REPLACER_REPEATED_CHARS.replace( msg ) : msg;
+        String msgWithoutLongRepeatedLetters = msg != null ? replace(msg) : msg;
         
-        String abbreviatedMsg = 
-                msgWithoutLongRepeatedLetters != null ?
-                    msgWithoutLongRepeatedLetters.length() > MAX_LINE_LENGTH ? 
-                            msgWithoutLongRepeatedLetters.substring(0, MAX_LINE_LENGTH / 2) + 
-                            REMOVED_FOR_BREVITY + 
-                            msgWithoutLongRepeatedLetters.substring( msgWithoutLongRepeatedLetters.length() - MAX_LINE_LENGTH / 2) :
-                            msgWithoutLongRepeatedLetters :
-                    null;
+        StringBuffer abbreviatedMsg = new StringBuffer();
+        
+        if ( msgWithoutLongRepeatedLetters != null )
+        {
+            if ( msgWithoutLongRepeatedLetters.length() > MAX_LINE_LENGTH )
+            {
+                abbreviatedMsg.append( msgWithoutLongRepeatedLetters.substring(0, MAX_LINE_LENGTH / 2) ); 
+                abbreviatedMsg.append( REMOVED_FOR_BREVITY ); 
+                abbreviatedMsg.append( msgWithoutLongRepeatedLetters.substring( msgWithoutLongRepeatedLetters.length() - MAX_LINE_LENGTH / 2) ); 
+            }
+            else
+            {
+                abbreviatedMsg.append( msgWithoutLongRepeatedLetters ); 
+            }
+        }
                     
-        return abbreviatedMsg;
+        return abbreviatedMsg.toString();
+    }
+
+    private String replace(String msg) {
+        try {
+            return REPLACER_REPEATED_CHARS.replace( new StringReader( msg ), msg.length() );
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+            return msg;
+        }
     }
 
     protected String getScope(int skipDepth) {
